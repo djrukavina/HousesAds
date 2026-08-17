@@ -18,6 +18,8 @@ class Settings:
     telegram_bot_token: str
     telegram_chat_id: str
     discord_webhook_url: str
+    ntfy_server: str
+    ntfy_topic: str
     poll_interval_sec: int
     api_host: str
     api_port: int
@@ -33,16 +35,22 @@ class Settings:
     def discord_enabled(self) -> bool:
         return bool(self.discord_webhook_url)
 
+    @property
+    def ntfy_enabled(self) -> bool:
+        return bool(self.ntfy_topic)
+
 
 def load_settings() -> Settings:
     return Settings(
         telegram_bot_token=os.getenv("TELEGRAM_BOT_TOKEN", "").strip(),
         telegram_chat_id=os.getenv("TELEGRAM_CHAT_ID", "").strip(),
         discord_webhook_url=os.getenv("DISCORD_WEBHOOK_URL", "").strip(),
-        poll_interval_sec=int(os.getenv("POLL_INTERVAL_SEC", "120")),
+        ntfy_server=os.getenv("NTFY_SERVER", "https://ntfy.sh").strip().rstrip("/"),
+        ntfy_topic=os.getenv("NTFY_TOPIC", "").strip(),
+        poll_interval_sec=int(os.getenv("POLL_INTERVAL_SEC", "30")),
         api_host=os.getenv("API_HOST", "0.0.0.0"),
         api_port=int(os.getenv("API_PORT", "8765")),
         headless=_flag("HEADLESS", True),
-        request_delay_sec=float(os.getenv("REQUEST_DELAY_SEC", "2.0")),
-        max_pages=int(os.getenv("MAX_PAGES", "3")),
+        request_delay_sec=float(os.getenv("REQUEST_DELAY_SEC", "1.0")),
+        max_pages=int(os.getenv("MAX_PAGES", "1")),
     )

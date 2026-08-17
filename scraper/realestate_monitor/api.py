@@ -7,7 +7,7 @@ from .store import Store
 
 
 def create_app(store: Store) -> FastAPI:
-    app = FastAPI(title="NjuskaloAds scraper")
+    app = FastAPI(title="HousesAds scraper")
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],

@@ -30,7 +30,9 @@ def main() -> None:
         monitor = Monitor(settings, store)
         try:
             found = monitor.run_cycle()
+            exported = store.export_json()
             print(f"Done. New matches this cycle: {found}")
+            print(f"Wrote {exported}")
         finally:
             monitor.close()
         return

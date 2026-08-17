@@ -1,14 +1,17 @@
 from __future__ import annotations
 
+from pathlib import Path
+import json
 import sqlite3
 
-from . import DB_PATH
+from . import DB_PATH, JSON_PATH
 from .models import Listing
 
 
 class Store:
     def __init__(self, path=DB_PATH) -> None:
-        self.path = path
+        self.path = Path(path)
+        self.path.parent.mkdir(parents=True, exist_ok=True)
         self._init()
 
     def _connect(self) -> sqlite3.Connection:
@@ -118,6 +121,13 @@ class Store:
                 "SELECT * FROM listings ORDER BY posted_at_millis DESC, title ASC"
             ).fetchall()
         return [self._row_to_listing(row) for row in rows]
+
+    def export_json(self, path: Path | None = None) -> Path:
+        target = Path(path) if path is not None else JSON_PATH
+        target.parent.mkdir(parents=True, exist_ok=True)
+        payload = {"ads": [item.to_api() for item in self.all_listings()]}
+        target.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+        return target
 
     def _row_to_listing(self, row: sqlite3.Row) -> Listing:
         return Listing(

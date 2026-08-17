@@ -26,7 +26,9 @@ def send_alerts(settings: Settings, listing: Listing) -> None:
         _send_telegram(settings, text)
     if settings.discord_enabled:
         _send_discord(settings, text)
-    if not settings.telegram_enabled and not settings.discord_enabled:
+    if settings.ntfy_enabled:
+        _send_ntfy(settings, listing, text)
+    if not settings.telegram_enabled and not settings.discord_enabled and not settings.ntfy_enabled:
         log.warning("No notifier configured; skipped alert for %s", listing.id)
 
 
@@ -35,6 +37,16 @@ def send_text(settings: Settings, text: str) -> None:
         _send_telegram(settings, text)
     if settings.discord_enabled:
         _send_discord(settings, text)
+    if settings.ntfy_enabled:
+        try:
+            httpx.post(
+                f"{settings.ntfy_server}/{settings.ntfy_topic}",
+                content=text.encode("utf-8"),
+                headers={"Title": "HousesAds"},
+                timeout=20,
+            )
+        except Exception:
+            log.exception("ntfy send failed")
 
 
 def _send_telegram(settings: Settings, text: str) -> None:
@@ -61,3 +73,21 @@ def _send_discord(settings: Settings, text: str) -> None:
         response.raise_for_status()
     except Exception:
         log.exception("Discord send failed")
+
+
+def _send_ntfy(settings: Settings, listing: Listing, text: str) -> None:
+    try:
+        response = httpx.post(
+            f"{settings.ntfy_server}/{settings.ntfy_topic}",
+            content=text.encode("utf-8"),
+            headers={
+                "Title": f"Novi oglas: {listing.category}",
+                "Click": listing.url,
+                "Tags": "house",
+                "Priority": "high",
+            },
+            timeout=20,
+        )
+        response.raise_for_status()
+    except Exception:
+        log.exception("ntfy send failed")

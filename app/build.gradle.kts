@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.njuskalo.ads"
+    namespace = "com.housesads"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -13,7 +13,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.njuskalo.ads"
+        applicationId = "com.housesads"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -65,6 +65,7 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.okhttp)
     implementation(libs.gson)
+    implementation(libs.androidx.work.runtime.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))

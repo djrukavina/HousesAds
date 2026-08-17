@@ -1,6 +1,11 @@
 from pathlib import Path
+import os
 
-ROOT = Path(__file__).resolve().parent.parent
-DATA_DIR = ROOT / "data"
-DATA_DIR.mkdir(exist_ok=True)
-DB_PATH = DATA_DIR / "monitor.sqlite3"
+SCRAPER_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = SCRAPER_ROOT.parent
+LOCAL_DATA = SCRAPER_ROOT / "data"
+LOCAL_DATA.mkdir(exist_ok=True)
+
+DB_PATH = Path(os.getenv("HOUSESADS_DB_PATH", str(LOCAL_DATA / "monitor.sqlite3")))
+JSON_PATH = Path(os.getenv("HOUSESADS_JSON_PATH", str(REPO_ROOT / "data" / "listings.json")))
+

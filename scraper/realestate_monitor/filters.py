@@ -30,27 +30,14 @@ ZAGREB_CITY = (
     "medvescak",
 )
 
-ZAGREB_SURROUNDINGS = (
-    "zaprešić",
-    "zapresic",
-    "velika gorica",
+# Kuće: Zagreb + točno navedena okolica.
+HOUSE_LOCATIONS = (
+    "zagreb",
     "samobor",
-    "dugo selo",
-    "sveta nedelja",
-    "sveta nedjelja",
-    "jastrebarsko",
-    "sveti ivan zelina",
-    "lučko",
-    "lucko",
-    "zagrebačka",
-    "zagrebacka",
-    "okolica",
-    "brdovec",
-    "rugvica",
-    "orihovica",
-    "klakar",
-    "pusca",
-    "pušća",
+    "brezovica",
+    "odra",
+    "sesvete",
+    "novi zagreb",
 )
 
 ISLANDS = (
@@ -220,7 +207,7 @@ def is_zagreb_city(text: str) -> bool:
 
 def is_zagreb_area(text: str) -> bool:
     folded = _fold(text)
-    return is_zagreb_city(folded) or any(_fold(token) in folded for token in ZAGREB_SURROUNDINGS)
+    return any(_fold(token) in folded for token in HOUSE_LOCATIONS)
 
 
 def is_croatian_island(text: str) -> bool:
@@ -243,19 +230,27 @@ def is_near_sea(text: str) -> bool:
     return False
 
 
+def _size_at_least(listing: Listing, minimum: float) -> bool:
+    living = listing.living_m2
+    yard = listing.yard_m2
+    if living is None and yard is None:
+        return False
+    return (living is not None and living >= minimum) or (yard is not None and yard >= minimum)
+
+
 def matches_zagreb_house(listing: Listing) -> bool:
     if listing.price_eur is not None and listing.price_eur > 300_000:
         return False
     if not is_zagreb_area(_blob(listing)):
         return False
-    if listing.yard_m2 is None or listing.yard_m2 < 100:
+    if not _size_at_least(listing, 100):
         return False
     house_type = listing.house_type
     if house_type == "unknown":
         house_type = classify_house_type(_blob(listing))
     if house_type == "detached":
         return True
-    if house_type == "row" and listing.is_new_build:
+    if house_type == "row" and (listing.is_new_build or is_new_build(_blob(listing))):
         return True
     return False
 
@@ -266,11 +261,12 @@ def matches_zagreb_apartment(listing: Listing) -> bool:
     if not is_zagreb_city(_blob(listing)):
         return False
     rooms = listing.rooms or parse_rooms(_blob(listing))
-    if rooms is None or rooms < 3:
+    if rooms is None or rooms < 3 or rooms >= 4:
         return False
-    if listing.is_new_build or is_new_build(_blob(listing)):
-        return True
-    return 3 <= rooms < 4
+    living = listing.living_m2
+    if living is None or living < 80:
+        return False
+    return listing.is_new_build or is_new_build(_blob(listing))
 
 
 def prefilter_card(watch_id: str, card: Card) -> bool:
