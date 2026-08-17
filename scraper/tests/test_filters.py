@@ -1,4 +1,5 @@
 from realestate_monitor.filters import (
+    is_excluded_zagreb_area,
     matches_coast_house,
     matches_zagreb_apartment,
     matches_zagreb_house,
@@ -20,6 +21,61 @@ def test_matches_zagreb_house_for_detached_listing() -> None:
     assert matches_zagreb_house(
         listing(location="Samobor", living_m2=110.0, house_type="detached")
     )
+
+
+def test_rejects_zagreb_house_in_sesvete() -> None:
+    assert not matches_zagreb_house(
+        listing(
+            location="Zagreb, Sesvete, Markovo Polje",
+            living_m2=120.0,
+            house_type="detached",
+        )
+    )
+
+
+def test_rejects_zagreb_house_in_dubrava() -> None:
+    assert not matches_zagreb_house(
+        listing(
+            title="Obiteljska kuća",
+            location="Zagreb, Gornja Dubrava",
+            living_m2=150.0,
+            house_type="detached",
+        )
+    )
+
+
+def test_rejects_zagreb_apartment_in_sesvete() -> None:
+    assert not matches_zagreb_apartment(
+        listing(
+            title="Trosoban stan",
+            location="Zagreb, Sesvete, Gajišće",
+            description="Novogradnja, stambena povrsina 82 m2",
+            rooms=3.0,
+            living_m2=82.0,
+            is_new_build=True,
+            house_type="unknown",
+        )
+    )
+
+
+def test_rejects_zagreb_apartment_in_pescenica() -> None:
+    assert not matches_zagreb_apartment(
+        listing(
+            title="Trosoban stan",
+            location="Zagreb, Peščenica",
+            description="Novogradnja, stambena povrsina 85 m2",
+            rooms=3.0,
+            living_m2=85.0,
+            is_new_build=True,
+            house_type="unknown",
+        )
+    )
+
+
+def test_is_excluded_zagreb_area_detects_eastern_districts() -> None:
+    assert is_excluded_zagreb_area("Zagreb, Sesvete")
+    assert is_excluded_zagreb_area("Stan: Zagreb, Dubrava")
+    assert not is_excluded_zagreb_area("Zagreb, Trešnjevka")
 
 
 def test_rejects_zagreb_house_above_budget() -> None:

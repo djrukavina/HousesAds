@@ -9,18 +9,14 @@ MAX_ZAGREB_APARTMENT_ROOMS = 4.0
 
 ZAGREB_CITY = (
     "zagreb",
-    "sesvete",
     "podsused",
     "trešnjevka",
     "tresnjevka",
-    "dubrava",
     "maksimir",
     "trnje",
     "črnomerec",
     "crnomerec",
     "pečrvo",
-    "peščenica",
-    "pescenica",
     "stenjevec",
     "podsljeme",
     "brezovica",
@@ -31,12 +27,29 @@ ZAGREB_CITY = (
     "medvescak",
 )
 
+# Sesvete and eastern Zagreb districts — excluded from Njuškalo and Index filters.
+EXCLUDED_ZAGREB_AREAS = (
+    "sesvete",
+    "kraljeveck",
+    "kraljevečk",
+    "markovo polje",
+    "gajisce",
+    "gajišće",
+    "dubrava",
+    "pescenica",
+    "peščenica",
+    "zitnjak",
+    "žitnjak",
+    "resnik",
+    "borongaj",
+    "istok zagreba",
+)
+
 HOUSE_LOCATIONS = (
     "zagreb",
     "samobor",
     "brezovica",
     "odra",
-    "sesvete",
     "novi zagreb",
 )
 

@@ -5,6 +5,7 @@ import unicodedata
 from typing import Optional
 
 from .constants import (
+    EXCLUDED_ZAGREB_AREAS,
     HOUSE_LOCATIONS,
     ISLANDS,
     ISLAND_URL_HINTS,
@@ -93,8 +94,15 @@ def is_new_build(text: str, year: Optional[int] = None) -> bool:
     return year is not None and year >= 2024
 
 
+def is_excluded_zagreb_area(text: str) -> bool:
+    folded = _fold(text)
+    return any(_fold(token) in folded for token in EXCLUDED_ZAGREB_AREAS)
+
+
 def is_zagreb_city(text: str) -> bool:
     folded = _fold(text)
+    if is_excluded_zagreb_area(folded):
+        return False
     if "zagrebacka" in folded and "zagreb" not in folded:
         return False
     return any(_fold(token) in folded for token in ZAGREB_CITY)
@@ -102,6 +110,8 @@ def is_zagreb_city(text: str) -> bool:
 
 def is_zagreb_area(text: str) -> bool:
     folded = _fold(text)
+    if is_excluded_zagreb_area(folded):
+        return False
     return any(_fold(token) in folded for token in HOUSE_LOCATIONS)
 
 
