@@ -1,9 +1,12 @@
 package com.housesads.data.remote
 
 import com.google.gson.Gson
+import com.housesads.BuildConfig
 import com.housesads.data.settings.SettingsStore
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.concurrent.TimeUnit
 
 class ScraperClient(
@@ -32,6 +35,20 @@ class ScraperClient(
                 error("Scraper HTTP ${response.code}: ${body.take(200)}")
             }
             return gson.fromJson(body, AdsResponse::class.java).ads
+        }
+    }
+
+    fun hideAd(listingId: String) {
+        val topic = BuildConfig.NTFY_HIDE_TOPIC.trim()
+        if (topic.isEmpty() || listingId.isBlank()) return
+        val request = Request.Builder()
+            .url("https://ntfy.sh/$topic")
+            .post(listingId.toRequestBody("text/plain; charset=utf-8".toMediaType()))
+            .build()
+        httpClient.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) {
+                error("Hide HTTP ${response.code}")
+            }
         }
     }
 }

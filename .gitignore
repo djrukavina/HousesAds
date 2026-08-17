@@ -16,5 +16,6 @@ local.properties
 scraper/.env
 scraper/.venv/
 scraper/data/
+scraper/.hide_topic
 .idea/
 .kotlin/

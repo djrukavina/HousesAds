@@ -177,7 +177,7 @@ fun AdListScreen(
         AlertDialog(
             onDismissRequest = { pendingDelete = null },
             title = { Text("Obriši oglas") },
-            text = { Text("Oglas nestaje samo s ovog telefona. Na GitHubu ostaje, ali se ovdje više neće vratiti.\n\n${ad.title}") },
+            text = { Text("Oglas se briše s telefona i iz zajedničke baze. Više se neće vratiti.\n\n${ad.title}") },
             confirmButton = {
                 TextButton(
                     onClick = {

@@ -2,9 +2,8 @@ name: Scrape listings
 
 on:
   schedule:
-    # Privatni repo ima ~2000 min/mjesec. Playwright job traje par minuta,
-    # pa je satni raspored sigurniji od svakih 15 min. Ručno: Actions → Run workflow.
-    - cron: "0 * * * *"
+    # Public repo = GitHub-hosted runners are free. 15 min is the practical GitHub cron floor.
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 concurrency:
@@ -44,8 +43,10 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          NTFY_HIDE_TOPIC: ${{ secrets.NTFY_HIDE_TOPIC }}
           HOUSESADS_DB_PATH: ${{ github.workspace }}/data/monitor.sqlite3
           HOUSESADS_JSON_PATH: ${{ github.workspace }}/data/listings.json
+          HOUSESADS_HIDDEN_PATH: ${{ github.workspace }}/data/hidden.json
           MAX_PAGES: "1"
           HEADLESS: "true"
           REQUEST_DELAY_SEC: "1.0"
@@ -55,7 +56,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/listings.json
+          git add data/listings.json data/hidden.json
           if [ -f data/monitor.sqlite3 ]; then
             git add data/monitor.sqlite3
           fi

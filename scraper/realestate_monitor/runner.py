@@ -74,6 +74,9 @@ class Monitor:
         listing_id = f"{card.source}:{card.external_id}"
         already_seen = self.store.has_seen(listing_id)
         now = _now_millis()
+        if self.store.is_hidden(listing_id):
+            self.store.mark_seen(listing_id, now)
+            return False
         if already_seen:
             return False
         try:

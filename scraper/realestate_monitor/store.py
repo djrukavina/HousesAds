@@ -4,7 +4,7 @@ from pathlib import Path
 import json
 import sqlite3
 
-from . import DB_PATH, JSON_PATH
+from . import DB_PATH, HIDDEN_PATH, JSON_PATH
 from .models import Listing
 
 
@@ -46,8 +46,13 @@ class Store:
                     is_new_build INTEGER,
                     near_sea INTEGER
                 );
+                CREATE TABLE IF NOT EXISTS hidden_ads (
+                    id TEXT PRIMARY KEY,
+                    hidden_at_millis INTEGER NOT NULL
+                );
                 """
             )
+        self.import_hidden_json()
 
     def is_empty(self) -> bool:
         with self._connect() as conn:
@@ -69,7 +74,61 @@ class Store:
                 (listing_id, now_millis),
             )
 
+    def is_hidden(self, listing_id: str) -> bool:
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT 1 FROM hidden_ads WHERE id = ?",
+                (listing_id,),
+            ).fetchone()
+            return row is not None
+
+    def hidden_ids(self) -> set[str]:
+        with self._connect() as conn:
+            rows = conn.execute("SELECT id FROM hidden_ads").fetchall()
+        return {str(row["id"]) for row in rows}
+
+    def hide_listing(self, listing_id: str, now_millis: int | None = None) -> bool:
+        listing_id = listing_id.strip()
+        if not listing_id:
+            return False
+        from datetime import datetime, timezone
+        hidden_at = now_millis if now_millis else int(datetime.now(timezone.utc).timestamp() * 1000)
+        with self._connect() as conn:
+            cursor = conn.execute(
+                "INSERT OR IGNORE INTO hidden_ads(id, hidden_at_millis) VALUES(?, ?)",
+                (listing_id, hidden_at),
+            )
+            conn.execute("DELETE FROM listings WHERE id = ?", (listing_id,))
+            return cursor.rowcount > 0
+
+    def import_hidden_json(self, path: Path | None = None) -> None:
+        target = Path(path) if path is not None else HIDDEN_PATH
+        if not target.exists():
+            return
+        try:
+            payload = json.loads(target.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            return
+        ids = payload.get("ids", []) if isinstance(payload, dict) else payload
+        if not isinstance(ids, list):
+            return
+        for item in ids:
+            if isinstance(item, str) and item.strip():
+                self.hide_listing(item.strip())
+
+    def export_hidden_json(self, path: Path | None = None) -> Path:
+        target = Path(path) if path is not None else HIDDEN_PATH
+        target.parent.mkdir(parents=True, exist_ok=True)
+        ids = sorted(self.hidden_ids())
+        target.write_text(
+            json.dumps({"ids": ids}, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        return target
+
     def upsert_listing(self, listing: Listing) -> None:
+        if self.is_hidden(listing.id):
+            return
         with self._connect() as conn:
             conn.execute(
                 """
@@ -118,7 +177,11 @@ class Store:
     def all_listings(self) -> list[Listing]:
         with self._connect() as conn:
             rows = conn.execute(
-                "SELECT * FROM listings ORDER BY posted_at_millis DESC, title ASC"
+                """
+                SELECT * FROM listings
+                WHERE id NOT IN (SELECT id FROM hidden_ads)
+                ORDER BY posted_at_millis DESC, title ASC
+                """
             ).fetchall()
         return [self._row_to_listing(row) for row in rows]
 
@@ -127,6 +190,7 @@ class Store:
         target.parent.mkdir(parents=True, exist_ok=True)
         payload = {"ads": [item.to_api() for item in self.all_listings()]}
         target.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+        self.export_hidden_json()
         return target
 
     def _row_to_listing(self, row: sqlite3.Row) -> Listing:

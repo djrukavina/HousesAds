@@ -46,6 +46,7 @@ class AdRepository(
             listingDao.deleteById(ad.id)
             favoriteAdDao.deleteById(ad.id)
             hiddenAdDao.hide(HiddenAdEntity(ad.id))
+            runCatching { scraperClient.hideAd(ad.id) }
         }
     }
 
@@ -53,13 +54,19 @@ class AdRepository(
         return withContext(Dispatchers.IO) {
             val oldIds = listingDao.getIds().toSet()
             val hiddenIds = hiddenAdDao.getIds().toSet()
-            val remote = scraperClient.fetchAds().filter { it.id !in hiddenIds }
+            val remote = scraperClient.fetchAds()
+            hiddenIds.forEach { id ->
+                if (remote.any { it.id == id }) {
+                    runCatching { scraperClient.hideAd(id) }
+                }
+            }
+            val visible = remote.filter { it.id !in hiddenIds }
             val now = System.currentTimeMillis()
-            listingDao.replaceAll(remote.map { it.toEntity(now) })
+            listingDao.replaceAll(visible.map { it.toEntity(now) })
             if (oldIds.isEmpty()) {
                 emptyList()
             } else {
-                remote.filter { it.id !in oldIds }.map { dto ->
+                visible.filter { it.id !in oldIds }.map { dto ->
                     dto.toEntity(now).toAd(isFavorite = false)
                 }
             }

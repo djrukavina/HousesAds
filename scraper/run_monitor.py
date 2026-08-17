@@ -8,6 +8,7 @@ import uvicorn
 
 from realestate_monitor.config import load_settings
 from realestate_monitor.api import create_app
+from realestate_monitor.hides import apply_remote_hides
 from realestate_monitor.runner import Monitor, run_forever
 from realestate_monitor.store import Store
 
@@ -29,9 +30,11 @@ def main() -> None:
     if args.once:
         monitor = Monitor(settings, store)
         try:
+            hidden = apply_remote_hides(store)
             found = monitor.run_cycle()
             exported = store.export_json()
             print(f"Done. New matches this cycle: {found}")
+            print(f"Newly hidden: {hidden}")
             print(f"Wrote {exported}")
         finally:
             monitor.close()
