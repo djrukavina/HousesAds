@@ -82,6 +82,26 @@ def test_rejects_zagreb_house_above_budget() -> None:
     assert not matches_zagreb_house(listing(price_eur=350_000.0))
 
 
+def test_rejects_zagreb_house_below_min_price() -> None:
+    assert not matches_zagreb_house(
+        listing(price_eur=5_000.0, living_m2=120.0, house_type="detached")
+    )
+
+
+def test_rejects_zagreb_apartment_below_min_price() -> None:
+    assert not matches_zagreb_apartment(
+        listing(
+            title="Trosoban stan",
+            price_eur=8_000.0,
+            description="Novogradnja, stambena povrsina 82 m2",
+            rooms=3.0,
+            living_m2=82.0,
+            is_new_build=True,
+            house_type="unknown",
+        )
+    )
+
+
 def test_matches_zagreb_apartment_with_all_required_fields() -> None:
     assert matches_zagreb_apartment(
         listing(

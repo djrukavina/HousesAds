@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Callable
 from urllib.parse import urlencode
 
-from .constants import MAX_COAST_PRICE_EUR, MAX_ZAGREB_PRICE_EUR
+from .constants import MAX_COAST_PRICE_EUR, MAX_ZAGREB_PRICE_EUR, MIN_ZAGREB_PRICE_EUR
 from .filters import matches_coast_house, matches_zagreb_apartment, matches_zagreb_house
 from .models import Listing
 
@@ -30,6 +30,10 @@ def _index(path: str, **params: object) -> str:
     return f"https://www.index.hr{path}?{query}" if query else f"https://www.index.hr{path}"
 
 
+_ZAGREB_PRICE = {"price[max]": MAX_ZAGREB_PRICE_EUR, "price[min]": MIN_ZAGREB_PRICE_EUR}
+_INDEX_ZAGREB_PRICE = {"cijenaDo": MAX_ZAGREB_PRICE_EUR, "cijenaOd": MIN_ZAGREB_PRICE_EUR}
+
+
 def build_watches() -> tuple[Watch, ...]:
     """Only the three user filters. Page 1 is enough — new ads appear first."""
     return (
@@ -38,9 +42,9 @@ def build_watches() -> tuple[Watch, ...]:
             category="Kuće Zagreb",
             matcher=matches_zagreb_house,
             urls=(
-                _njuskalo("prodaja-kuca/zagreb", **{"price[max]": MAX_ZAGREB_PRICE_EUR}),
-                _njuskalo("prodaja-kuca/samobor", **{"price[max]": MAX_ZAGREB_PRICE_EUR}),
-                _index("/oglasi/nekretnine/prodaja-kuca/zagreb", cijenaDo=MAX_ZAGREB_PRICE_EUR),
+                _njuskalo("prodaja-kuca/zagreb", **_ZAGREB_PRICE),
+                _njuskalo("prodaja-kuca/samobor", **_ZAGREB_PRICE),
+                _index("/oglasi/nekretnine/prodaja-kuca/zagreb", **_INDEX_ZAGREB_PRICE),
             ),
             max_pages=1,
         ),
@@ -49,8 +53,8 @@ def build_watches() -> tuple[Watch, ...]:
             category="Stanovi Zagreb",
             matcher=matches_zagreb_apartment,
             urls=(
-                _njuskalo("prodaja-stanova/zagreb", **{"price[max]": MAX_ZAGREB_PRICE_EUR}),
-                _index("/oglasi/nekretnine/prodaja-stanova/zagreb", cijenaDo=MAX_ZAGREB_PRICE_EUR),
+                _njuskalo("prodaja-stanova/zagreb", **_ZAGREB_PRICE),
+                _index("/oglasi/nekretnine/prodaja-stanova/zagreb", **_INDEX_ZAGREB_PRICE),
             ),
             max_pages=1,
         ),

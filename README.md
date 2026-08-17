@@ -8,8 +8,8 @@ The system watches three custom search profiles and only stores ads that pass st
 
 | Watch | Criteria |
 |-------|----------|
-| **Zagreb houses** | Zagreb area + Samobor, up to €300,000, yard or living area ≥ 100 m², detached house **or** row house + new build. Sesvete and eastern districts (Dubrava, Peščenica, etc.) are excluded. |
-| **Zagreb apartments** | Zagreb city, up to €300,000, at least 3 rooms, living area ≥ 80 m², new build only. Eastern districts excluded. |
+| **Zagreb houses** | Zagreb area + Samobor, **€10,000–€300,000**, yard or living area ≥ 100 m², detached house **or** row house + new build. Sesvete and eastern districts (Dubrava, Peščenica, etc.) are excluded. |
+| **Zagreb apartments** | Zagreb city, **€10,000–€300,000**, at least 3 rooms, living area ≥ 80 m², new build only. Eastern districts excluded. |
 | **Coast houses** | Croatian islands, up to €50,000, near the sea. |
 
 Sources are scraped in parallel from Njuškalo and Index. Index listing pages use Playwright because they are JavaScript SPAs.

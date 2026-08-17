@@ -15,6 +15,7 @@ from .constants import (
     MIN_ZAGREB_APARTMENT_LIVING_M2,
     MIN_ZAGREB_APARTMENT_ROOMS,
     MIN_ZAGREB_HOUSE_SIZE_M2,
+    MIN_ZAGREB_PRICE_EUR,
     NEW_BUILD_KEYWORDS,
     SEA_KEYWORDS,
     ZAGREB_CITY,
@@ -143,8 +144,14 @@ def _size_at_least(listing: Listing, minimum: float) -> bool:
     return (living is not None and living >= minimum) or (yard is not None and yard >= minimum)
 
 
+def _zagreb_price_ok(price_eur: Optional[float]) -> bool:
+    if price_eur is None:
+        return True
+    return MIN_ZAGREB_PRICE_EUR <= price_eur <= MAX_ZAGREB_PRICE_EUR
+
+
 def matches_zagreb_house(listing: Listing) -> bool:
-    if listing.price_eur is not None and listing.price_eur > MAX_ZAGREB_PRICE_EUR:
+    if listing.price_eur is not None and not _zagreb_price_ok(listing.price_eur):
         return False
     if not is_zagreb_area(listing_blob(listing)):
         return False
@@ -161,7 +168,7 @@ def matches_zagreb_house(listing: Listing) -> bool:
 
 
 def matches_zagreb_apartment(listing: Listing) -> bool:
-    if listing.price_eur is not None and listing.price_eur > MAX_ZAGREB_PRICE_EUR:
+    if listing.price_eur is not None and not _zagreb_price_ok(listing.price_eur):
         return False
     if not is_zagreb_city(listing_blob(listing)):
         return False
@@ -186,11 +193,11 @@ def matches_coast_house(listing: Listing) -> bool:
 def prefilter_card(watch_id: str, card: Card) -> bool:
     blob = card_blob(card)
     if watch_id == "zagreb_houses":
-        if card.price_eur is not None and card.price_eur > MAX_ZAGREB_PRICE_EUR:
+        if card.price_eur is not None and not _zagreb_price_ok(card.price_eur):
             return False
         return is_zagreb_area(blob)
     if watch_id == "zagreb_apartments":
-        if card.price_eur is not None and card.price_eur > MAX_ZAGREB_PRICE_EUR:
+        if card.price_eur is not None and not _zagreb_price_ok(card.price_eur):
             return False
         rooms = parse_rooms(blob)
         if rooms is not None and rooms < MIN_ZAGREB_APARTMENT_ROOMS:
