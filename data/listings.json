@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:48894229",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Stan: Zagreb (Botinec), 83.52 m2, novogradnja",
+      "url": "https://www.njuskalo.hr/nekretnine/stan-zagreb-botinec-83.52-m2-novogradnja-oglas-48894229",
+      "priceEur": 265086.0,
+      "location": "Stan: Zagreb (Botinec), 83.52 m2, novogradnja\n\nStan: Zagreb (Botinec), 83.52 m2,",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Botinec), 83.52 m2novogradnja, (prodaja), stan  u stambenoj zgradi, prizemlje",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/stan-zagreb-botinec-83.52-m2-novogradnja-slika-264831069.jpg",
+      "postedAtMillis": 1787003935738,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 83.52,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:47250149",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
