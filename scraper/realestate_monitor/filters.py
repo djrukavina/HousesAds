@@ -10,6 +10,7 @@ from .constants import (
     ISLANDS,
     ISLAND_URL_HINTS,
     MAX_COAST_PRICE_EUR,
+    MIN_COAST_PRICE_EUR,
     MAX_ZAGREB_APARTMENT_ROOMS,
     MAX_ZAGREB_PRICE_EUR,
     MIN_ZAGREB_APARTMENT_LIVING_M2,
@@ -181,8 +182,14 @@ def matches_zagreb_apartment(listing: Listing) -> bool:
     return listing.is_new_build or is_new_build(listing_blob(listing))
 
 
+def _coast_price_ok(price_eur: Optional[float]) -> bool:
+    if price_eur is None:
+        return False
+    return MIN_COAST_PRICE_EUR <= price_eur <= MAX_COAST_PRICE_EUR
+
+
 def matches_coast_house(listing: Listing) -> bool:
-    if listing.price_eur is None or listing.price_eur > MAX_COAST_PRICE_EUR:
+    if not _coast_price_ok(listing.price_eur):
         return False
     blob = listing_blob(listing)
     if not is_croatian_island(blob):
@@ -204,7 +211,9 @@ def prefilter_card(watch_id: str, card: Card) -> bool:
             return False
         return is_zagreb_city(blob)
     if watch_id == "coast_houses":
-        if card.price_eur is not None and card.price_eur > MAX_COAST_PRICE_EUR:
+        if card.price_eur is not None and not _coast_price_ok(card.price_eur):
+            return False
+        if card.price_eur is None:
             return False
         return is_croatian_island(blob) or any(hint in card.url for hint in ISLAND_URL_HINTS)
     return True

@@ -137,3 +137,15 @@ def test_matches_coast_house_near_sea() -> None:
             near_sea=True,
         )
     )
+
+
+def test_rejects_coast_house_below_min_price() -> None:
+    assert not matches_coast_house(
+        listing(
+            price_eur=5_000.0,
+            location="Krk",
+            description="Kuća uz more",
+            living_m2=60.0,
+            near_sea=True,
+        )
+    )
