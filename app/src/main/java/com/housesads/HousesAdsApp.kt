@@ -1,6 +1,7 @@
 package com.housesads
 
 import android.app.Application
+import androidx.work.Configuration
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -11,9 +12,12 @@ import com.housesads.notify.NewAdNotifier
 import com.housesads.sync.AdSyncWorker
 import java.util.concurrent.TimeUnit
 
-class HousesAdsApp : Application() {
+class HousesAdsApp : Application(), Configuration.Provider {
     lateinit var container: AppContainer
         private set
+
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder().build()
 
     override fun onCreate() {
         super.onCreate()

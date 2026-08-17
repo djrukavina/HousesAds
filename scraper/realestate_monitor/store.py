@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from pathlib import Path
-import json
 import sqlite3
 
 from . import DB_PATH, HIDDEN_PATH, JSON_PATH
+from .json_io import read_id_list, write_json
 from .models import Listing
 
 
@@ -91,8 +92,7 @@ class Store:
         listing_id = listing_id.strip()
         if not listing_id:
             return False
-        from datetime import datetime, timezone
-        hidden_at = now_millis if now_millis else int(datetime.now(timezone.utc).timestamp() * 1000)
+        hidden_at = now_millis or int(datetime.now(timezone.utc).timestamp() * 1000)
         with self._connect() as conn:
             cursor = conn.execute(
                 "INSERT OR IGNORE INTO hidden_ads(id, hidden_at_millis) VALUES(?, ?)",
@@ -103,27 +103,12 @@ class Store:
 
     def import_hidden_json(self, path: Path | None = None) -> None:
         target = Path(path) if path is not None else HIDDEN_PATH
-        if not target.exists():
-            return
-        try:
-            payload = json.loads(target.read_text(encoding="utf-8"))
-        except json.JSONDecodeError:
-            return
-        ids = payload.get("ids", []) if isinstance(payload, dict) else payload
-        if not isinstance(ids, list):
-            return
-        for item in ids:
-            if isinstance(item, str) and item.strip():
-                self.hide_listing(item.strip())
+        for listing_id in read_id_list(target):
+            self.hide_listing(listing_id, 0)
 
     def export_hidden_json(self, path: Path | None = None) -> Path:
         target = Path(path) if path is not None else HIDDEN_PATH
-        target.parent.mkdir(parents=True, exist_ok=True)
-        ids = sorted(self.hidden_ids())
-        target.write_text(
-            json.dumps({"ids": ids}, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
-        )
+        write_json(target, {"ids": sorted(self.hidden_ids())})
         return target
 
     def upsert_listing(self, listing: Listing) -> None:
@@ -187,9 +172,7 @@ class Store:
 
     def export_json(self, path: Path | None = None) -> Path:
         target = Path(path) if path is not None else JSON_PATH
-        target.parent.mkdir(parents=True, exist_ok=True)
-        payload = {"ads": [item.to_api() for item in self.all_listings()]}
-        target.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+        write_json(target, {"ads": [item.to_api() for item in self.all_listings()]})
         self.export_hidden_json()
         return target
 

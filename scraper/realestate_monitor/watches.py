@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import Callable
 from urllib.parse import urlencode
 
+from .constants import MAX_COAST_PRICE_EUR, MAX_ZAGREB_PRICE_EUR
 from .filters import matches_coast_house, matches_zagreb_apartment, matches_zagreb_house
 from .models import Listing
 
@@ -37,9 +38,9 @@ def build_watches() -> tuple[Watch, ...]:
             category="Kuće Zagreb",
             matcher=matches_zagreb_house,
             urls=(
-                _njuskalo("prodaja-kuca/zagreb", **{"price[max]": 300000}),
-                _njuskalo("prodaja-kuca/samobor", **{"price[max]": 300000}),
-                _index("/oglasi/nekretnine/prodaja-kuca/zagreb", cijenaDo=300000),
+                _njuskalo("prodaja-kuca/zagreb", **{"price[max]": MAX_ZAGREB_PRICE_EUR}),
+                _njuskalo("prodaja-kuca/samobor", **{"price[max]": MAX_ZAGREB_PRICE_EUR}),
+                _index("/oglasi/nekretnine/prodaja-kuca/zagreb", cijenaDo=MAX_ZAGREB_PRICE_EUR),
             ),
             max_pages=1,
         ),
@@ -48,8 +49,8 @@ def build_watches() -> tuple[Watch, ...]:
             category="Stanovi Zagreb",
             matcher=matches_zagreb_apartment,
             urls=(
-                _njuskalo("prodaja-stanova/zagreb", **{"price[max]": 300000}),
-                _index("/oglasi/nekretnine/prodaja-stanova/zagreb", cijenaDo=300000),
+                _njuskalo("prodaja-stanova/zagreb", **{"price[max]": MAX_ZAGREB_PRICE_EUR}),
+                _index("/oglasi/nekretnine/prodaja-stanova/zagreb", cijenaDo=MAX_ZAGREB_PRICE_EUR),
             ),
             max_pages=1,
         ),
@@ -58,8 +59,8 @@ def build_watches() -> tuple[Watch, ...]:
             category="Kuće otoci",
             matcher=matches_coast_house,
             urls=(
-                _njuskalo("prodaja-kuca", **{"price[max]": 50000}),
-                _index("/oglasi/nekretnine/prodaja-kuca", cijenaDo=50000),
+                _njuskalo("prodaja-kuca", **{"price[max]": MAX_COAST_PRICE_EUR}),
+                _index("/oglasi/nekretnine/prodaja-kuca", cijenaDo=MAX_COAST_PRICE_EUR),
             ),
             max_pages=1,
         ),

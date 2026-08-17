@@ -10,12 +10,14 @@ import com.housesads.data.model.WatchFilter
 import com.housesads.data.repository.AdRepository
 import com.housesads.data.settings.SettingsStore
 import com.housesads.notify.NewAdNotifier
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
@@ -30,6 +32,8 @@ class AdListViewModel(
     private val errorMessage = MutableStateFlow<String?>(null)
     private val scraperBaseUrl = MutableStateFlow(settingsStore.scraperBaseUrl)
     private val showServerDialog = MutableStateFlow(false)
+    private var refreshJob: Job? = null
+    private var autoRefreshJob: Job? = null
 
     val uiState: StateFlow<AdListUiState> = combine(
         combine(
@@ -66,12 +70,7 @@ class AdListViewModel(
 
     init {
         refresh(userInitiated = false)
-        viewModelScope.launch {
-            while (isActive) {
-                delay(30_000)
-                refresh(userInitiated = false)
-            }
-        }
+        startAutoRefresh()
     }
 
     fun selectFilter(filter: WatchFilter) {
@@ -91,7 +90,8 @@ class AdListViewModel(
     }
 
     fun refresh(userInitiated: Boolean = true) {
-        viewModelScope.launch {
+        refreshJob?.cancel()
+        refreshJob = viewModelScope.launch {
             if (userInitiated) isRefreshing.value = true
             errorMessage.value = null
             runCatching { adRepository.refresh() }
@@ -117,19 +117,24 @@ class AdListViewModel(
 
     fun saveScraperUrl(url: String) {
         settingsStore.scraperBaseUrl = url
-        scraperBaseUrl.value = settingsStore.scraperBaseUrl
+        scraperBaseUrl.update { settingsStore.scraperBaseUrl }
         showServerDialog.value = false
         refresh()
     }
-}
 
-private fun List<Ad>.filterBy(filter: WatchFilter): List<Ad> = when (filter) {
-    WatchFilter.ALL -> this
-    WatchFilter.FAVORITES -> filter { it.isFavorite }
-    WatchFilter.ZAGREB_HOUSES,
-    WatchFilter.ZAGREB_APARTMENTS,
-    WatchFilter.COAST_HOUSES,
-    -> filter { it.watchId == filter.watchId }
+    private fun startAutoRefresh() {
+        autoRefreshJob?.cancel()
+        autoRefreshJob = viewModelScope.launch {
+            while (isActive) {
+                delay(AUTO_REFRESH_INTERVAL_MS)
+                refresh(userInitiated = false)
+            }
+        }
+    }
+
+    companion object {
+        private const val AUTO_REFRESH_INTERVAL_MS = 30_000L
+    }
 }
 
 class AdListViewModelFactory(

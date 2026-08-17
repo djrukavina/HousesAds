@@ -4,12 +4,13 @@ import com.housesads.data.local.FavoriteAdDao
 import com.housesads.data.local.HiddenAdDao
 import com.housesads.data.local.HiddenAdEntity
 import com.housesads.data.local.ListingDao
-import com.housesads.data.local.ListingEntity
 import com.housesads.data.local.toAd
 import com.housesads.data.local.toFavoriteEntity
 import com.housesads.data.model.Ad
-import com.housesads.data.remote.AdDto
-import com.housesads.data.remote.ScraperClient
+import com.housesads.data.remote.AdsRemoteDataSource
+import com.housesads.data.remote.toAd
+import com.housesads.data.remote.toEntity
+import com.housesads.domain.sync.FeedSyncPlanner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -20,7 +21,8 @@ class AdRepository(
     private val listingDao: ListingDao,
     private val favoriteAdDao: FavoriteAdDao,
     private val hiddenAdDao: HiddenAdDao,
-    private val scraperClient: ScraperClient,
+    private val remoteDataSource: AdsRemoteDataSource,
+    private val ioDispatcher: kotlinx.coroutines.CoroutineDispatcher = Dispatchers.IO,
 ) {
     fun observeFeed(): Flow<List<Ad>> = combine(
         listingDao.observeAll(),
@@ -42,49 +44,30 @@ class AdRepository(
     }
 
     suspend fun deleteAd(ad: Ad) {
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             listingDao.deleteById(ad.id)
             favoriteAdDao.deleteById(ad.id)
             hiddenAdDao.hide(HiddenAdEntity(ad.id))
-            runCatching { scraperClient.hideAd(ad.id) }
+            runCatching { remoteDataSource.hideAd(ad.id) }
         }
     }
 
     suspend fun refresh(): List<Ad> {
-        return withContext(Dispatchers.IO) {
-            val oldIds = listingDao.getIds().toSet()
+        return withContext(ioDispatcher) {
+            val previousIds = listingDao.getIds().toSet()
             val hiddenIds = hiddenAdDao.getIds().toSet()
-            val remote = scraperClient.fetchAds()
-            hiddenIds.forEach { id ->
-                if (remote.any { it.id == id }) {
-                    runCatching { scraperClient.hideAd(id) }
-                }
+            val remote = remoteDataSource.fetchAds()
+            val plan = FeedSyncPlanner.plan(
+                remoteAds = remote,
+                previousIds = previousIds,
+                hiddenIds = hiddenIds,
+            )
+            plan.pendingHideIds.forEach { id ->
+                runCatching { remoteDataSource.hideAd(id) }
             }
-            val visible = remote.filter { it.id !in hiddenIds }
             val now = System.currentTimeMillis()
-            listingDao.replaceAll(visible.map { it.toEntity(now) })
-            if (oldIds.isEmpty()) {
-                emptyList()
-            } else {
-                visible.filter { it.id !in oldIds }.map { dto ->
-                    dto.toEntity(now).toAd(isFavorite = false)
-                }
-            }
+            listingDao.replaceAll(plan.visibleAds.map { it.toEntity(now) })
+            plan.newAds.map { dto -> dto.toAd(isFavorite = false) }
         }
     }
 }
-
-private fun AdDto.toEntity(fetchedAtMillis: Long): ListingEntity = ListingEntity(
-    id = id,
-    title = title,
-    priceEur = priceEur,
-    location = location.orEmpty(),
-    category = category.orEmpty(),
-    watchId = watchId.orEmpty(),
-    source = source.orEmpty(),
-    description = description.orEmpty(),
-    imageUrl = imageUrl,
-    url = url,
-    postedAtMillis = postedAtMillis ?: fetchedAtMillis,
-    fetchedAtMillis = fetchedAtMillis,
-)

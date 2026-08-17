@@ -17,6 +17,10 @@ from .filters import (
 from .models import Card, Listing
 
 NJUSKALO_ORIGIN = "https://www.njuskalo.hr"
+INDEX_ORIGIN = "https://www.index.hr"
+INDEX_LISTING_URL_RE = re.compile(
+    r"https?://www\.index\.hr(/oglasi/nekretnine/[^\"'\s<>]+/oglas/[^\"'\s<>]+/\d{5,})"
+)
 
 
 def parse_njuskalo_cards(html: str) -> list[Card]:
@@ -101,31 +105,53 @@ def parse_index_cards(html: str) -> list[Card]:
     soup = BeautifulSoup(html, "lxml")
     items: list[Card] = []
     seen: set[str] = set()
-    for link in soup.select("a[href*='/oglas/']"):
-        href = urljoin("https://www.index.hr", link.get("href", ""))
-        external_id = _index_id(href)
-        if not external_id or external_id in seen:
-            continue
+
+    for link in soup.select("a[href]"):
+        href = urljoin(INDEX_ORIGIN, link.get("href", ""))
+        card = _index_card_from_url(href, link, seen)
+        if card is not None:
+            items.append(card)
+
+    if not items:
+        for match in INDEX_LISTING_URL_RE.finditer(html):
+            href = urljoin(INDEX_ORIGIN, match.group(1))
+            card = _index_card_from_url(href, None, seen)
+            if card is not None:
+                items.append(card)
+
+    return items
+
+
+def _index_card_from_url(href: str, link, seen: set[str]) -> Card | None:
+    external_id = _index_id(href)
+    if not external_id or external_id in seen:
+        return None
+    if "/nekretnine/" not in href or "/oglas/" not in href:
+        return None
+
+    title = ""
+    if link is not None:
         title = " ".join(link.get_text(" ", strip=True).split())
         if len(title) < 8:
-            continue
-        seen.add(external_id)
-        card_root = link.find_parent(["article", "li", "div"]) or link
-        blob = card_root.get_text(" ", strip=True)
-        image = card_root.find("img") if hasattr(card_root, "find") else None
-        items.append(
-            Card(
-                source="index",
-                external_id=external_id,
-                title=title,
-                url=href.split("?")[0],
-                price_eur=parse_price(blob),
-                location=_guess_index_location(blob, title),
-                snippet=blob[:500],
-                image_url=image.get("src") if image and image.get("src") else None,
-            )
-        )
-    return items
+            title = " ".join((link.get("title") or link.get("aria-label") or "").split())
+    if len(title) < 8:
+        slug = urlparse(href).path.rsplit("/", 1)[0].rsplit("/", 1)[-1]
+        title = slug.replace("-", " ").strip().title()
+
+    seen.add(external_id)
+    card_root = link.find_parent(["article", "li", "div"]) if link is not None else None
+    blob = card_root.get_text(" ", strip=True) if card_root is not None else title
+    image = card_root.find("img") if card_root is not None and hasattr(card_root, "find") else None
+    return Card(
+        source="index",
+        external_id=external_id,
+        title=title,
+        url=href.split("?")[0],
+        price_eur=parse_price(blob),
+        location=_guess_index_location(blob, title),
+        snippet=blob[:500],
+        image_url=image.get("src") if image is not None and image.get("src") else None,
+    )
 
 
 def listing_from_index_detail(card: Card, html: str, watch_id: str, category: str) -> Listing:
@@ -168,7 +194,11 @@ def _njuskalo_id(url: str) -> Optional[str]:
 
 
 def _index_id(url: str) -> Optional[str]:
-    match = re.search(r"/(\d{5,})/?$", urlparse(url).path)
+    path = urlparse(url).path
+    match = re.search(r"/oglas/[^/]+/(\d{5,})", path)
+    if match:
+        return match.group(1)
+    match = re.search(r"/(\d{5,})/?$", path)
     if match:
         return match.group(1)
     match = re.search(r"oglas-(\d+)", url)

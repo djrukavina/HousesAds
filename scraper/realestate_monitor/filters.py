@@ -4,128 +4,21 @@ import re
 import unicodedata
 from typing import Optional
 
+from .constants import (
+    HOUSE_LOCATIONS,
+    ISLANDS,
+    ISLAND_URL_HINTS,
+    MAX_COAST_PRICE_EUR,
+    MAX_ZAGREB_APARTMENT_ROOMS,
+    MAX_ZAGREB_PRICE_EUR,
+    MIN_ZAGREB_APARTMENT_LIVING_M2,
+    MIN_ZAGREB_APARTMENT_ROOMS,
+    MIN_ZAGREB_HOUSE_SIZE_M2,
+    NEW_BUILD_KEYWORDS,
+    SEA_KEYWORDS,
+    ZAGREB_CITY,
+)
 from .models import Card, Listing
-
-ZAGREB_CITY = (
-    "zagreb",
-    "sesvete",
-    "podsused",
-    "trešnjevka",
-    "tresnjevka",
-    "dubrava",
-    "maksimir",
-    "trnje",
-    "črnomerec",
-    "crnomerec",
-    "pečrvo",
-    "peščenica",
-    "pescenica",
-    "stenjevec",
-    "podsljeme",
-    "brezovica",
-    "novi zagreb",
-    "donji grad",
-    "gornji grad",
-    "medveščak",
-    "medvescak",
-)
-
-# Kuće: Zagreb + točno navedena okolica.
-HOUSE_LOCATIONS = (
-    "zagreb",
-    "samobor",
-    "brezovica",
-    "odra",
-    "sesvete",
-    "novi zagreb",
-)
-
-ISLANDS = (
-    "krk",
-    "cres",
-    "lošinj",
-    "losinj",
-    "mali lošinj",
-    "veli lošinj",
-    "rab",
-    "pag",
-    "novalja",
-    "brač",
-    "brac",
-    "hvar",
-    "korčula",
-    "korcula",
-    "vis",
-    "mljet",
-    "šolta",
-    "solta",
-    "dugi otok",
-    "ugljan",
-    "pašman",
-    "pasman",
-    "čiovo",
-    "ciovo",
-    "vir",
-    "murter",
-    "lastovo",
-    "iž",
-    "silba",
-    "ološinj",
-    "unije",
-    "susak",
-    "ilovik",
-    "žirje",
-    "prvić",
-    "prvic",
-    "kaprije",
-    "zlarin",
-    "krapanj",
-    "koločep",
-    "kolocep",
-    "lopud",
-    "šipan",
-    "sipan",
-    "molat",
-    "ist",
-    "ološ",
-    "kornat",
-    "žut",
-    "pašman",
-    "rivanj",
-    "sestrunj",
-    "oliban",
-    "otok",
-)
-
-SEA_KEYWORDS = (
-    "uz more",
-    "do mora",
-    "od mora",
-    "blizina mora",
-    "blizu mora",
-    "pogled na more",
-    "pogled more",
-    "prvi red",
-    "1. red",
-    "1 red",
-    "plaža",
-    "plaza",
-    "obala",
-    "riviera",
-    "marina",
-    "lučica",
-    "lucica",
-    "uvali",
-    "uvala",
-)
-
-NEW_BUILD_KEYWORDS = (
-    "novogradnja",
-    "nova gradnja",
-    "u izgradnji",
-    "novograd",
-    "new build",
-)
 
 
 def _fold(text: str) -> str:
@@ -133,8 +26,12 @@ def _fold(text: str) -> str:
     return "".join(ch for ch in normalized if unicodedata.category(ch) != "Mn")
 
 
-def _blob(listing: Listing) -> str:
+def listing_blob(listing: Listing) -> str:
     return _fold(f"{listing.title} {listing.location} {listing.description}")
+
+
+def card_blob(card: Card) -> str:
+    return _fold(f"{card.title} {card.location} {card.snippet}")
 
 
 def parse_price(text: str) -> Optional[float]:
@@ -193,9 +90,7 @@ def is_new_build(text: str, year: Optional[int] = None) -> bool:
     folded = _fold(text)
     if any(keyword in folded for keyword in NEW_BUILD_KEYWORDS):
         return True
-    if year is not None and year >= 2024:
-        return True
-    return False
+    return year is not None and year >= 2024
 
 
 def is_zagreb_city(text: str) -> bool:
@@ -239,83 +134,60 @@ def _size_at_least(listing: Listing, minimum: float) -> bool:
 
 
 def matches_zagreb_house(listing: Listing) -> bool:
-    if listing.price_eur is not None and listing.price_eur > 300_000:
+    if listing.price_eur is not None and listing.price_eur > MAX_ZAGREB_PRICE_EUR:
         return False
-    if not is_zagreb_area(_blob(listing)):
+    if not is_zagreb_area(listing_blob(listing)):
         return False
-    if not _size_at_least(listing, 100):
+    if not _size_at_least(listing, MIN_ZAGREB_HOUSE_SIZE_M2):
         return False
     house_type = listing.house_type
     if house_type == "unknown":
-        house_type = classify_house_type(_blob(listing))
+        house_type = classify_house_type(listing_blob(listing))
     if house_type == "detached":
         return True
-    if house_type == "row" and (listing.is_new_build or is_new_build(_blob(listing))):
+    if house_type == "row" and (listing.is_new_build or is_new_build(listing_blob(listing))):
         return True
     return False
 
 
 def matches_zagreb_apartment(listing: Listing) -> bool:
-    if listing.price_eur is not None and listing.price_eur > 300_000:
+    if listing.price_eur is not None and listing.price_eur > MAX_ZAGREB_PRICE_EUR:
         return False
-    if not is_zagreb_city(_blob(listing)):
+    if not is_zagreb_city(listing_blob(listing)):
         return False
-    rooms = listing.rooms or parse_rooms(_blob(listing))
-    if rooms is None or rooms < 3 or rooms >= 4:
+    rooms = listing.rooms or parse_rooms(listing_blob(listing))
+    if rooms is None or rooms < MIN_ZAGREB_APARTMENT_ROOMS or rooms >= MAX_ZAGREB_APARTMENT_ROOMS:
         return False
     living = listing.living_m2
-    if living is None or living < 80:
+    if living is None or living < MIN_ZAGREB_APARTMENT_LIVING_M2:
         return False
-    return listing.is_new_build or is_new_build(_blob(listing))
-
-
-def prefilter_card(watch_id: str, card: Card) -> bool:
-    blob = f"{card.title} {card.location} {card.snippet}"
-    if watch_id == "zagreb_houses":
-        if card.price_eur is not None and card.price_eur > 300_000:
-            return False
-        return is_zagreb_area(blob)
-    if watch_id == "zagreb_apartments":
-        if card.price_eur is not None and card.price_eur > 300_000:
-            return False
-        rooms = parse_rooms(blob)
-        if rooms is not None and rooms < 3:
-            return False
-        return is_zagreb_city(blob)
-    if watch_id == "coast_houses":
-        if card.price_eur is not None and card.price_eur > 50_000:
-            return False
-        return is_croatian_island(blob) or any(
-            hint in card.url
-            for hint in (
-                "/krk",
-                "/cres",
-                "/losinj",
-                "/rab",
-                "/pag",
-                "/novalja",
-                "/brac",
-                "/hvar",
-                "/korcula",
-                "/vis",
-                "/mljet",
-                "/solta",
-                "/dugi-otok",
-                "/ugljan",
-                "/pasman",
-                "/ciovo",
-                "/vir",
-                "/murter",
-                "/lastovo",
-            )
-        )
-    return True
+    return listing.is_new_build or is_new_build(listing_blob(listing))
 
 
 def matches_coast_house(listing: Listing) -> bool:
-    if listing.price_eur is None or listing.price_eur > 50_000:
+    if listing.price_eur is None or listing.price_eur > MAX_COAST_PRICE_EUR:
         return False
-    blob = _blob(listing)
+    blob = listing_blob(listing)
     if not is_croatian_island(blob):
         return False
     return listing.near_sea or is_near_sea(blob)
+
+
+def prefilter_card(watch_id: str, card: Card) -> bool:
+    blob = card_blob(card)
+    if watch_id == "zagreb_houses":
+        if card.price_eur is not None and card.price_eur > MAX_ZAGREB_PRICE_EUR:
+            return False
+        return is_zagreb_area(blob)
+    if watch_id == "zagreb_apartments":
+        if card.price_eur is not None and card.price_eur > MAX_ZAGREB_PRICE_EUR:
+            return False
+        rooms = parse_rooms(blob)
+        if rooms is not None and rooms < MIN_ZAGREB_APARTMENT_ROOMS:
+            return False
+        return is_zagreb_city(blob)
+    if watch_id == "coast_houses":
+        if card.price_eur is not None and card.price_eur > MAX_COAST_PRICE_EUR:
+            return False
+        return is_croatian_island(blob) or any(hint in card.url for hint in ISLAND_URL_HINTS)
+    return True

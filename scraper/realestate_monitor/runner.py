@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 import time
 from datetime import datetime, timezone
-from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit, urlparse
 
 from .config import Settings
 from .fetch import PageFetcher
@@ -48,17 +48,24 @@ class Monitor:
 
     def _scrape_watch_url(self, watch: Watch, url: str, first_run: bool) -> int:
         new_matches = 0
-        force_browser = "njuskalo.hr" in url
+        is_index = "index.hr" in url
+        force_browser = "njuskalo.hr" in url or is_index
+        wait_for_index_cards = is_index and "/oglas/" not in urlparse(url).path
         page_limit = watch.max_pages or self.settings.max_pages
         for page_number in range(1, page_limit + 1):
             page_url = _with_page(url, page_number)
             log.info("Fetching %s", page_url)
             try:
-                html = self.fetcher.get(page_url, force_browser=force_browser)
+                html = self.fetcher.get(
+                    page_url,
+                    force_browser=force_browser,
+                    wait_for_index_cards=wait_for_index_cards,
+                )
             except Exception:
                 log.exception("Failed fetching %s", page_url)
                 break
             cards = parse_njuskalo_cards(html) if "njuskalo.hr" in url else parse_index_cards(html)
+            log.info("Parsed %s cards from %s", len(cards), page_url)
             if not cards:
                 break
             for card in cards:
@@ -99,7 +106,11 @@ class Monitor:
         return True
 
     def _hydrate(self, watch: Watch, card: Card) -> Listing:
-        html = self.fetcher.get(card.url, force_browser=card.source == "njuskalo")
+        html = self.fetcher.get(
+            card.url,
+            force_browser=True,
+            wait_for_index_cards=False,
+        )
         if card.source == "njuskalo":
             return listing_from_njuskalo_detail(card, html, watch.id, watch.category)
         return listing_from_index_detail(card, html, watch.id, watch.category)

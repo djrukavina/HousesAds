@@ -41,7 +41,7 @@ class PageFetcher:
         if self._playwright is not None:
             self._playwright.stop()
 
-    def get(self, url: str, force_browser: bool = False) -> str:
+    def get(self, url: str, force_browser: bool = False, *, wait_for_index_cards: bool = False) -> str:
         time.sleep(self.settings.request_delay_sec + random.uniform(0.2, 0.8))
         if not force_browser:
             try:
@@ -52,12 +52,18 @@ class PageFetcher:
                 log.info("HTTP fetch looked blocked for %s (%s)", url, response.status_code)
             except Exception:
                 log.exception("HTTP fetch failed for %s", url)
-        return self._get_playwright(url)
+        return self._get_playwright(url, wait_for_index_cards=wait_for_index_cards)
 
-    def _get_playwright(self, url: str) -> str:
+    def _get_playwright(self, url: str, *, wait_for_index_cards: bool = False) -> str:
         page = self._ensure_page()
         page.goto(url, wait_until="domcontentloaded", timeout=45_000)
-        page.wait_for_timeout(1500)
+        if wait_for_index_cards:
+            try:
+                page.wait_for_selector('a[href*="/oglas/"]', timeout=20_000)
+            except Exception:
+                log.warning("Index cards did not render in time for %s", url)
+        else:
+            page.wait_for_timeout(1500)
         return page.content()
 
     def _ensure_page(self):

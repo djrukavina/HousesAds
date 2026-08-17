@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
-from typing import Any, Optional
+from dataclasses import dataclass
+from typing import Callable, Optional
 
 
 @dataclass
@@ -24,8 +24,7 @@ class Listing:
     is_new_build: bool = False
     near_sea: bool = False
 
-    def to_api(self) -> dict[str, Any]:
-        data = asdict(self)
+    def to_api(self) -> dict[str, object]:
         return {
             "id": self.id,
             "source": self.source,

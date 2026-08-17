@@ -19,7 +19,7 @@ logging.basicConfig(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Njuškalo/Index real-estate monitor")
+    parser = argparse.ArgumentParser(description="HousesAds real-estate monitor")
     parser.add_argument("--once", action="store_true", help="Run a single scrape cycle and exit")
     parser.add_argument("--api-only", action="store_true", help="Serve already scraped ads")
     args = parser.parse_args()

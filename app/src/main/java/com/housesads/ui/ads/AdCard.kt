@@ -35,7 +35,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.housesads.data.model.Ad
 import com.housesads.ui.theme.HousesAdsTheme
-import java.text.NumberFormat
 import java.util.Locale
 
 @Composable
@@ -158,27 +157,6 @@ fun AdCard(
             }
         }
     }
-}
-
-fun sourceLabel(source: String): String? = when (source.lowercase(Locale.ROOT)) {
-    "njuskalo" -> "Njuškalo"
-    "index" -> "Index"
-    else -> source.takeIf { it.isNotBlank() }
-}
-
-fun openLabel(source: String): String = when (source.lowercase(Locale.ROOT)) {
-    "njuskalo" -> "Otvori na Njuškalu"
-    "index" -> "Otvori na Indexu"
-    else -> "Otvori originalni oglas"
-}
-
-fun formatPrice(priceEur: Double?): String {
-    if (priceEur == null) return "Po dogovoru"
-    val formatted = NumberFormat.getNumberInstance(Locale.forLanguageTag("hr-HR")).apply {
-        maximumFractionDigits = 0
-        minimumFractionDigits = 0
-    }.format(priceEur)
-    return "$formatted €"
 }
 
 @Preview(showBackground = true)
