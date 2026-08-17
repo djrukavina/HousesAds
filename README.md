@@ -22,7 +22,7 @@ GitHub Actions (scheduled)
         ▼
   Python scraper ──► data/listings.json  ◄── Android app (Room cache)
         │                    │
-        ├── monitor.sqlite3  │  GitHub raw URL (+ token if private)
+        ├── monitor.sqlite3  │  GitHub raw URL
         ├── hidden.json      │
         └── Telegram alert   └── local notifications
 ```
@@ -52,20 +52,6 @@ Deleting an ad in the app hides it locally and publishes the ID to an ntfy topic
 - **Stack:** Jetpack Compose, Room, WorkManager background sync, Material 3
 - **Features:** category tabs, favorites, open listing in browser, pull-to-refresh, system notifications for new ads
 
-### Private repository
-
-This project uses a **private** GitHub repository. The app needs a read-only token to download `listings.json`:
-
-1. Create a fine-grained PAT with **Contents: Read-only** on this repo.
-2. Add to `local.properties` (never commit this file):
-
-```properties
-GITHUB_FEED_TOKEN=ghp_...
-NTFY_HIDE_TOPIC=your-hide-topic
-```
-
-3. Rebuild the app in Android Studio.
-
 ### Run locally
 
 1. Open the project in Android Studio.
@@ -78,12 +64,6 @@ If you previously installed the old **NjuskaloAds** app (`com.njuskalo.ads`), un
 
 ```bash
 ./gradlew :app:testDebugUnitTest
-```
-
-On Windows, if `JAVA_HOME` is missing, point Gradle to Android Studio’s JBR in `~/.gradle/gradle.properties`:
-
-```properties
-org.gradle.java.home=C:\\Program Files\\Android\\Android Studio\\jbr
 ```
 
 ## Scraper
@@ -118,14 +98,6 @@ Add these **repository secrets**:
 | `TELEGRAM_CHAT_ID` | Your chat ID |
 | `NTFY_HIDE_TOPIC` | Private ntfy topic for phone → repo hide sync |
 | `NTFY_TOPIC` | Optional extra push channel |
-
-### Actions minutes (private repo)
-
-On a **free GitHub account**, private repositories include **2,000 Actions minutes per month** (shared across all private repos). Public repos get **unlimited** minutes for standard GitHub-hosted runners.
-
-Each scrape job uses about **1.5–3 minutes** when the Playwright browser cache hits (most runs). The workflow runs **every 30 minutes** (~1,440 runs/month ≈ **1,800–2,000 minutes**), which fits the free allowance when the cache is warm. Occasional cold-cache runs (full browser install) use more minutes; use manual runs sparingly.
-
-You can trigger an extra run from the Actions tab anytime, or switch to a self-hosted runner for unlimited local minutes.
 
 ## CI
 
