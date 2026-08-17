@@ -64,5 +64,12 @@ jobs:
             echo "No listing changes"
           else
             git commit -m "Update scraped listings"
-            git push
+            for attempt in 1 2 3 4 5; do
+              git pull --rebase origin main
+              if git push origin HEAD:main; then
+                break
+              fi
+              echo "Push failed, retrying ($attempt/5)..."
+              sleep 2
+            done
           fi

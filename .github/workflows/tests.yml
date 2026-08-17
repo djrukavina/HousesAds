@@ -18,7 +18,7 @@ jobs:
           java-version: 21
 
       - name: Run Android unit tests
-        run: ./gradlew :app:testDebugUnitTest
+        run: bash gradlew :app:testDebugUnitTest
 
   scraper-unit-tests:
     runs-on: ubuntu-latest
