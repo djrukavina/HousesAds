@@ -8,9 +8,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FavoriteAdDao {
-    @Query("SELECT * FROM favorite_ads ORDER BY savedAtMillis DESC")
-    fun observeAll(): Flow<List<FavoriteAdEntity>>
-
     @Query("SELECT id FROM favorite_ads")
     fun observeIds(): Flow<List<String>>
 
@@ -19,7 +16,4 @@ interface FavoriteAdDao {
 
     @Query("DELETE FROM favorite_ads WHERE id = :id")
     suspend fun deleteById(id: String)
-
-    @Query("SELECT EXISTS(SELECT 1 FROM favorite_ads WHERE id = :id)")
-    suspend fun isFavorite(id: String): Boolean
 }

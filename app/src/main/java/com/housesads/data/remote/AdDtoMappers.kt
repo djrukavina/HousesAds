@@ -1,7 +1,7 @@
 package com.housesads.data.remote
 
 import com.housesads.data.local.ListingEntity
-import com.housesads.data.model.Ad
+import com.housesads.data.model.listingAd
 
 fun AdDto.toEntity(fetchedAtMillis: Long): ListingEntity = ListingEntity(
     id = id,
@@ -18,7 +18,7 @@ fun AdDto.toEntity(fetchedAtMillis: Long): ListingEntity = ListingEntity(
     fetchedAtMillis = fetchedAtMillis,
 )
 
-fun AdDto.toAd(isFavorite: Boolean = false): Ad = Ad(
+fun AdDto.toAd(isFavorite: Boolean = false) = listingAd(
     id = id,
     title = title,
     priceEur = priceEur,

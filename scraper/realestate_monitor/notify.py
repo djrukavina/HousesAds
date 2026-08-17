@@ -10,8 +10,14 @@ from .models import Listing
 log = logging.getLogger(__name__)
 
 
+def format_price_eur(price_eur: float | None) -> str:
+    if price_eur is None:
+        return "Po dogovoru"
+    return f"{price_eur:,.0f} €".replace(",", ".")
+
+
 def format_message(listing: Listing) -> str:
-    price = "Po dogovoru" if listing.price_eur is None else f"{listing.price_eur:,.0f} €".replace(",", ".")
+    price = format_price_eur(listing.price_eur)
     return (
         f"Novi oglas: {listing.category}\n"
         f"{listing.title}\n"

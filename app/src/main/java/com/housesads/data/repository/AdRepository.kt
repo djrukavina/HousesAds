@@ -14,7 +14,6 @@ import com.housesads.domain.sync.FeedSyncPlanner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class AdRepository(
@@ -31,9 +30,6 @@ class AdRepository(
         val ids = favoriteIds.toSet()
         listings.map { listing -> listing.toAd(isFavorite = listing.id in ids) }
     }
-
-    fun observeFavorites(): Flow<List<Ad>> =
-        favoriteAdDao.observeAll().map { entities -> entities.map { it.toAd() } }
 
     suspend fun toggleFavorite(ad: Ad) {
         if (ad.isFavorite) {

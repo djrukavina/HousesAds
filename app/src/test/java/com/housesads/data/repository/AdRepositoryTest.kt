@@ -147,13 +147,9 @@ private class FakeHiddenAdDao : HiddenAdDao {
 private class FakeFavoriteAdDao : FavoriteAdDao {
     override fun observeIds(): Flow<List<String>> = flowOf(emptyList())
 
-    override fun observeAll(): Flow<List<FavoriteAdEntity>> = flowOf(emptyList())
-
     override suspend fun deleteById(id: String) = Unit
 
     override suspend fun upsert(entity: FavoriteAdEntity) = Unit
-
-    override suspend fun isFavorite(id: String): Boolean = false
 }
 
 private class FakeRemoteDataSource(

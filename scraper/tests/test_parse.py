@@ -1,5 +1,4 @@
 from realestate_monitor.parse import parse_index_cards, parse_njuskalo_cards
-from realestate_monitor.filters import parse_price
 
 
 SAMPLE_NJUSKALO_HTML = """
@@ -22,10 +21,6 @@ def test_parse_njuskalo_cards_extracts_card() -> None:
     assert card.external_id == "12345"
     assert card.price_eur == 289_000.0
     assert "Zagreb" in card.location
-
-
-def test_parse_price_reads_croatian_format() -> None:
-    assert parse_price("150.000 €") == 150_000.0
 
 
 SAMPLE_INDEX_HTML = """

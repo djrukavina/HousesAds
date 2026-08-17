@@ -197,23 +197,25 @@ def matches_coast_house(listing: Listing) -> bool:
     return listing.near_sea or is_near_sea(blob)
 
 
+def card_price_ok(watch_id: str, price_eur: Optional[float]) -> bool:
+    if watch_id in ("zagreb_houses", "zagreb_apartments"):
+        return _zagreb_price_ok(price_eur)
+    if watch_id == "coast_houses":
+        return _coast_price_ok(price_eur)
+    return True
+
+
 def prefilter_card(watch_id: str, card: Card) -> bool:
     blob = card_blob(card)
+    if not card_price_ok(watch_id, card.price_eur):
+        return False
     if watch_id == "zagreb_houses":
-        if card.price_eur is not None and not _zagreb_price_ok(card.price_eur):
-            return False
         return is_zagreb_area(blob)
     if watch_id == "zagreb_apartments":
-        if card.price_eur is not None and not _zagreb_price_ok(card.price_eur):
-            return False
         rooms = parse_rooms(blob)
         if rooms is not None and rooms < MIN_ZAGREB_APARTMENT_ROOMS:
             return False
         return is_zagreb_city(blob)
     if watch_id == "coast_houses":
-        if card.price_eur is not None and not _coast_price_ok(card.price_eur):
-            return False
-        if card.price_eur is None:
-            return False
         return is_croatian_island(blob) or any(hint in card.url for hint in ISLAND_URL_HINTS)
     return True

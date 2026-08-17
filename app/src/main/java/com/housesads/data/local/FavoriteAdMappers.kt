@@ -1,8 +1,9 @@
 package com.housesads.data.local
 
 import com.housesads.data.model.Ad
+import com.housesads.data.model.listingAd
 
-fun FavoriteAdEntity.toAd(): Ad = Ad(
+fun FavoriteAdEntity.toAd(): Ad = listingAd(
     id = id,
     title = title,
     priceEur = priceEur,
@@ -33,7 +34,7 @@ fun Ad.toFavoriteEntity(savedAtMillis: Long = System.currentTimeMillis()): Favor
         source = source,
     )
 
-fun ListingEntity.toAd(isFavorite: Boolean): Ad = Ad(
+fun ListingEntity.toAd(isFavorite: Boolean): Ad = listingAd(
     id = id,
     title = title,
     priceEur = priceEur,

@@ -1,11 +1,14 @@
 from realestate_monitor.filters import (
+    card_price_ok,
     is_excluded_zagreb_area,
     matches_coast_house,
     matches_zagreb_apartment,
     matches_zagreb_house,
     parse_price,
     parse_rooms,
+    prefilter_card,
 )
+from realestate_monitor.models import Card
 from tests.conftest import listing
 
 
@@ -76,6 +79,26 @@ def test_is_excluded_zagreb_area_detects_eastern_districts() -> None:
     assert is_excluded_zagreb_area("Zagreb, Sesvete")
     assert is_excluded_zagreb_area("Stan: Zagreb, Dubrava")
     assert not is_excluded_zagreb_area("Zagreb, Trešnjevka")
+
+
+def test_card_price_ok_for_each_watch() -> None:
+    assert card_price_ok("zagreb_houses", 250_000.0)
+    assert not card_price_ok("zagreb_houses", 5_000.0)
+    assert card_price_ok("coast_houses", 25_000.0)
+    assert not card_price_ok("coast_houses", None)
+
+
+def test_prefilter_card_rejects_cheap_coast_listing() -> None:
+    card = Card(
+        source="index",
+        external_id="1",
+        title="Kuća Krk",
+        url="https://www.index.hr/oglasi/krk",
+        price_eur=3_000.0,
+        location="Krk",
+        snippet="uz more",
+    )
+    assert not prefilter_card("coast_houses", card)
 
 
 def test_rejects_zagreb_house_above_budget() -> None:

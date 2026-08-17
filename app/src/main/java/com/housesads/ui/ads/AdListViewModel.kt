@@ -9,16 +9,13 @@ import com.housesads.data.model.Ad
 import com.housesads.data.model.WatchFilter
 import com.housesads.data.repository.AdRepository
 import com.housesads.data.settings.SettingsStore
-import com.housesads.notify.NewAdNotifier
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 class AdListViewModel(
@@ -33,7 +30,6 @@ class AdListViewModel(
     private val scraperBaseUrl = MutableStateFlow(settingsStore.scraperBaseUrl)
     private val showServerDialog = MutableStateFlow(false)
     private var refreshJob: Job? = null
-    private var autoRefreshJob: Job? = null
 
     val uiState: StateFlow<AdListUiState> = combine(
         combine(
@@ -56,7 +52,6 @@ class AdListViewModel(
         AdListUiState(
             ads = ads.filterBy(filter),
             watchFilter = filter,
-            isLoading = false,
             isRefreshing = refreshing,
             errorMessage = error,
             scraperBaseUrl = url,
@@ -70,7 +65,6 @@ class AdListViewModel(
 
     init {
         refresh(userInitiated = false)
-        startAutoRefresh()
     }
 
     fun selectFilter(filter: WatchFilter) {
@@ -95,11 +89,6 @@ class AdListViewModel(
             if (userInitiated) isRefreshing.value = true
             errorMessage.value = null
             runCatching { adRepository.refresh() }
-                .onSuccess { newAds ->
-                    if (newAds.isNotEmpty()) {
-                        NewAdNotifier.show(getApplication(), newAds)
-                    }
-                }
                 .onFailure { error ->
                     errorMessage.value = error.message ?: "Sinkronizacija nije uspjela"
                 }
@@ -120,20 +109,6 @@ class AdListViewModel(
         scraperBaseUrl.update { settingsStore.scraperBaseUrl }
         showServerDialog.value = false
         refresh()
-    }
-
-    private fun startAutoRefresh() {
-        autoRefreshJob?.cancel()
-        autoRefreshJob = viewModelScope.launch {
-            while (isActive) {
-                delay(AUTO_REFRESH_INTERVAL_MS)
-                refresh(userInitiated = false)
-            }
-        }
-    }
-
-    companion object {
-        private const val AUTO_REFRESH_INTERVAL_MS = 30_000L
     }
 }
 

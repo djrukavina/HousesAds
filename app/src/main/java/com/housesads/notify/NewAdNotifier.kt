@@ -11,6 +11,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.housesads.MainActivity
 import com.housesads.data.model.Ad
+import com.housesads.ui.ads.formatPrice
 
 object NewAdNotifier {
     const val CHANNEL_ID = "new_listings"
@@ -33,7 +34,7 @@ object NewAdNotifier {
         createChannel(context)
         val manager = NotificationManagerCompat.from(context)
         ads.take(5).forEachIndexed { index, ad ->
-            val price = ad.priceEur?.let { "${it.toInt()} €" } ?: "Po dogovoru"
+            val price = formatPrice(ad.priceEur)
             val openIntent = if (ad.url.isNotBlank()) {
                 Intent(Intent.ACTION_VIEW, Uri.parse(ad.url))
             } else {
