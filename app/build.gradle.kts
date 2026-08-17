@@ -30,6 +30,8 @@ android {
         }
         val hideTopic = localProps.getProperty("NTFY_HIDE_TOPIC", "")
         buildConfigField("String", "NTFY_HIDE_TOPIC", "\"$hideTopic\"")
+        val feedToken = localProps.getProperty("GITHUB_FEED_TOKEN", "")
+        buildConfigField("String", "GITHUB_FEED_TOKEN", "\"$feedToken\"")
     }
 
     buildTypes {

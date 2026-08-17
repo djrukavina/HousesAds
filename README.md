@@ -1,6 +1,6 @@
 # HousesAds
 
-Personal real-estate monitor for Croatian listings on **Njuškalo.hr** and **Index.hr**. A Python scraper runs on GitHub Actions (no home PC required), publishes a shared JSON feed, and sends instant Telegram alerts. The **HousesAds** Android app reads that feed, caches listings locally, and notifies you when new matches appear.
+Personal real-estate monitor for Croatian property listings. A Python scraper runs on GitHub Actions (no home PC required), publishes a shared JSON feed, and sends instant Telegram alerts. The **HousesAds** Android app reads that feed, caches listings locally, and notifies you when new matches appear.
 
 ## What it does
 
@@ -12,22 +12,22 @@ The system watches three custom search profiles and only stores ads that pass st
 | **Zagreb apartments** | Zagreb city, **€10,000–€300,000**, at least 3 rooms, living area ≥ 80 m², new build only. Eastern districts excluded. |
 | **Coast houses** | Croatian islands, up to €50,000, near the sea. |
 
-Sources are scraped in parallel from Njuškalo and Index. Index listing pages use Playwright because they are JavaScript SPAs.
+Listing pages that require a browser are fetched with Playwright in CI.
 
 ## Architecture
 
 ```
-GitHub Actions (every 15 min)
+GitHub Actions (scheduled)
         │
         ▼
   Python scraper ──► data/listings.json  ◄── Android app (Room cache)
         │                    │
-        ├── monitor.sqlite3  │  raw GitHub URL
+        ├── monitor.sqlite3  │  GitHub raw URL (+ token if private)
         ├── hidden.json      │
         └── Telegram alert   └── local notifications
 ```
 
-- **`data/listings.json`** — public feed the app downloads
+- **`data/listings.json`** — feed the app downloads
 - **`data/hidden.json`** — IDs you dismissed on the phone (synced via ntfy)
 - **`data/monitor.sqlite3`** — scraper state so Telegram does not repeat old ads
 
@@ -51,6 +51,20 @@ Deleting an ad in the app hides it locally and publishes the ID to an ntfy topic
 - **Default feed:** `https://raw.githubusercontent.com/CurkovicDavid/HousesAds/main/data/listings.json`
 - **Stack:** Jetpack Compose, Room, WorkManager background sync, Material 3
 - **Features:** category tabs, favorites, open listing in browser, pull-to-refresh, system notifications for new ads
+
+### Private repository
+
+This project uses a **private** GitHub repository. The app needs a read-only token to download `listings.json`:
+
+1. Create a fine-grained PAT with **Contents: Read-only** on this repo.
+2. Add to `local.properties` (never commit this file):
+
+```properties
+GITHUB_FEED_TOKEN=ghp_...
+NTFY_HIDE_TOPIC=your-hide-topic
+```
+
+3. Rebuild the app in Android Studio.
 
 ### Run locally
 
@@ -96,7 +110,7 @@ python -m pytest -q
 
 ## GitHub Actions setup
 
-For a fork or fresh deploy, add these **repository secrets**:
+Add these **repository secrets**:
 
 | Secret | Purpose |
 |--------|---------|
@@ -105,13 +119,17 @@ For a fork or fresh deploy, add these **repository secrets**:
 | `NTFY_HIDE_TOPIC` | Private ntfy topic for phone → repo hide sync |
 | `NTFY_TOPIC` | Optional extra push channel |
 
-The scraper workflow runs every **15 minutes** on public repos (free GitHub-hosted minutes). You can also trigger it manually from the Actions tab.
+### Actions minutes (private repo)
+
+On a **free GitHub account**, private repositories include **2,000 Actions minutes per month** (shared across all private repos). Public repos get **unlimited** minutes for standard GitHub-hosted runners.
+
+Each scrape job uses several minutes (Playwright + browser fetch). The workflow is set to **once per hour** to stay within the free allowance. You can trigger an extra run manually from the Actions tab, or switch to a self-hosted runner for unlimited local minutes.
 
 ## CI
 
 - **Tests** — runs on every push to `main` (Kotlin unit tests + Python pytest)
-- **Scrape listings** — cron + manual dispatch; commits updated `data/` when listings change
+- **Scrape listings** — hourly cron + manual dispatch; commits updated `data/` when listings change
 
 ## License
 
-Private personal project. Listing content belongs to Njuškalo and Index; use responsibly and respect their terms of service.
+Private personal project. Listing content belongs to the original publishers; use responsibly and respect their terms of service.

@@ -24,11 +24,15 @@ class OkHttpAdsRemoteDataSource(
 ) : AdsRemoteDataSource {
     override fun fetchAds(): List<AdDto> {
         val url = FeedUrlResolver.resolve(settingsStore.scraperBaseUrl)
-        val request = Request.Builder()
+        val requestBuilder = Request.Builder()
             .url(url)
             .header("Accept", "application/json")
             .header("Cache-Control", "no-cache")
-            .build()
+        val token = BuildConfig.GITHUB_FEED_TOKEN.trim()
+        if (token.isNotEmpty()) {
+            requestBuilder.header("Authorization", "Bearer $token")
+        }
+        val request = requestBuilder.build()
         httpClient.newCall(request).execute().use { response ->
             val body = response.body?.string().orEmpty()
             if (!response.isSuccessful) {
