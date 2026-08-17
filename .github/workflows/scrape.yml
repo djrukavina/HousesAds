@@ -2,8 +2,9 @@ name: Scrape listings
 
 on:
   schedule:
-    # Private repos: 2,000 free Actions minutes/month — hourly keeps usage under the cap.
-    - cron: "0 * * * *"
+    # Private free tier: 2,000 min/month. ~48 runs/day × ~1.5 min ≈ 2,160 min budget
+    # with Playwright cache (heavy install skipped on cache hit). Manual runs are extra.
+    - cron: "*/30 * * * *"
   workflow_dispatch:
 
 concurrency:
@@ -24,10 +25,17 @@ jobs:
           python-version: "3.12"
 
       - name: Cache Playwright browsers
+        id: playwright-cache
         uses: actions/cache@v5
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-chromium
+          key: playwright-${{ runner.os }}-chromium-v1
+
+      - name: Cache pip packages
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-py312-${{ hashFiles('scraper/requirements.txt') }}
 
       - name: Install Python dependencies
         working-directory: scraper
@@ -35,7 +43,12 @@ jobs:
 
       - name: Install Playwright
         working-directory: scraper
-        run: python -m playwright install chromium --with-deps
+        run: |
+          if [ "${{ steps.playwright-cache.outputs.cache-hit }}" = "true" ]; then
+            python -m playwright install chromium
+          else
+            python -m playwright install chromium --with-deps
+          fi
 
       - name: Run scrape cycle
         working-directory: scraper

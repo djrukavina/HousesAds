@@ -123,12 +123,14 @@ Add these **repository secrets**:
 
 On a **free GitHub account**, private repositories include **2,000 Actions minutes per month** (shared across all private repos). Public repos get **unlimited** minutes for standard GitHub-hosted runners.
 
-Each scrape job uses several minutes (Playwright + browser fetch). The workflow is set to **once per hour** to stay within the free allowance. You can trigger an extra run manually from the Actions tab, or switch to a self-hosted runner for unlimited local minutes.
+Each scrape job uses about **1.5–3 minutes** when the Playwright browser cache hits (most runs). The workflow runs **every 30 minutes** (~1,440 runs/month ≈ **1,800–2,000 minutes**), which fits the free allowance when the cache is warm. Occasional cold-cache runs (full browser install) use more minutes; use manual runs sparingly.
+
+You can trigger an extra run from the Actions tab anytime, or switch to a self-hosted runner for unlimited local minutes.
 
 ## CI
 
 - **Tests** — runs on every push to `main` (Kotlin unit tests + Python pytest)
-- **Scrape listings** — hourly cron + manual dispatch; commits updated `data/` when listings change
+- **Scrape listings** — every 30 minutes (cron) + manual dispatch; commits updated `data/` when listings change
 
 ## License
 
