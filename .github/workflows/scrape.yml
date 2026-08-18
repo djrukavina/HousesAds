@@ -2,9 +2,8 @@ name: Scrape listings
 
 on:
   schedule:
-    # Private free tier: 2,000 min/month. ~48 runs/day × ~1.5 min ≈ 2,160 min budget
-    # with Playwright cache (heavy install skipped on cache hit). Manual runs are extra.
-    - cron: "*/30 * * * *"
+    # Private free tier: 2,000 min/month. Hourly (~720 runs × ~2 min) stays under the cap.
+    - cron: "0 * * * *"
   workflow_dispatch:
 
 concurrency:

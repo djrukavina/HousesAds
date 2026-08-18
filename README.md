@@ -102,7 +102,7 @@ Add these **repository secrets**:
 ## CI
 
 - **Tests** — runs on every push to `main` (Kotlin unit tests + Python pytest)
-- **Scrape listings** — every 30 minutes (cron) + manual dispatch; commits updated `data/` when listings change
+- **Scrape listings** — hourly cron + manual dispatch; commits updated `data/` when listings change
 
 ## License
 
