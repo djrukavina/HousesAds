@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:47003012",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Kuća: Zagreb (Kustošija), 222.00 m2",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-zagreb-gornje-vrapce-222.00-m2-oglas-47003012",
+      "priceEur": 280000.0,
+      "location": "Kuća: Zagreb (Kustošija), 222.00 m2\n\nKuća: Zagreb (Kustošija), 222.00 m2 (prodaj",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Kustošija), 222.00 m2, katnica, samostojeća, zidana kuća (beton, opeka), (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-zagreb-gornje-vrapce-222.00-m2-slika-248978072.jpg",
+      "postedAtMillis": 1787180279732,
+      "houseType": "detached",
+      "rooms": 5.0,
+      "yardM2": 360.0,
+      "livingM2": 222.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:48179467",
       "source": "njuskalo",
       "watchId": "coast_houses",
