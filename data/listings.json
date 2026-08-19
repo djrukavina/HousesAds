@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:48179467",
+      "source": "njuskalo",
+      "watchId": "coast_houses",
+      "title": "GORSKI KOTAR, BROD MORAVICE- kuća za obnovu s zemljištem!!",
+      "url": "https://www.njuskalo.hr/nekretnine/gorski-kotar-brod-moravice-kuca-obnovu-zemljistem-oglas-48179467",
+      "priceEur": 35000.0,
+      "location": "GORSKI KOTAR, BROD MORAVICE- kuća za obnovu s zemljištem!!\n\nGORSKI KOTAR, BROD M",
+      "category": "Kuće otoci",
+      "description": "Kuća: Završje, 88.00 m2, prizemnica, samostojeća, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/gorski-kotar-brod-moravice-kuca-obnovu-zemljistem-slika-259725030.jpg",
+      "postedAtMillis": 1787148614377,
+      "houseType": "detached",
+      "rooms": 3.0,
+      "yardM2": 524.0,
+      "livingM2": 88.0,
+      "isNewBuild": true,
+      "nearSea": true
+    },
+    {
       "id": "njuskalo:46181140",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
