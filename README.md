@@ -1,6 +1,6 @@
 # HousesAds
 
-Personal real-estate monitor for Croatian property listings. A Python scraper runs on GitHub Actions (no home PC required), publishes a shared JSON feed, and sends instant Telegram alerts. The **HousesAds** Android app reads that feed, caches listings locally, and notifies you when new matches appear.
+Personal real-estate monitor for Croatian property listings. A Python scraper runs on GitHub Actions (no home PC required), publishes a shared JSON feed, and sends instant Telegram alerts. The **HousesAds** Android app reads that feed and caches listings locally for browsing.
 
 ## What it does
 
@@ -24,7 +24,7 @@ GitHub Actions (scheduled)
         │                    │
         ├── monitor.sqlite3  │  GitHub raw URL
         ├── hidden.json      │
-        └── Telegram alert   └── local notifications
+        └── Telegram alert   └── (browse in app)
 ```
 
 - **`data/listings.json`** — feed the app downloads
@@ -50,7 +50,8 @@ Deleting an ad in the app hides it locally and publishes the ID to an ntfy topic
 - **Package:** `com.housesads`
 - **Default feed:** `https://raw.githubusercontent.com/CurkovicDavid/HousesAds/main/data/listings.json`
 - **Stack:** Jetpack Compose, Room, WorkManager background sync, Material 3
-- **Features:** category tabs, favorites, open listing in browser, pull-to-refresh, system notifications for new ads
+- **Features:** category tabs, favorites, open listing in browser, pull-to-refresh, background sync
+- **Alerts:** handled exclusively by Telegram (no duplicate phone notifications)
 
 ### Run locally
 

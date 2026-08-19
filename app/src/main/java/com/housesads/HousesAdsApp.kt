@@ -8,7 +8,6 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.housesads.di.AppContainer
-import com.housesads.notify.NewAdNotifier
 import com.housesads.sync.AdSyncWorker
 import java.util.concurrent.TimeUnit
 
@@ -22,7 +21,6 @@ class HousesAdsApp : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         container = AppContainer(this)
-        NewAdNotifier.createChannel(this)
         scheduleSync()
     }
 
