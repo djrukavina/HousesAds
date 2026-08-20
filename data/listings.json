@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:51303239",
+      "source": "njuskalo",
+      "watchId": "coast_houses",
+      "title": "Gospić,Medak građevinsko zemljište sa dozvolom",
+      "url": "https://www.njuskalo.hr/nekretnine/gospic-medak-gradevinsko-zemljiste-dozvolom-oglas-51303239",
+      "priceEur": 32000.0,
+      "location": "Gospić,Medak građevinsko zemljište sa dozvolom\n\nGospić,Medak građevinsko zemljiš",
+      "category": "Kuće otoci",
+      "description": "Kuća: Medak, 50.00 m2, prizemnica, samostojeća, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/gospic-medak-gradevinsko-zemljiste-dozvolom-slika-283621315.jpg",
+      "postedAtMillis": 1787267022815,
+      "houseType": "row",
+      "rooms": 3.0,
+      "yardM2": 1.59,
+      "livingM2": 50.0,
+      "isNewBuild": true,
+      "nearSea": true
+    },
+    {
       "id": "njuskalo:49843173",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
