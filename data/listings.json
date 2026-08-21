@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:51185206",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Zagreb, Gornje Vrapce, kuca na zemljistu od 1180 m2",
+      "url": "https://www.njuskalo.hr/nekretnine/zagreb-gornje-vrapce-kuca-1180m2-dvorista-oglas-51185206",
+      "priceEur": 180000.0,
+      "location": "Zagreb, Gornje Vrapce, kuca na zemljistu od 1180 m2\n\nZagreb, Gornje Vrapce, kuca",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Trdica), 120.00 m2, katnica, samostojeća, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/zagreb-gornje-vrapce-kuca-1180m2-dvorista-slika-282623544.jpg",
+      "postedAtMillis": 1787299557696,
+      "houseType": "detached",
+      "rooms": 5.0,
+      "yardM2": 3035.0,
+      "livingM2": 120.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:51303239",
       "source": "njuskalo",
       "watchId": "coast_houses",
