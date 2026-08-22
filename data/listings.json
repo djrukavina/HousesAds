@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:49956321",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Kuća za adaptaciju Zagreb",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-adaptaciju-zagreb-oglas-49956321",
+      "priceEur": 152000.0,
+      "location": "Kuća za adaptaciju Zagreb\n\nKuća za adaptaciju Zagreb (prodaja)\nKoristimo kolačić",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Orešje), 95.00 m2, katnica, samostojeća, zidana kuća (beton, opeka), (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-adaptaciju-zagreb-slika-272682039.jpg",
+      "postedAtMillis": 1787389383118,
+      "houseType": "detached",
+      "rooms": 2.0,
+      "yardM2": 350.0,
+      "livingM2": 95.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:47250151",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
