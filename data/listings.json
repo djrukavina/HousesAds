@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:47250151",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "NOVI ZAGREB - BLATO - OBITELJSKI STANOVI U IZGRADNJI!",
+      "url": "https://www.njuskalo.hr/nekretnine/zagreb-blato-obiteljski-stanovi-izgradnji-oglas-47250151",
+      "priceEur": 288804.0,
+      "location": "NOVI ZAGREB - BLATO - OBITELJSKI STANOVI U IZGRADNJI!\n\nNOVI ZAGREB - BLATO - OBI",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Blato), 86.21 m2novogradnja, (prodaja), stan  u stambenoj zgradi, 1. kat",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/zagreb-blato-obiteljski-stanovi-izgradnji-slika-267868891.jpg",
+      "postedAtMillis": 1787384841381,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 86.21,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:50171771",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
