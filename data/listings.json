@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50778674",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Stan, Zagreb Centar (kod Botaničkog vrta): 90 m² + podrum 20 m²",
+      "url": "https://www.njuskalo.hr/nekretnine/stan-zagreb-centar-kod-botanickog-vrta-90-m-podrum-20-m-oglas-50778674",
+      "priceEur": 284990.0,
+      "location": "Stan, Zagreb Centar (kod Botaničkog vrta): 90 m² + podrum 20 m²\n\nStan, Zagreb Ce",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Donji Grad), 90.00 m2, (prodaja), stan  u stambenoj zgradi, 3. kat",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/stan-zagreb-centar-kod-botanickog-vrta-90-m-podrum-20-m-slika-279359039.jpg",
+      "postedAtMillis": 1787406301087,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 90.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:49956321",
       "source": "njuskalo",
       "watchId": "zagreb_houses",
