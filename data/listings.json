@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:49823748",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Kuća: Zagreb (Blaguša), 168.00 m2, 133000 €",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-zagreb-blagusa-168.00-m2-133000-oglas-49823748",
+      "priceEur": 133000.0,
+      "location": "Kuća: Zagreb (Blaguša), 168.00 m2, 133000 €\n\nKuća: Zagreb (Blaguša), 168.00 m2, ",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Blaguša), 168.00 m2, katnica, samostojeća, zidana kuća (beton, opeka), (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-zagreb-blagusa-168.00-m2-133000-slika-271664369.jpg",
+      "postedAtMillis": 1787475819777,
+      "houseType": "detached",
+      "rooms": 4.0,
+      "yardM2": 874.0,
+      "livingM2": 168.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:50402779",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
