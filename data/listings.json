@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:51339852",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Kuća s dvije stambene jedinice i poslovnim objektom – Ilica, Zagreb",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-dvije-stambene-jedinice-poslovnim-objektom-ilica-zagreb-oglas-51339852",
+      "priceEur": 250000.0,
+      "location": "Kuća s dvije stambene jedinice i poslovnim objektom – Ilica, Zagreb\n\nKuća s dvij",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Kustošija), 364.00 m2, katnica, samostojeća, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-dvije-stambene-jedinice-poslovnim-objektom-ilica-zagreb-slika-283866965.jpg",
+      "postedAtMillis": 1787525577541,
+      "houseType": "row",
+      "rooms": 7.0,
+      "yardM2": 262.0,
+      "livingM2": 364.0,
+      "isNewBuild": true,
+      "nearSea": true
+    },
+    {
       "id": "njuskalo:49958267",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
