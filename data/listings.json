@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:51344934",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Kuća: Zagreb (Ferenščica), 150.00 m2",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-zagreb-ferenscica-150.00-m2-oglas-51344934",
+      "priceEur": 220000.0,
+      "location": "Kuća: Zagreb (Ferenščica), 150.00 m2\n\nKuća: Zagreb (Ferenščica), 150.00 m2 (prod",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Ferenščica), 150.00 m2, katnica, samostojeća, zidana kuća (beton, opeka), (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-zagreb-ferenscica-150.00-m2-slika-283903543.jpg",
+      "postedAtMillis": 1787762234689,
+      "houseType": "detached",
+      "rooms": 8.0,
+      "yardM2": 40.0,
+      "livingM2": 150.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:47595659",
       "source": "njuskalo",
       "watchId": "zagreb_houses",
