@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:47595659",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Zagreb, Mikulići, ul. Talani, parcela 531m2 sa kućom",
+      "url": "https://www.njuskalo.hr/nekretnine/zagreb-mikulici-ul-talani-parcela-531m2-kucom-oglas-47595659",
+      "priceEur": 119000.0,
+      "location": "Zagreb, Mikulići, ul. Talani, parcela 531m2 sa kućom\n\nZagreb, Mikulići, ul. Tala",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Mikulići), 80.00 m2, katnica, samostojeća, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/zagreb-mikulici-ul-talani-parcela-531m2-kucom-slika-254752510.jpg",
+      "postedAtMillis": 1787745762539,
+      "houseType": "detached",
+      "rooms": 4.0,
+      "yardM2": 531.0,
+      "livingM2": 80.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:50967986",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
