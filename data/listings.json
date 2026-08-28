@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50377507",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "ZGB-BREZOVICA: Prodaje se starinska kućica podno rascvjetalih voćkica!",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-zagreb-brezovica-49.00-m2-oglas-50377507",
+      "priceEur": 105000.0,
+      "location": "ZGB-BREZOVICA: Prodaje se starinska kućica podno rascvjetalih voćkica!\n\nZGB-BREZ",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Brezovica), 49.00 m2, prizemnica, samostojeća, drvena kuća, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-zagreb-brezovica-49.00-m2-slika-275940836.jpg",
+      "postedAtMillis": 1787954939494,
+      "houseType": "row",
+      "rooms": 3.0,
+      "yardM2": 317.0,
+      "livingM2": 49.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:47373907",
       "source": "njuskalo",
       "watchId": "coast_houses",
