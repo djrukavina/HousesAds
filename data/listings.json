@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:48460637",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Kuća: Zagreb (Gračani), top lokacija - 170.00 m2",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-zagreb-gracani-top-lokacija-170.00-m2-oglas-48460637",
+      "priceEur": 295000.0,
+      "location": "Kuća: Zagreb (Gračani), top lokacija - 170.00 m2\n\nKuća: Zagreb (Gračani), top lo",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Gračani), 170.00 m2, dvokatnica, samostojeća, zidana kuća (beton, opeka), (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-zagreb-gracani-top-lokacija-170.00-m2-slika-261000937.jpg",
+      "postedAtMillis": 1787998136137,
+      "houseType": "detached",
+      "rooms": 6.0,
+      "yardM2": 522.0,
+      "livingM2": 170.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:46363902",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
