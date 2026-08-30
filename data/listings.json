@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:43157729",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Kuća: Zagreb (Bijenik), 240.00 m2 + garaža na 642 m2",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-zagreb-bijenik-240.00-m2-garaza-642-m2-oglas-43157729",
+      "priceEur": 270000.0,
+      "location": "Kuća: Zagreb (Bijenik), 240.00 m2 + garaža na 642 m2\n\nKuća: Zagreb (Bijenik), 24",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Bijenik), 240.00 m2, katnica, samostojeća, zidana kuća (beton, opeka), (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-zagreb-bijenik-240.00-m2-garaza-642-m2-slika-216271131.jpg",
+      "postedAtMillis": 1788106163594,
+      "houseType": "detached",
+      "rooms": 5.0,
+      "yardM2": 642.0,
+      "livingM2": 240.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:50178913",
       "source": "njuskalo",
       "watchId": "zagreb_houses",
