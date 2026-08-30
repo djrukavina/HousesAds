@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50178913",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Brezovica, kuća u nizu, ZADNJA DOSTUPNA",
+      "url": "https://www.njuskalo.hr/nekretnine/brezovica-kuca-nizu-zadnja-dostupna-oglas-50178913",
+      "priceEur": 290000.0,
+      "location": "Brezovica, kuća u nizu, ZADNJA DOSTUPNA\n\nBrezovica, kuća u nizu, ZADNJA DOSTUPNA",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Hudi Bitek), 133.75 m2, višekatnica, u nizu, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/brezovica-kuca-nizu-zadnja-dostupna-slika-281056349.jpg",
+      "postedAtMillis": 1788102558061,
+      "houseType": "row",
+      "rooms": 4.0,
+      "yardM2": 218.0,
+      "livingM2": 133.75,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:51399087",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
