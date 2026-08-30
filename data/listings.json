@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:49917266",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Kuća: Zagreb (Trešnjevka), 38.00 m2, 2 sp. sobe, PM",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-zagreb-tresnjevka-38.00-m2-oglas-49917266",
+      "priceEur": 145000.0,
+      "location": "Kuća: Zagreb (Trešnjevka), 38.00 m2, 2 sp. sobe, PM\n\nKuća: Zagreb (Trešnjevka), ",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Trešnjevka), 38.00 m2, prizemnica, dvojna (duplex), zidana kuća (beton, opeka), (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-zagreb-tresnjevka-38.00-m2-slika-272360810.jpg",
+      "postedAtMillis": 1788120528277,
+      "houseType": "row",
+      "rooms": 3.0,
+      "yardM2": 150.0,
+      "livingM2": 38.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:43157729",
       "source": "njuskalo",
       "watchId": "zagreb_houses",
