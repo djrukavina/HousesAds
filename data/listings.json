@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:49587305",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Zagreb, Remete! Roh bau kuća s okućnicom!",
+      "url": "https://www.njuskalo.hr/nekretnine/zagreb-remete-kuca-okucnicom-oglas-49587305",
+      "priceEur": 199500.0,
+      "location": "Zagreb, Remete! Roh bau kuća s okućnicom!\n\nZagreb, Remete! Roh bau kuća s okućni",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Remete), 150.00 m2, prizemnica, samostojeća, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/zagreb-remete-kuca-okucnicom-slika-269826192.jpg",
+      "postedAtMillis": 1788080935995,
+      "houseType": "detached",
+      "rooms": 5.0,
+      "yardM2": 483.0,
+      "livingM2": 150.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:51397494",
       "source": "njuskalo",
       "watchId": "zagreb_houses",
