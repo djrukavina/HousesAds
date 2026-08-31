@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:51029936",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Zagreb, Hrvatski Leskovac, samostojeća obiteljska kuća, 189 m2",
+      "url": "https://www.njuskalo.hr/nekretnine/zagreb-hrvatski-leskovac-samostojeca-obiteljska-kuca-189-m2-oglas-51029936",
+      "priceEur": 260000.0,
+      "location": "Zagreb, Hrvatski Leskovac, samostojeća obiteljska kuća, 189 m2\n\nZagreb, Hrvatski",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Hrvatski Leskovac), 189.24 m2, visoka prizemnica, samostojeća, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/zagreb-hrvatski-leskovac-samostojeca-obiteljska-kuca-189-m2-slika-281471123.jpg",
+      "postedAtMillis": 1788167340358,
+      "houseType": "row",
+      "rooms": 5.0,
+      "yardM2": 674.0,
+      "livingM2": 189.24,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:45767142",
       "source": "njuskalo",
       "watchId": "zagreb_houses",
