@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:47328416",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Donji grad, CENTAR- trosoban stan na Britancu, 4. kat, 83 m2, 259500€",
+      "url": "https://www.njuskalo.hr/nekretnine/centar-ilica-trosoban-stan-obnovljenoj-zgradi-4-kat-83-m2-oglas-47328416",
+      "priceEur": 259500.0,
+      "location": "Donji grad, CENTAR- trosoban stan na Britancu, 4. kat, 83 m2, 259500€\n\nDonji gra",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Donji Grad), 83.00 m2, (prodaja), stan  u stambenoj zgradi, 4. kat",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/centar-ilica-trosoban-stan-obnovljenoj-zgradi-4-kat-83-m2-slika-252251145.jpg",
+      "postedAtMillis": 1788188990963,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 83.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:50235344",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
@@ -35,25 +54,6 @@
       "rooms": 3.0,
       "yardM2": 267.876,
       "livingM2": 82.0,
-      "isNewBuild": true,
-      "nearSea": false
-    },
-    {
-      "id": "njuskalo:50239309",
-      "source": "njuskalo",
-      "watchId": "zagreb_houses",
-      "title": "Kuća za rušenje, 55 m2 sa zemljištom, Gračani (Zagreb)",
-      "url": "https://www.njuskalo.hr/nekretnine/kuca-rusenje-55-m2-zemljistom-gracani-zagreb-oglas-50239309",
-      "priceEur": 159000.0,
-      "location": "Kuća za rušenje, 55 m2 sa zemljištom, Gračani (Zagreb)\n\nKuća za rušenje, 55 m2 s",
-      "category": "Kuće Zagreb",
-      "description": "Kuća: Zagreb (Gračani), 55.00 m2, prizemnica, samostojeća, (prodaja)",
-      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-rusenje-55-m2-zemljistom-gracani-zagreb-slika-274721392.jpg",
-      "postedAtMillis": 1788174560647,
-      "houseType": "detached",
-      "rooms": 3.0,
-      "yardM2": 600.0,
-      "livingM2": 55.0,
       "isNewBuild": true,
       "nearSea": false
     },
