@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:45262819",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Obiteljska kuća: Zagreb (Brezovica), 200.00 m2",
+      "url": "https://www.njuskalo.hr/nekretnine/obiteljska-kuca-zagreb-brezovica-200.00-m2-oglas-45262819",
+      "priceEur": 250000.0,
+      "location": "Obiteljska kuća: Zagreb (Brezovica), 200.00 m2\n\nObiteljska kuća: Zagreb (Brezovi",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Brezovica), 200.00 m2, katnica, samostojeća, zidana kuća (beton, opeka), (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/obiteljska-kuca-zagreb-brezovica-200.00-m2-slika-232198248.jpg",
+      "postedAtMillis": 1788170937138,
+      "houseType": "row",
+      "rooms": 4.0,
+      "yardM2": 2.189,
+      "livingM2": 200.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:51029936",
       "source": "njuskalo",
       "watchId": "zagreb_houses",
