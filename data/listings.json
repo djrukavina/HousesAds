@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:27854490",
+      "source": "njuskalo",
+      "watchId": "coast_houses",
+      "title": "Kuća: Hercegovac, visoka prizemnica, 110 m2",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-hercegovac-visoka-prizemnica-110-m2-oglas-27854490",
+      "priceEur": 50000.0,
+      "location": "Kuća: Hercegovac, visoka prizemnica, 110 m2\n\nKuća: Hercegovac, visoka prizemnica",
+      "category": "Kuće otoci",
+      "description": "Kuća: Hercegovac, 110.00 m2, visoka prizemnica, samostojeća, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-hercegovac-visoka-prizemnica-110-m2-slika-111617731.jpg",
+      "postedAtMillis": 1788156705730,
+      "houseType": "detached",
+      "rooms": 3.0,
+      "yardM2": 1.5,
+      "livingM2": 110.0,
+      "isNewBuild": true,
+      "nearSea": true
+    },
+    {
       "id": "njuskalo:49917266",
       "source": "njuskalo",
       "watchId": "zagreb_houses",
