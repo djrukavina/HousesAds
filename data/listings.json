@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:45767142",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Brezovica, Kuće u nizu s vrtom, novogradnja",
+      "url": "https://www.njuskalo.hr/nekretnine/brezovica-kuce-nizu-vrtom-novogradnja-oglas-45767142",
+      "priceEur": 290000.0,
+      "location": "Brezovica, Kuće u nizu s vrtom, novogradnja\n\nBrezovica, Kuće u nizu s vrtom, nov",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Brezovica), 117.00 m2, katnica, samostojeća, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/brezovica-kuce-nizu-vrtom-novogradnja-slika-282289844.jpg",
+      "postedAtMillis": 1788163760093,
+      "houseType": "row",
+      "rooms": 4.0,
+      "yardM2": 218.0,
+      "livingM2": 117.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:27854490",
       "source": "njuskalo",
       "watchId": "coast_houses",
