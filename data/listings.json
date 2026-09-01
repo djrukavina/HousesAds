@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50644975",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Zagreb, Hrvatski Leskovac, tri troetažna stana (investicija)",
+      "url": "https://www.njuskalo.hr/nekretnine/zagreb-hrvatski-leskovac-tri-troetazna-stana-investicija-oglas-50644975",
+      "priceEur": 240000.0,
+      "location": "Zagreb, Hrvatski Leskovac, tri troetažna stana (investicija)\n\nZagreb, Hrvatski L",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Hrvatski Leskovac), 334.00 m2, (prodaja), stan  u stambenoj zgradi",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/zagreb-hrvatski-leskovac-tri-troetazna-stana-investicija-slika-278251610.jpg",
+      "postedAtMillis": 1788286784411,
+      "houseType": "row",
+      "rooms": 3.0,
+      "yardM2": 231.0,
+      "livingM2": 334.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:51404318",
       "source": "njuskalo",
       "watchId": "zagreb_houses",
