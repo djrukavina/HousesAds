@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:47493032",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Podsused, 4-sobni S2-3, 119,20 m2, terasa GPM, NOVOGRADNJA!",
+      "url": "https://www.njuskalo.hr/nekretnine/podsused-3-sobni-72.89-m2-terasa-gpm-novogradnja-oglas-47493032",
+      "priceEur": 255000.0,
+      "location": "Podsused, 4-sobni S2-3, 119,20 m2, terasa GPM, NOVOGRADNJA!\n\nPodsused, 4-sobni S",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Podsused), 119.20 m2novogradnja, (prodaja), stan  u stambenoj zgradi, 2. kat",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/podsused-3-sobni-72.89-m2-terasa-gpm-novogradnja-slika-279775719.jpg",
+      "postedAtMillis": 1788300918045,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": 300.0,
+      "livingM2": 119.2,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:50644975",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
