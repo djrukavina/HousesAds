@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:51404318",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Zagreb, Oporovec – moderno uređena kuća s pogledom i okućnicom",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-zagreb-oporovec-115.00-m2-oglas-51404318",
+      "priceEur": 269000.0,
+      "location": "Zagreb, Oporovec – moderno uređena kuća s pogledom i okućnicom\n\nZagreb, Oporovec",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Oporovec), 110.00 m2, višekatnica, samostojeća, zidana kuća (beton, opeka), (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-zagreb-oporovec-115.00-m2-slika-284386587.jpg",
+      "postedAtMillis": 1788268622161,
+      "houseType": "row",
+      "rooms": 3.0,
+      "yardM2": 550.0,
+      "livingM2": 110.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:46560661",
       "source": "njuskalo",
       "watchId": "zagreb_houses",
