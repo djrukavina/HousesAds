@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:45413328",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Prodaja,Zagreb,Gornja Kustošija, dvojna kuća s garažom,velika okućnica",
+      "url": "https://www.njuskalo.hr/nekretnine/prodaja-zagreb-gornja-kustosija-dvojna-kuca-garazom-velika-okucnica-oglas-45413328",
+      "priceEur": 280000.0,
+      "location": "Prodaja,Zagreb,Gornja Kustošija, dvojna kuća s garažom,velika okućnica\n\nProdaja,",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Črnomerec), 200.00 m2, višekatnica, dvojna (duplex), (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/prodaja-zagreb-gornja-kustosija-dvojna-kuca-garazom-velika-okucnica-slika-252186803.jpg",
+      "postedAtMillis": 1788337113435,
+      "houseType": "detached",
+      "rooms": 3.0,
+      "yardM2": 295.0,
+      "livingM2": 200.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:50307017",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
