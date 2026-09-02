@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50891175",
+      "source": "njuskalo",
+      "watchId": "coast_houses",
+      "title": "Kuća s velikim zemljištem i gospodarskim objektima – Purga (Lepoglava)",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-velikim-zemljistem-gospodarskim-objektima-purga-lepoglava-oglas-50891175",
+      "priceEur": 46000.0,
+      "location": "Kuća s velikim zemljištem i gospodarskim objektima – Purga (Lepoglava)\n\nKuća s v",
+      "category": "Kuće otoci",
+      "description": "Kuća: Purga, 60.00 m2, prizemnica, samostojeća, zidana kuća (beton, opeka), (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-velikim-zemljistem-gospodarskim-objektima-purga-lepoglava-slika-280333028.jpg",
+      "postedAtMillis": 1788380258321,
+      "houseType": "row",
+      "rooms": 2.0,
+      "yardM2": 1.2,
+      "livingM2": 60.0,
+      "isNewBuild": true,
+      "nearSea": true
+    },
+    {
       "id": "njuskalo:50390832",
       "source": "njuskalo",
       "watchId": "coast_houses",
