@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:49016675",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Prodaja kuće, Zagreb, Ferenščica, 325m2",
+      "url": "https://www.njuskalo.hr/nekretnine/prodaja-kuce-zagreb-ferenscica-325m2-oglas-49016675",
+      "priceEur": 285000.0,
+      "location": "Prodaja kuće, Zagreb, Ferenščica, 325m2\n\nProdaja kuće, Zagreb, Ferenščica, 325m2",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Ferenščica), 325.00 m2, dvokatnica, u nizu, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/prodaja-kuce-zagreb-ferenscica-325m2-slika-277363432.jpg",
+      "postedAtMillis": 1788340661211,
+      "houseType": "row",
+      "rooms": 12.0,
+      "yardM2": 12.0,
+      "livingM2": 325.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:45413328",
       "source": "njuskalo",
       "watchId": "zagreb_houses",
