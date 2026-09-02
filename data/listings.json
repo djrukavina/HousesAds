@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50307017",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Brezovica centar, kuće u nizu, novi projekt",
+      "url": "https://www.njuskalo.hr/nekretnine/brezovica-centar-kuce-nizu-projekt-oglas-50307017",
+      "priceEur": 250000.0,
+      "location": "Brezovica centar, kuće u nizu, novi projekt\n\nBrezovica centar, kuće u nizu, novi",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Brezovica), 90.45 m2novogradnja, (prodaja), stan  u stambenoj zgradi, prizemlje",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/brezovica-centar-kuce-nizu-projekt-slika-278675544.jpg",
+      "postedAtMillis": 1788333443296,
+      "houseType": "row",
+      "rooms": 3.0,
+      "yardM2": 275.744,
+      "livingM2": 90.45,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:51415651",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
