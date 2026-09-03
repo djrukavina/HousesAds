@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50337541",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Zagreb, Gornje Vrapče, dvosoban stan 84 m², NOVOGRADNJA",
+      "url": "https://www.njuskalo.hr/nekretnine/zagreb-gornje-vrapce-dvosoban-stan-84-m-novogradnja-oglas-50337541",
+      "priceEur": 294550.0,
+      "location": "Zagreb, Gornje Vrapče, dvosoban stan 84 m², NOVOGRADNJA\n\nZagreb, Gornje Vrapče, ",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Gornje Vrapče), 84.15 m2novogradnja, (prodaja), stan  u stambenoj zgradi, visoko prizemlje",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/zagreb-gornje-vrapce-dvosoban-stan-84-m-novogradnja-slika-284553407.jpg",
+      "postedAtMillis": 1788441501354,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 84.15,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:49383398",
       "source": "njuskalo",
       "watchId": "zagreb_houses",
