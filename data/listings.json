@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50160667",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Kuća: Zagreb (Dubravica), 72.00 m2",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-zagreb-dubravica-72.00-m2-oglas-50160667",
+      "priceEur": 169000.0,
+      "location": "Kuća: Zagreb (Dubravica), 72.00 m2\n\nKuća: Zagreb (Dubravica), 72.00 m2 (prodaja)",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Dubravica), 72.00 m2, visoka prizemnica, samostojeća, zidana kuća (beton, opeka), (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-zagreb-dubravica-72.00-m2-slika-274040848.jpg",
+      "postedAtMillis": 1788498936412,
+      "houseType": "detached",
+      "rooms": 3.0,
+      "yardM2": 523.0,
+      "livingM2": 72.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:51434272",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
