@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:51452649",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Kuća: Zagreb (Kozari bok), 57.00 m2",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-zagreb-kozari-bok-57.00-m2-oglas-51452649",
+      "priceEur": 150000.0,
+      "location": "Kuća: Zagreb (Kozari bok), 57.00 m2\n\nKuća: Zagreb (Kozari bok), 57.00 m2 (prodaj",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Kozari Bok), 57.00 m2, prizemnica, samostojeća, zidana kuća (beton, opeka), (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-zagreb-kozari-bok-57.00-m2-slika-284761900.jpg",
+      "postedAtMillis": 1788621318191,
+      "houseType": "detached",
+      "rooms": 3.0,
+      "yardM2": 129.0,
+      "livingM2": 57.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:48195184",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
