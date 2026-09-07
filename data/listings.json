@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "index:7526960",
+      "source": "index",
+      "watchId": "zagreb_houses",
+      "title": "07.09.2026. PRODAJA kuća Brezovica, blizina autobusne stanice, okolica Arena Zagreb 180.000 € 750 €/m 2 240 M2 Brezovica Privatni prodavač Promoviran",
+      "url": "https://www.index.hr/oglasi/nekretnine/prodaja-kuca/oglas/prodaja-kuca-brezovica-blizina-autobusne-stanice-okolica-arena-zagreb/7526960",
+      "priceEur": 180000.0,
+      "location": "07.09.2026. PRODAJA kuća Brezovica",
+      "category": "Kuće Zagreb",
+      "description": "07.09.2026. PRODAJA kuća Brezovica, blizina autobusne stanice, okolica Arena Zagreb 180.000 € 750 €/m 2 240 M2 Brezovica Privatni prodavač Promoviran",
+      "imageUrl": null,
+      "postedAtMillis": 1788783805295,
+      "houseType": "detached",
+      "rooms": 9.0,
+      "yardM2": 520.0,
+      "livingM2": 240.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:50332909",
       "source": "njuskalo",
       "watchId": "zagreb_houses",
