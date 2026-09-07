@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50179657",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "PRODAJA STANA ZAGREB – 3-SOBNI STAN",
+      "url": "https://www.njuskalo.hr/nekretnine/prodaja-stana-zagreb-3-sobni-stan-oglas-50179657",
+      "priceEur": 293370.0,
+      "location": "PRODAJA STANA ZAGREB – 3-SOBNI STAN\n\nPRODAJA STANA ZAGREB – 3-SOBNI STAN (prodaj",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Veliko Polje), 83.82 m2novogradnja, (prodaja), stan  u stambenoj zgradi, 3. kat",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/prodaja-stana-zagreb-3-sobni-stan-slika-277486485.jpg",
+      "postedAtMillis": 1788787164632,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 83.82,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "index:7526960",
       "source": "index",
       "watchId": "zagreb_houses",
