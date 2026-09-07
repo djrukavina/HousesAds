@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50645373",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "KUĆA, PRODAJA, SAMOBOR, PERIVOJ, 150 m2, 4-sobna",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-prodaja-samobor-perivoj-150-m2-4-sobna-oglas-50645373",
+      "priceEur": 280000.0,
+      "location": "KUĆA, PRODAJA, SAMOBOR, PERIVOJ, 150 m2, 4-sobna\n\nKUĆA, PRODAJA, SAMOBOR, PERIVO",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Samobor, 150.00 m2, dvokatnica, samostojeća, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-prodaja-samobor-perivoj-150-m2-4-sobna-slika-278257433.jpg",
+      "postedAtMillis": 1788822965994,
+      "houseType": "detached",
+      "rooms": 3.0,
+      "yardM2": 347.0,
+      "livingM2": 150.0,
+      "isNewBuild": true,
+      "nearSea": true
+    },
+    {
       "id": "njuskalo:46758384",
       "source": "njuskalo",
       "watchId": "zagreb_houses",
