@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50657779",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Zagreb, Malešnica dvoetažan trosoban stan NKP 99,61 m2",
+      "url": "https://www.njuskalo.hr/nekretnine/zagreb-malesnica-dvoetazan-trosoban-stan-nkp-99.61-m2-oglas-50657779",
+      "priceEur": 300000.0,
+      "location": "Zagreb, Malešnica dvoetažan trosoban stan NKP 99,61 m2\n\nZagreb, Malešnica dvoeta",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Malešnica), 99.00 m2, (prodaja), stan  u stambenoj zgradi, prizemlje",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/zagreb-malesnica-dvoetazan-trosoban-stan-nkp-99.61-m2-slika-278359393.jpg",
+      "postedAtMillis": 1788772725652,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": 265.0,
+      "livingM2": 99.0,
+      "isNewBuild": true,
+      "nearSea": true
+    },
+    {
       "id": "njuskalo:48384352",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
