@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50332909",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Zagreb, blizina Radničke 285 m², 1700 m² zemlje,3 stana u najmu",
+      "url": "https://www.njuskalo.hr/nekretnine/zagreb-blizina-radnicke-kuca-285-m-1700-m-zemljista-oglas-50332909",
+      "priceEur": 269000.0,
+      "location": "Zagreb, blizina Radničke 285 m², 1700 m² zemlje,3 stana u najmu\n\nZagreb, blizina",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Petruševec), 285.00 m2, dvokatnica, samostojeća, zidana kuća (beton, opeka), (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/zagreb-blizina-radnicke-kuca-285-m-1700-m-zemljista-slika-275950223.jpg",
+      "postedAtMillis": 1788779830882,
+      "houseType": "detached",
+      "rooms": 8.0,
+      "yardM2": 1.7,
+      "livingM2": 285.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:50657779",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
