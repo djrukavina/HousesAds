@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:46758384",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Kuća: Zagreb (Lukšić), 62.00 m2",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-zagreb-luksic-62.00-m2-oglas-46758384",
+      "priceEur": 90000.0,
+      "location": "Kuća: Zagreb (Lukšić), 62.00 m2\n\nKuća: Zagreb (Lukšić), 62.00 m2 (prodaja)\nKoris",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Lukšić), 62.00 m2, prizemnica, samostojeća, drvena kuća, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-zagreb-luksic-62.00-m2-slika-246512463.jpg",
+      "postedAtMillis": 1788805192256,
+      "houseType": "detached",
+      "rooms": 5.0,
+      "yardM2": 600.0,
+      "livingM2": 62.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:50179657",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
