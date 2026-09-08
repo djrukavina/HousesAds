@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:51477269",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Kuća: Zagreb (Sveta Klara), 170 m2, dvije etaže + pomoćna zgrada",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-zagreb-sveta-klara-170-m2-dvije-etaze-pomocna-zgrada-oglas-51477269",
+      "priceEur": 239000.0,
+      "location": "Kuća: Zagreb (Sveta Klara), 170 m2, dvije etaže + pomoćna zgrada\n\nKuća: Zagreb (",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Sveta Klara), 170.00 m2, visoka prizemnica, samostojeća, zidana kuća (beton, opeka), (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-zagreb-sveta-klara-170-m2-dvije-etaze-pomocna-zgrada-slika-284948457.jpg",
+      "postedAtMillis": 1788894941950,
+      "houseType": "row",
+      "rooms": 3.0,
+      "yardM2": 220.0,
+      "livingM2": 170.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:49911440",
       "source": "njuskalo",
       "watchId": "zagreb_houses",
