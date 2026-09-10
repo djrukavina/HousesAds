@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50644789",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "3-soban Stan s vrtom: Zagreb (Sesvetska sela), 73.00 m2, novogradnja",
+      "url": "https://www.njuskalo.hr/nekretnine/3-soban-stan-vrtom-zagreb-sesvetska-sela-73.00-m2-novogradnja-oglas-50644789",
+      "priceEur": 199590.0,
+      "location": "3-soban Stan s vrtom: Zagreb (Sesvetska sela), 73.00 m2, novogradnja\n\n3-soban St",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Sesvetska Sela), 73.61 m2novogradnja, (prodaja), stan u stambenoj zgradi, prizemlje",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/3-soban-stan-vrtom-zagreb-sesvetska-sela-73.00-m2-novogradnja-slika-278249864.jpg",
+      "postedAtMillis": 1789057051349,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": 80.0,
+      "livingM2": 73.61,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "index:7511934",
       "source": "index",
       "watchId": "coast_houses",
