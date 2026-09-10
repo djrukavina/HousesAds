@@ -102,15 +102,6 @@ def is_excluded_zagreb_area(text: str) -> bool:
     return any(_fold(token) in folded for token in EXCLUDED_ZAGREB_AREAS)
 
 
-def is_zagreb_city(text: str) -> bool:
-    folded = _fold(text)
-    if is_excluded_zagreb_area(folded):
-        return False
-    if "zagrebacka" in folded and "zagreb" not in folded:
-        return False
-    return any(_fold(token) in folded for token in ZAGREB_CITY)
-
-
 def is_zagreb_apartment_area(text: str) -> bool:
     """Zagreb city (minus eastern districts) or Zagrebačka županija towns."""
     folded = _fold(text)

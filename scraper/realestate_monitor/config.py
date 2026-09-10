@@ -21,8 +21,6 @@ class Settings:
     ntfy_server: str
     ntfy_topic: str
     poll_interval_sec: int
-    api_host: str
-    api_port: int
     headless: bool
     request_delay_sec: float
     max_pages: int
@@ -48,8 +46,6 @@ def load_settings() -> Settings:
         ntfy_server=os.getenv("NTFY_SERVER", "https://ntfy.sh").strip().rstrip("/"),
         ntfy_topic=os.getenv("NTFY_TOPIC", "").strip(),
         poll_interval_sec=int(os.getenv("POLL_INTERVAL_SEC", "30")),
-        api_host=os.getenv("API_HOST", "0.0.0.0"),
-        api_port=int(os.getenv("API_PORT", "8765")),
         headless=_flag("HEADLESS", True),
         request_delay_sec=float(os.getenv("REQUEST_DELAY_SEC", "1.0")),
         max_pages=int(os.getenv("MAX_PAGES", "1")),

@@ -71,6 +71,8 @@ If you previously installed the old **NjuskaloAds** app (`com.njuskalo.ads`), un
 
 ## Scraper
 
+Runs on GitHub Actions hourly (`--once`), writes `data/listings.json`, and sends Telegram alerts. There is no local HTTP API — the Android app reads the published JSON feed from GitHub.
+
 ### Run once locally (optional)
 
 ```bash
