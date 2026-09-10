@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50243624",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Stan: Zagreb (Donje Vrapče), 72.90 m2, novogradnja",
+      "url": "https://www.njuskalo.hr/nekretnine/stan-zagreb-donje-vrapce-72.90-m2-novogradnja-oglas-50243624",
+      "priceEur": 309825.0,
+      "location": "Stan: Zagreb (Donje Vrapče), 72.90 m2, novogradnja\n\nStan: Zagreb (Donje Vrapče),",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Donje Vrapče), 72.90 m2novogradnja, (prodaja), stan u stambenoj zgradi, 4. kat",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/stan-zagreb-donje-vrapce-72.90-m2-novogradnja-slika-274787086.jpg",
+      "postedAtMillis": 1789067645562,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 72.9,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:50874139",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
