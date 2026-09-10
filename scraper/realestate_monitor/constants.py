@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 MAX_ZAGREB_PRICE_EUR = 300_000
+MAX_ZAGREB_APARTMENT_PRICE_EUR = 340_000
 MIN_ZAGREB_PRICE_EUR = 10_000
 MAX_COAST_PRICE_EUR = 50_000
 MIN_COAST_PRICE_EUR = 10_000
@@ -29,10 +30,10 @@ ZAGREB_CITY = (
 )
 
 # Towns in Zagrebačka županija (apartments may be outside the city proper).
+# Sesvete and Velika Gorica are excluded (see EXCLUDED_ZAGREB_AREAS).
 ZAGREB_COUNTY = (
     "zagrebacka",
     "zagrebačka",
-    "velika gorica",
     "zapresic",
     "zaprešić",
     "samobor",
@@ -56,9 +57,10 @@ ZAGREB_COUNTY = (
     "kerestinec",
 )
 
-# Sesvete and eastern Zagreb districts — excluded from Njuškalo and Index filters.
+# Sesvete, Velika Gorica, and eastern Zagreb districts — excluded from filters.
 EXCLUDED_ZAGREB_AREAS = (
     "sesvete",
+    "velika gorica",
     "kraljeveck",
     "kraljevečk",
     "markovo polje",

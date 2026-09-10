@@ -11,6 +11,7 @@ from .constants import (
     ISLAND_URL_HINTS,
     MAX_COAST_PRICE_EUR,
     MIN_COAST_PRICE_EUR,
+    MAX_ZAGREB_APARTMENT_PRICE_EUR,
     MAX_ZAGREB_APARTMENT_ROOMS,
     MAX_ZAGREB_PRICE_EUR,
     MIN_ZAGREB_APARTMENT_LIVING_M2,
@@ -162,6 +163,12 @@ def _zagreb_price_ok(price_eur: Optional[float]) -> bool:
     return MIN_ZAGREB_PRICE_EUR <= price_eur <= MAX_ZAGREB_PRICE_EUR
 
 
+def _zagreb_apartment_price_ok(price_eur: Optional[float]) -> bool:
+    if price_eur is None:
+        return True
+    return MIN_ZAGREB_PRICE_EUR <= price_eur <= MAX_ZAGREB_APARTMENT_PRICE_EUR
+
+
 def matches_zagreb_house(listing: Listing) -> bool:
     if listing.price_eur is not None and not _zagreb_price_ok(listing.price_eur):
         return False
@@ -180,7 +187,7 @@ def matches_zagreb_house(listing: Listing) -> bool:
 
 
 def matches_zagreb_apartment(listing: Listing) -> bool:
-    if listing.price_eur is not None and not _zagreb_price_ok(listing.price_eur):
+    if listing.price_eur is not None and not _zagreb_apartment_price_ok(listing.price_eur):
         return False
     if not is_zagreb_apartment_area(listing_blob(listing)):
         return False
@@ -209,8 +216,10 @@ def matches_coast_house(listing: Listing) -> bool:
 
 
 def card_price_ok(watch_id: str, price_eur: Optional[float]) -> bool:
-    if watch_id in ("zagreb_houses", "zagreb_apartments"):
+    if watch_id == "zagreb_houses":
         return _zagreb_price_ok(price_eur)
+    if watch_id == "zagreb_apartments":
+        return _zagreb_apartment_price_ok(price_eur)
     if watch_id == "coast_houses":
         return _coast_price_ok(price_eur)
     return True
