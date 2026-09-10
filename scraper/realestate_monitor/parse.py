@@ -139,7 +139,7 @@ def _index_card_from_url(href: str, link, seen: set[str]) -> Card | None:
         title = slug.replace("-", " ").strip().title()
 
     seen.add(external_id)
-    card_root = link.find_parent(["article", "li", "div"]) if link is not None else None
+    card_root = _index_card_root(link)
     blob = card_root.get_text(" ", strip=True) if card_root is not None else title
     image = card_root.find("img") if card_root is not None and hasattr(card_root, "find") else None
     return Card(
@@ -152,6 +152,25 @@ def _index_card_from_url(href: str, link, seen: set[str]) -> Card | None:
         snippet=blob[:500],
         image_url=image.get("src") if image is not None and image.get("src") else None,
     )
+
+
+def _index_card_root(link):
+    """Walk up from the listing link to a richer card container."""
+    if link is None:
+        return None
+    node = link
+    best = None
+    for _ in range(8):
+        parent = getattr(node, "parent", None)
+        if parent is None or not getattr(parent, "name", None):
+            break
+        text = parent.get_text(" ", strip=True)
+        if len(text) > 40:
+            best = parent
+            if parent.name in ("article", "li") or len(text) > 140:
+                return parent
+        node = parent
+    return best or link.find_parent(["article", "li", "div"])
 
 
 def listing_from_index_detail(card: Card, html: str, watch_id: str, category: str) -> Listing:

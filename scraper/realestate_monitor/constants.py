@@ -5,7 +5,7 @@ MIN_ZAGREB_PRICE_EUR = 10_000
 MAX_COAST_PRICE_EUR = 50_000
 MIN_COAST_PRICE_EUR = 10_000
 MIN_ZAGREB_HOUSE_SIZE_M2 = 100
-MIN_ZAGREB_APARTMENT_LIVING_M2 = 80
+MIN_ZAGREB_APARTMENT_LIVING_M2 = 70
 MIN_ZAGREB_APARTMENT_ROOMS = 3.0
 MAX_ZAGREB_APARTMENT_ROOMS = 4.0
 
@@ -27,6 +27,34 @@ ZAGREB_CITY = (
     "gornji grad",
     "medveščak",
     "medvescak",
+)
+
+# Towns in Zagrebačka županija (apartments may be outside the city proper).
+ZAGREB_COUNTY = (
+    "zagrebacka",
+    "zagrebačka",
+    "velika gorica",
+    "zapresic",
+    "zaprešić",
+    "samobor",
+    "dugo selo",
+    "sveta nedelja",
+    "jastrebarsko",
+    "ivanic-grad",
+    "ivanić-grad",
+    "ivanic grad",
+    "ivanić grad",
+    "vrbovec",
+    "sveti ivan zelina",
+    "zelina",
+    "brdovec",
+    "klinča sela",
+    "klinca sela",
+    "pisarovina",
+    "bestovje",
+    "lucko",
+    "lučko",
+    "kerestinec",
 )
 
 # Sesvete and eastern Zagreb districts — excluded from Njuškalo and Index filters.

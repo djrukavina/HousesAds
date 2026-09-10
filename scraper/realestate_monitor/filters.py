@@ -20,6 +20,7 @@ from .constants import (
     NEW_BUILD_KEYWORDS,
     SEA_KEYWORDS,
     ZAGREB_CITY,
+    ZAGREB_COUNTY,
 )
 from .models import Card, Listing
 
@@ -110,6 +111,16 @@ def is_zagreb_city(text: str) -> bool:
     return any(_fold(token) in folded for token in ZAGREB_CITY)
 
 
+def is_zagreb_apartment_area(text: str) -> bool:
+    """Zagreb city (minus eastern districts) or Zagrebačka županija towns."""
+    folded = _fold(text)
+    if is_excluded_zagreb_area(folded):
+        return False
+    if any(_fold(token) in folded for token in ZAGREB_CITY):
+        return True
+    return any(_fold(token) in folded for token in ZAGREB_COUNTY)
+
+
 def is_zagreb_area(text: str) -> bool:
     folded = _fold(text)
     if is_excluded_zagreb_area(folded):
@@ -119,9 +130,18 @@ def is_zagreb_area(text: str) -> bool:
 
 def is_croatian_island(text: str) -> bool:
     folded = _fold(text)
-    if "otok" in folded:
+    if re.search(r"\botok\b", folded):
         return True
-    return any(_fold(name) in folded for name in ISLANDS if name != "otok")
+    for name in ISLANDS:
+        if name == "otok":
+            continue
+        token = _fold(name)
+        if len(token) <= 3:
+            if re.search(rf"\b{re.escape(token)}\b", folded):
+                return True
+        elif token in folded:
+            return True
+    return False
 
 
 def is_near_sea(text: str) -> bool:
@@ -171,7 +191,7 @@ def matches_zagreb_house(listing: Listing) -> bool:
 def matches_zagreb_apartment(listing: Listing) -> bool:
     if listing.price_eur is not None and not _zagreb_price_ok(listing.price_eur):
         return False
-    if not is_zagreb_city(listing_blob(listing)):
+    if not is_zagreb_apartment_area(listing_blob(listing)):
         return False
     rooms = listing.rooms or parse_rooms(listing_blob(listing))
     if rooms is None or rooms < MIN_ZAGREB_APARTMENT_ROOMS or rooms >= MAX_ZAGREB_APARTMENT_ROOMS:
@@ -207,15 +227,30 @@ def card_price_ok(watch_id: str, price_eur: Optional[float]) -> bool:
 
 def prefilter_card(watch_id: str, card: Card) -> bool:
     blob = card_blob(card)
-    if not card_price_ok(watch_id, card.price_eur):
-        return False
-    if watch_id == "zagreb_houses":
-        return is_zagreb_area(blob)
-    if watch_id == "zagreb_apartments":
-        rooms = parse_rooms(blob)
-        if rooms is not None and rooms < MIN_ZAGREB_APARTMENT_ROOMS:
+    is_index = card.source == "index"
+
+    if watch_id in ("zagreb_houses", "zagreb_apartments"):
+        if not card_price_ok(watch_id, card.price_eur):
             return False
-        return is_zagreb_city(blob)
+        if watch_id == "zagreb_apartments":
+            rooms = parse_rooms(blob)
+            if rooms is not None and rooms < MIN_ZAGREB_APARTMENT_ROOMS:
+                return False
+        # Index search URLs are already location-scoped; card blobs often lack place names.
+        if is_index:
+            return True
+        if watch_id == "zagreb_houses":
+            return is_zagreb_area(blob)
+        return is_zagreb_apartment_area(blob)
+
     if watch_id == "coast_houses":
+        if card.price_eur is not None and not _coast_price_ok(card.price_eur):
+            return False
+        # Index cards rarely expose island/price text or Njuškalo-style URL hints — hydrate first.
+        if is_index:
+            return True
+        if not card_price_ok(watch_id, card.price_eur):
+            return False
         return is_croatian_island(blob) or any(hint in card.url for hint in ISLAND_URL_HINTS)
+
     return True
