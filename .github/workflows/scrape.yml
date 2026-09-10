@@ -66,6 +66,7 @@ jobs:
 
       - name: Publish feed
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/listings.json data/hidden.json
@@ -74,14 +75,27 @@ jobs:
           fi
           if git diff --staged --quiet; then
             echo "No listing changes"
-          else
-            git commit -m "Update scraped listings"
-            for attempt in 1 2 3 4 5; do
-              git pull --rebase origin main
-              if git push origin HEAD:main; then
-                break
-              fi
-              echo "Push failed, retrying ($attempt/5)..."
-              sleep 2
-            done
+            exit 0
+          fi
+          git commit -m "Update scraped listings"
+          pushed=false
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            if ! git rebase origin/main; then
+              # Prefer this run's scraped artifacts over whatever landed on main mid-run
+              # (rebase: --theirs = our commit being applied).
+              git checkout --theirs -- data/listings.json data/hidden.json data/monitor.sqlite3 || true
+              git add data/listings.json data/hidden.json data/monitor.sqlite3
+              GIT_EDITOR=true git rebase --continue
+            fi
+            if git push origin HEAD:main; then
+              pushed=true
+              break
+            fi
+            echo "Push failed, retrying ($attempt/5)..."
+            sleep 3
+          done
+          if [ "$pushed" != true ]; then
+            echo "Failed to publish feed after retries"
+            exit 1
           fi
