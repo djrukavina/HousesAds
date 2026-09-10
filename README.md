@@ -9,10 +9,12 @@ The system watches three custom search profiles and only stores ads that pass st
 | Watch | Criteria |
 |-------|----------|
 | **Zagreb houses** | Zagreb area + Samobor, **€10,000–€300,000**, yard or living area ≥ 100 m², detached house **or** row house + new build. Sesvete and eastern districts (Dubrava, Peščenica, etc.) are excluded. |
-| **Zagreb apartments** | Zagreb city + Zagrebačka županija, **€10,000–€300,000**, 3–3.5 rooms, living area ≥ **70 m²**, new build only. Eastern districts excluded. |
+| **Zagreb apartments** | Zagreb city + Zagrebačka županija (Velika Gorica, Zaprešić, Samobor, Dugo Selo, …), **€10,000–€300,000**, 3–3.5 rooms, living area ≥ **70 m²**, new build only. Eastern districts excluded. |
 | **Coast houses** | Croatian islands, **€10,000–€50,000**, near the sea. |
 
 Listing pages that require a browser are fetched with Playwright in CI.
+
+**Index scrape:** search pages are loaded with Playwright. Sparse Index list cards often omit location/price text, so Index cards skip the location/island *card* prefilter and are hydrated from the detail page before the full matcher runs. Short island names (e.g. Ist) use word-boundary matching so mainland **Istra** is not treated as an island.
 
 ## Architecture
 
