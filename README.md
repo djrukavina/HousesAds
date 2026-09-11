@@ -14,7 +14,7 @@ The system watches three custom search profiles and only stores ads that pass st
 
 Listing pages that require a browser are fetched with Playwright in CI.
 
-**Index scrape:** search pages are loaded with Playwright. Sparse Index list cards often omit location/price text, so Index cards skip the location/island *card* prefilter and are hydrated from the detail page before the full matcher runs. Short island names (e.g. Ist) use word-boundary matching so mainland **Istra** is not treated as an island.
+**Index scrape:** search pages are loaded with Playwright. Sparse Index list cards often omit location/price text, so Index cards skip the location/island *card* prefilter and are hydrated from the detail page before the full matcher runs. Matchers are slightly softer for Index (missing rooms/m²/house-type/novogradnja text does not auto-reject). Short island names (e.g. Ist) use word-boundary matching so mainland **Istra** is not treated as an island.
 
 ## Architecture
 

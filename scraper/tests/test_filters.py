@@ -287,6 +287,53 @@ def test_rejects_zagreb_apartment_without_new_build() -> None:
     )
 
 
+def test_index_apartment_allows_missing_rooms_size_and_new_build() -> None:
+    assert matches_zagreb_apartment(
+        listing(
+            listing_id="index:1",
+            source="index",
+            title="Stan Zagreb",
+            location="Zagreb",
+            rooms=None,
+            living_m2=None,
+            is_new_build=False,
+            description="Stan u Zagrebu",
+            house_type="unknown",
+        )
+    )
+
+
+def test_index_apartment_still_rejects_excluded_area() -> None:
+    assert not matches_zagreb_apartment(
+        listing(
+            listing_id="index:2",
+            source="index",
+            title="Stan",
+            location="Sesvete",
+            rooms=None,
+            living_m2=None,
+            is_new_build=False,
+            description="Sesvete",
+            house_type="unknown",
+        )
+    )
+
+
+def test_index_house_allows_unknown_type_without_size() -> None:
+    assert matches_zagreb_house(
+        listing(
+            listing_id="index:3",
+            source="index",
+            title="Kuća Zagreb",
+            location="Zagreb",
+            living_m2=None,
+            yard_m2=None,
+            house_type="unknown",
+            description="Kuća u Zagrebu",
+        )
+    )
+
+
 def test_matches_coast_house_near_sea() -> None:
     assert matches_coast_house(
         listing(

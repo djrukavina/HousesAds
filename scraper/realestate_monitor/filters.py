@@ -172,16 +172,25 @@ def _zagreb_apartment_price_ok(price_eur: Optional[float]) -> bool:
 def matches_zagreb_house(listing: Listing) -> bool:
     if listing.price_eur is not None and not _zagreb_price_ok(listing.price_eur):
         return False
-    if not is_zagreb_area(listing_blob(listing)):
+    blob = listing_blob(listing)
+    index_soft = listing.source == "index"
+    if is_excluded_zagreb_area(blob):
+        return False
+    if not is_zagreb_area(blob) and not index_soft:
         return False
     if not _size_at_least(listing, MIN_ZAGREB_HOUSE_SIZE_M2):
-        return False
+        # Index detail pages often omit clear yard/living m² fields.
+        if not (index_soft and listing.living_m2 is None and listing.yard_m2 is None):
+            return False
     house_type = listing.house_type
     if house_type == "unknown":
-        house_type = classify_house_type(listing_blob(listing))
+        house_type = classify_house_type(blob)
     if house_type == "detached":
         return True
-    if house_type == "row" and (listing.is_new_build or is_new_build(listing_blob(listing))):
+    if house_type == "row" and (listing.is_new_build or is_new_build(blob)):
+        return True
+    # Index rarely labels "samostojna" / "u nizu" — keep if price + location already match.
+    if index_soft and house_type == "unknown":
         return True
     return False
 
@@ -189,15 +198,28 @@ def matches_zagreb_house(listing: Listing) -> bool:
 def matches_zagreb_apartment(listing: Listing) -> bool:
     if listing.price_eur is not None and not _zagreb_apartment_price_ok(listing.price_eur):
         return False
-    if not is_zagreb_apartment_area(listing_blob(listing)):
+    blob = listing_blob(listing)
+    index_soft = listing.source == "index"
+    if is_excluded_zagreb_area(blob):
         return False
-    rooms = listing.rooms or parse_rooms(listing_blob(listing))
-    if rooms is None or rooms < MIN_ZAGREB_APARTMENT_ROOMS or rooms >= MAX_ZAGREB_APARTMENT_ROOMS:
+    if not is_zagreb_apartment_area(blob) and not index_soft:
+        return False
+    rooms = listing.rooms or parse_rooms(blob)
+    if rooms is None:
+        if not index_soft:
+            return False
+    elif rooms < MIN_ZAGREB_APARTMENT_ROOMS or rooms >= MAX_ZAGREB_APARTMENT_ROOMS:
         return False
     living = listing.living_m2
-    if living is None or living < MIN_ZAGREB_APARTMENT_LIVING_M2:
+    if living is None:
+        if not index_soft:
+            return False
+    elif living < MIN_ZAGREB_APARTMENT_LIVING_M2:
         return False
-    return listing.is_new_build or is_new_build(listing_blob(listing))
+    if listing.is_new_build or is_new_build(blob):
+        return True
+    # Index often omits explicit novogradnja wording even for newer builds.
+    return index_soft
 
 
 def _coast_price_ok(price_eur: Optional[float]) -> bool:

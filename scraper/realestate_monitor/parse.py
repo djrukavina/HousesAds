@@ -178,6 +178,11 @@ def listing_from_index_detail(card: Card, html: str, watch_id: str, category: st
     text = soup.get_text("\n", strip=True)
     merged = f"{card.title}\n{card.snippet}\n{text}"
     year = _parse_year(merged)
+    location = card.location.strip() if card.location else ""
+    if not location or len(location) < 3:
+        location = _guess_index_location(merged, card.title)
+    # Keep enough detail text so location / novogradnja keywords reach the matcher.
+    description = f"{card.snippet}\n{text}".strip()[:2000]
     return Listing(
         id=f"index:{card.external_id}",
         source="index",
@@ -185,9 +190,9 @@ def listing_from_index_detail(card: Card, html: str, watch_id: str, category: st
         title=card.title,
         url=card.url,
         price_eur=card.price_eur if card.price_eur is not None else parse_price(merged),
-        location=card.location,
+        location=location,
         category=category,
-        description=card.snippet[:400],
+        description=description,
         image_url=card.image_url,
         posted_at_millis=_posted_millis(soup),
         house_type=classify_house_type(merged),
@@ -196,7 +201,10 @@ def listing_from_index_detail(card: Card, html: str, watch_id: str, category: st
             merged,
             ("okucnica", "povrsina okucnice", "parcela", "vrt", "zemljiste"),
         ),
-        living_m2=parse_square_meters(merged, ("stambena povrsina", "m2")),
+        living_m2=parse_square_meters(
+            merged,
+            ("stambena povrsina", "stambeni prostor", "kvadratura", "povrsina stana", "m2", "m²"),
+        ),
         is_new_build=is_new_build(merged, year),
         near_sea=is_near_sea(merged),
     )

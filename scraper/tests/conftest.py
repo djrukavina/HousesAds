@@ -6,6 +6,7 @@ from realestate_monitor.models import Listing
 def listing(
     *,
     listing_id: str = "njuskalo:1",
+    source: str = "njuskalo",
     price_eur: float | None = 250_000.0,
     location: str = "Zagreb, Trešnjevka",
     title: str = "Kuća",
@@ -19,7 +20,7 @@ def listing(
 ) -> Listing:
     return Listing(
         id=listing_id,
-        source="njuskalo",
+        source=source,
         watch_id="zagreb_houses",
         title=title,
         url="https://example.test/listing",
