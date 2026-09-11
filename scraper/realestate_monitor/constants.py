@@ -30,7 +30,7 @@ ZAGREB_CITY = (
 )
 
 # Towns in Zagrebačka županija (apartments may be outside the city proper).
-# Sesvete and Velika Gorica are excluded (see EXCLUDED_ZAGREB_AREAS).
+# Sesvete, Velika Gorica, Sveta Klara, Veliko Polje are excluded (see EXCLUDED_ZAGREB_AREAS).
 ZAGREB_COUNTY = (
     "zagrebacka",
     "zagrebačka",
@@ -57,10 +57,12 @@ ZAGREB_COUNTY = (
     "kerestinec",
 )
 
-# Sesvete, Velika Gorica, and eastern Zagreb districts — excluded from filters.
+# Sesvete, Velika Gorica, Sveta Klara, Veliko Polje, and eastern Zagreb districts.
 EXCLUDED_ZAGREB_AREAS = (
     "sesvete",
     "velika gorica",
+    "sveta klara",
+    "veliko polje",
     "kraljeveck",
     "kraljevečk",
     "markovo polje",

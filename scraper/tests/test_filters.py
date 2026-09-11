@@ -135,8 +135,11 @@ def test_rejects_zagreb_apartment_below_70m2() -> None:
 def test_is_excluded_zagreb_area_detects_eastern_districts() -> None:
     assert is_excluded_zagreb_area("Zagreb, Sesvete")
     assert is_excluded_zagreb_area("Velika Gorica")
+    assert is_excluded_zagreb_area("Zagreb, Sveta Klara")
+    assert is_excluded_zagreb_area("Veliko Polje")
     assert is_excluded_zagreb_area("Stan: Zagreb, Dubrava")
     assert not is_excluded_zagreb_area("Zagreb, Trešnjevka")
+    assert not is_excluded_zagreb_area("Sveta Nedelja")
 
 
 def test_island_ist_does_not_match_istra() -> None:
