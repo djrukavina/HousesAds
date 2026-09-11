@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:49872990",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "MAKSIMIR - Črešnjevec, NOVO UREĐENI DVOETAŽNI STAN OD 73 m2",
+      "url": "https://www.njuskalo.hr/nekretnine/stan-prodaja-maksimir-72.8-m2-oglas-49872990",
+      "priceEur": 274000.0,
+      "location": "MAKSIMIR - Črešnjevec, NOVO UREĐENI DVOETAŽNI STAN OD 73 m2\n\nMAKSIMIR - Črešnjev",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Remete), 72.80 m2novogradnja, (prodaja), stan u kući, visoko potkrovlje",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/stan-prodaja-maksimir-72.8-m2-slika-272074287.jpg",
+      "postedAtMillis": 1789107726340,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 72.8,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:51504711",
       "source": "njuskalo",
       "watchId": "coast_houses",
