@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:51504711",
+      "source": "njuskalo",
+      "watchId": "coast_houses",
+      "title": "AUTENTIČNA KAMENA KUĆA IZ 1935. GODINE NA 5.079 m² ZEMLJIŠTA – DOLJANI",
+      "url": "https://www.njuskalo.hr/nekretnine/autenticna-kamena-kuca-1935-godine-5.079-m-zemljista-doljani-oglas-51504711",
+      "priceEur": 20000.0,
+      "location": "AUTENTIČNA KAMENA KUĆA IZ 1935. GODINE NA 5.079 m² ZEMLJIŠTA – DOLJANI\n\nAUTENTIČ",
+      "category": "Kuće otoci",
+      "description": "Kuća: Doljani, 80.00 m2, prizemnica, samostojeća, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/autenticna-kamena-kuca-1935-godine-5.079-m-zemljista-doljani-slika-285206669.jpg",
+      "postedAtMillis": 1789096679608,
+      "houseType": "row",
+      "rooms": 3.0,
+      "yardM2": 5.079,
+      "livingM2": 80.0,
+      "isNewBuild": true,
+      "nearSea": true
+    },
+    {
       "id": "njuskalo:51504618",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
