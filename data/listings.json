@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:51033490",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Stan: Zagreb (Blato), 82.53 m2, novogradnja",
+      "url": "https://www.njuskalo.hr/nekretnine/stan-zagreb-blato-rastocka-ulica-82.53-m2-novogradnja-oglas-51033490",
+      "priceEur": 305361.0,
+      "location": "Stan: Zagreb (Blato), 82.53 m2, novogradnja\n\nStan: Zagreb (Blato), 82.53 m2, nov",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Blato), 82.53 m2novogradnja, (prodaja), stan u stambenoj zgradi, 2. kat",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/stan-zagreb-blato-rastocka-ulica-82.53-m2-novogradnja-slika-281664150.jpg",
+      "postedAtMillis": 1789179440538,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 82.53,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "index:7535997",
       "source": "index",
       "watchId": "zagreb_apartments",
