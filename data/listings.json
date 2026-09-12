@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:47674604",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Dugo selo,4-soban stan(S1)140m2 s prostranim vrtom s 3 strane + 2 PM",
+      "url": "https://www.njuskalo.hr/nekretnine/dugo-selo-4-soban-stan-s1-140m2-prostranim-vrtom-2-parkinga-oglas-47674604",
+      "priceEur": 329999.0,
+      "location": "Dugo selo,4-soban stan(S1)140m2 s prostranim vrtom s 3 strane + 2 PM\n\nDugo selo,",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Dugo Selo, 166.00 m2novogradnja, (prodaja), stan u stambenoj zgradi, visoko prizemlje",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/dugo-selo-4-soban-stan-s1-140m2-prostranim-vrtom-2-parkinga-slika-280055784.jpg",
+      "postedAtMillis": 1789218924413,
+      "houseType": "row",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 166.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:50190985",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
