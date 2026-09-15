@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:46603860",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Stan: Zagreb (Siget), 79.52 m2, novogradnja",
+      "url": "https://www.njuskalo.hr/nekretnine/stan-zagreb-siget-70.02-m2-novogradnja-oglas-46603860",
+      "priceEur": 314079.0,
+      "location": "Stan: Zagreb (Siget), 79.52 m2, novogradnja\n\nStan: Zagreb (Siget), 79.52 m2, nov",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Siget), 79.52 m2novogradnja, (prodaja), stan u stambenoj zgradi, 1. kat",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/stan-zagreb-siget-70.02-m2-novogradnja-slika-245059946.jpg",
+      "postedAtMillis": 1789449492743,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 79.52,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "index:7538731",
       "source": "index",
       "watchId": "zagreb_apartments",
