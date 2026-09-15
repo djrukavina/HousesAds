@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:51544184",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Kuća za potpunu adaptaciju ili rušenje, Zagreb, Bijenik",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-potpunu-adaptaciju-ili-rusenje-zagreb-bijenik-oglas-51544184",
+      "priceEur": 200000.0,
+      "location": "Zapadni dio Zagreba, područje Bijenika. Autobusna linija povezuje naselje s okretištem Črnomerec, a autobusna stanica nalazi se u neposrednoj blizini. U blizini su i lokalna trgovina, dječji vrtić te kafić. Naselje odlikuju mir, zelenilo i brojne pješačke staze.",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Bijenik), 106.00 m2, katnica, samostojeća, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-potpunu-adaptaciju-ili-rusenje-zagreb-bijenik-slika-285525277.jpg",
+      "postedAtMillis": 1789514127547,
+      "houseType": "detached",
+      "rooms": 3.0,
+      "yardM2": 577.0,
+      "livingM2": 106.0,
+      "isNewBuild": true,
+      "nearSea": true
+    },
+    {
       "id": "njuskalo:51508723",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
