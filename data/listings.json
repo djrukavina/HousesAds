@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:48790902",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Stan: Zagreb (Rudeš) sa VPM i spremištem, 73.66 m2",
+      "url": "https://www.njuskalo.hr/nekretnine/stan-zagreb-rudes-73.66-m2-novogradnja-prodaja-oglas-48790902",
+      "priceEur": 313055.0,
+      "location": "Stan: Zagreb (Rudeš) sa VPM i spremištem, 73.66 m2\n\nStan: Zagreb (Rudeš) sa VPM ",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Rudeš), 73.66 m2novogradnja, (prodaja), stan u stambenoj zgradi, 1. kat",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/stan-zagreb-rudes-73.66-m2-novogradnja-prodaja-slika-262866618.jpg",
+      "postedAtMillis": 1789593460905,
+      "houseType": "row",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 73.66,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:50313425",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
