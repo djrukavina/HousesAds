@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50313425",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "3-sobni stan: Zagreb (Jazbina), 84.00 m2, novogradnja",
+      "url": "https://www.njuskalo.hr/nekretnine/3-sobni-stan-zagreb-jazbina-84.00-m2-novogradnja-oglas-50313425",
+      "priceEur": 338120.0,
+      "location": "3-sobni stan: Zagreb (Jazbina), 84.00 m2, novogradnja\n\n3-sobni stan: Zagreb (Jaz",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Gornji Bukovac), 84.53 m2novogradnja, (prodaja), stan u stambenoj zgradi, 1. kat",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/3-sobni-stan-zagreb-jazbina-84.00-m2-novogradnja-slika-275480475.jpg",
+      "postedAtMillis": 1789589912967,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 84.53,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "index:7541535",
       "source": "index",
       "watchId": "zagreb_apartments",
