@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:51540027",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Stan: Zagreb (Jačkovina), 141.00 m2",
+      "url": "https://www.njuskalo.hr/nekretnine/stan-zagreb-jackovina-141.00-m2-oglas-51540027",
+      "priceEur": 240000.0,
+      "location": "Stan: Zagreb (Jačkovina), 141.00 m2\n\nStan: Zagreb (Jačkovina), 141.00 m2 (prodaj",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Jačkovina), 141.00 m2novogradnja, (prodaja), stan u stambenoj zgradi, 2. kat",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/stan-zagreb-jackovina-141.00-m2-slika-285491604.jpg",
+      "postedAtMillis": 1789561363930,
+      "houseType": "row",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 141.0,
+      "isNewBuild": true,
+      "nearSea": true
+    },
+    {
       "id": "njuskalo:50521201",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
