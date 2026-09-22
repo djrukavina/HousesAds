@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:49958244",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Stan B19, 4-sobni, novogradnja, Zagreb-Blato",
+      "url": "https://www.njuskalo.hr/nekretnine/stan-b19-4-sobni-novogradnja-zagreb-blato-oglas-49958244",
+      "priceEur": 313310.0,
+      "location": "Stan B19, 4-sobni, novogradnja, Zagreb-Blato\n\nStan B19, 4-sobni, novogradnja, Za",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Blato), 82.45 m2novogradnja, (prodaja), stan u stambenoj zgradi, 3. kat",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/stan-b19-4-sobni-novogradnja-zagreb-blato-slika-286273228.jpg",
+      "postedAtMillis": 1790114276647,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 82.45,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "index:7555505",
       "source": "index",
       "watchId": "zagreb_apartments",
