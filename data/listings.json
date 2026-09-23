@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50698128",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "DONJI GRAD (Draškovićeva): NOVOUREĐEN 3.SOB. STAN 82m2 TOP LOKACIJA",
+      "url": "https://www.njuskalo.hr/nekretnine/donji-grad-draskoviceva-novoureden-3-sob-stan-82m2-top-lokacija-oglas-50698128",
+      "priceEur": 320000.0,
+      "location": "DONJI GRAD (Draškovićeva): NOVOUREĐEN 3.SOB. STAN 82m2 TOP LOKACIJA\n\nDONJI GRAD ",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Donji Grad), 81.50 m2, (prodaja), stan u stambenoj zgradi, prizemlje",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/donji-grad-draskoviceva-novoureden-3-sob-stan-82m2-top-lokacija-slika-278703954.jpg",
+      "postedAtMillis": 1790142471333,
+      "houseType": "row",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 81.5,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:51624855",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
