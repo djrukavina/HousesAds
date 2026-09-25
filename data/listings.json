@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:51174654",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Novogradnja Zaprešić: 4-sobni stan u prizemlju s vrtom + 2PM",
+      "url": "https://www.njuskalo.hr/nekretnine/novogradnja-zapresic-4-sobni-stan-prizemlju-vrtom-2pm-oglas-51174654",
+      "priceEur": 304800.0,
+      "location": "Novogradnja Zaprešić: 4-sobni stan u prizemlju s vrtom + 2PM\n\nNovogradnja Zapreš",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zaprešić, 86.45 m2novogradnja, (prodaja), stan u stambenoj zgradi, prizemlje",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/novogradnja-zapresic-4-sobni-stan-prizemlju-vrtom-2pm-slika-283601258.jpg",
+      "postedAtMillis": 1790343340822,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 86.45,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:51644920",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
