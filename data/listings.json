@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:51726015",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Zagreb, Trešnjevka - kuća prizemnica s dvorištem",
+      "url": "https://www.njuskalo.hr/nekretnine/zagreb-tresnjevka-kuca-prizemnica-dvoristem-oglas-51726015",
+      "priceEur": 147000.0,
+      "location": "Zagreb, Trešnjevka - kuća prizemnica s dvorištem\n\nZagreb, Trešnjevka - kuća priz",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Trešnjevka), 184.00 m2, prizemnica, samostojeća, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/zagreb-tresnjevka-kuca-prizemnica-dvoristem-slika-287264929.jpg",
+      "postedAtMillis": 1791092039307,
+      "houseType": "detached",
+      "rooms": 2.0,
+      "yardM2": 135.0,
+      "livingM2": 184.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:51724695",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
