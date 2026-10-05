@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:51675112",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Stan: Zagreb (Blato), 72.50 m2, novogradnja",
+      "url": "https://www.njuskalo.hr/nekretnine/stan-zagreb-blato-72.50-m2-novogradnja-oglas-51675112",
+      "priceEur": 267525.0,
+      "location": "Stan: Zagreb (Blato), 72.50 m2, novogradnja\n\nStan: Zagreb (Blato), 72.50 m2, nov",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Blato), 72.50 m2novogradnja, (prodaja), stan u stambenoj zgradi, 1. kat",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/stan-zagreb-blato-72.50-m2-novogradnja-slika-286729287.jpg",
+      "postedAtMillis": 1791160895944,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 72.5,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:50783497",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
