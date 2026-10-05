@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:51739536",
+      "source": "njuskalo",
+      "watchId": "zagreb_houses",
+      "title": "Predivna montažna kuća 100m2 na parceli 680m2, Šestine, Zagreb",
+      "url": "https://www.njuskalo.hr/nekretnine/kuca-zagreb-sestine-100.00-m2-oglas-51739536",
+      "priceEur": 230000.0,
+      "location": "Predivna montažna kuća 100m2 na parceli 680m2, Šestine, Zagreb\n\nPredivna montažn",
+      "category": "Kuće Zagreb",
+      "description": "Kuća: Zagreb (Šestine), 100.00 m2, prizemnica, samostojeća, montažna kuća, (prodaja)",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/kuca-zagreb-sestine-100.00-m2-slika-287345854.jpg",
+      "postedAtMillis": 1791182917604,
+      "houseType": "detached",
+      "rooms": 3.0,
+      "yardM2": 680.0,
+      "livingM2": 100.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:51675112",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
