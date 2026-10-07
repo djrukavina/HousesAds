@@ -1,6 +1,25 @@
 {
   "ads": [
     {
+      "id": "njuskalo:50235045",
+      "source": "njuskalo",
+      "watchId": "zagreb_apartments",
+      "title": "Zagreb, Remete, Stan, 76.00 m2",
+      "url": "https://www.njuskalo.hr/nekretnine/zagreb-remete-stan-76.00-m2-oglas-50235045",
+      "priceEur": 252000.0,
+      "location": "Zagreb, Remete, Stan, 76.00 m2\n\nZagreb, Remete, Stan, 76.00 m2 (prodaja)\nKoristi",
+      "category": "Stanovi Zagreb",
+      "description": "Stan: Zagreb (Remete), 76.00 m2, (prodaja), stan u kući, 1. kat",
+      "imageUrl": "https://www.njuskalo.hr/image-200x150/nekretnine/zagreb-remete-stan-76.00-m2-slika-274685910.jpg",
+      "postedAtMillis": 1791367656527,
+      "houseType": "unknown",
+      "rooms": 3.0,
+      "yardM2": null,
+      "livingM2": 76.0,
+      "isNewBuild": true,
+      "nearSea": false
+    },
+    {
       "id": "njuskalo:51754486",
       "source": "njuskalo",
       "watchId": "zagreb_apartments",
