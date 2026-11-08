@@ -2,8 +2,9 @@ name: Scrape listings
 
 on:
   schedule:
-    # Private free tier: 2,000 min/month. Hourly (~720 runs × ~2 min) stays under the cap.
-    - cron: "0 * * * *"
+    # Private free tier: 2,000 min/month. Two watches now scrape 40 area-scoped
+    # URLs with Playwright, so every 2 h (~360 runs) stays under the cap.
+    - cron: "0 */2 * * *"
   workflow_dispatch:
 
 concurrency:

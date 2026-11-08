@@ -170,10 +170,12 @@ class Store:
             ).fetchall()
         return [self._row_to_listing(row) for row in rows]
 
-    def export_json(self, path: Path | None = None) -> Path:
+    def export_json(
+        self, path: Path | None = None, hidden_path: Path | None = None
+    ) -> Path:
         target = Path(path) if path is not None else JSON_PATH
         write_json(target, {"ads": [item.to_api() for item in self.all_listings()]})
-        self.export_hidden_json()
+        self.export_hidden_json(hidden_path)
         return target
 
     def _row_to_listing(self, row: sqlite3.Row) -> Listing:

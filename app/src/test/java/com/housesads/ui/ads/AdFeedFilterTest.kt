@@ -10,7 +10,6 @@ class AdFeedFilterTest {
     private val ads = listOf(
         ad("1", watchId = "zagreb_houses", favorite = false),
         ad("2", watchId = "zagreb_apartments", favorite = true),
-        ad("3", watchId = "coast_houses", favorite = false),
     )
 
     @Test

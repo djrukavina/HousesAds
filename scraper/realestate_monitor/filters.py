@@ -5,23 +5,20 @@ import unicodedata
 from typing import Optional
 
 from .constants import (
-    EXCLUDED_ZAGREB_AREAS,
-    HOUSE_LOCATIONS,
     ISLANDS,
     ISLAND_URL_HINTS,
     MAX_COAST_PRICE_EUR,
     MIN_COAST_PRICE_EUR,
     MAX_ZAGREB_APARTMENT_PRICE_EUR,
-    MAX_ZAGREB_APARTMENT_ROOMS,
     MAX_ZAGREB_PRICE_EUR,
+    MIN_ZAGREB_APARTMENT_BUILD_YEAR,
     MIN_ZAGREB_APARTMENT_LIVING_M2,
-    MIN_ZAGREB_APARTMENT_ROOMS,
+    MIN_ZAGREB_HOUSE_BUILD_YEAR,
     MIN_ZAGREB_HOUSE_SIZE_M2,
     MIN_ZAGREB_PRICE_EUR,
     NEW_BUILD_KEYWORDS,
     SEA_KEYWORDS,
-    ZAGREB_CITY,
-    ZAGREB_COUNTY,
+    WATCH_AREA_NAMES,
 )
 from .models import Card, Listing
 
@@ -29,6 +26,14 @@ from .models import Card, Listing
 def _fold(text: str) -> str:
     normalized = unicodedata.normalize("NFD", text.lower())
     return "".join(ch for ch in normalized if unicodedata.category(ch) != "Mn")
+
+
+def _area_key(text: str) -> str:
+    """Fold diacritics and punctuation so ``Novi Zagreb - Istok`` matches ``novi zagreb istok``."""
+    return re.sub(r"[^a-z0-9]+", " ", _fold(text)).strip()
+
+
+_WATCH_AREA_KEYS = tuple(_area_key(name) for name in WATCH_AREA_NAMES)
 
 
 def listing_blob(listing: Listing) -> str:
@@ -91,33 +96,17 @@ def classify_house_type(text: str) -> str:
     return "unknown"
 
 
-def is_new_build(text: str, year: Optional[int] = None) -> bool:
+def is_new_build(text: str, year: Optional[int] = None, *, min_year: int) -> bool:
     folded = _fold(text)
     if any(keyword in folded for keyword in NEW_BUILD_KEYWORDS):
         return True
-    return year is not None and year >= 2024
+    return year is not None and year >= min_year
 
 
-def is_excluded_zagreb_area(text: str) -> bool:
-    folded = _fold(text)
-    return any(_fold(token) in folded for token in EXCLUDED_ZAGREB_AREAS)
-
-
-def is_zagreb_apartment_area(text: str) -> bool:
-    """Zagreb city (minus eastern districts) or Zagrebačka županija towns."""
-    folded = _fold(text)
-    if is_excluded_zagreb_area(folded):
-        return False
-    if any(_fold(token) in folded for token in ZAGREB_CITY):
-        return True
-    return any(_fold(token) in folded for token in ZAGREB_COUNTY)
-
-
-def is_zagreb_area(text: str) -> bool:
-    folded = _fold(text)
-    if is_excluded_zagreb_area(folded):
-        return False
-    return any(_fold(token) in folded for token in HOUSE_LOCATIONS)
+def is_watched_area(text: str) -> bool:
+    """True when the listing location belongs to one of the configured watch areas."""
+    padded = f" {_area_key(text)} "
+    return any(f" {token} " in padded for token in _WATCH_AREA_KEYS)
 
 
 def is_croatian_island(text: str) -> bool:
@@ -169,25 +158,30 @@ def _zagreb_apartment_price_ok(price_eur: Optional[float]) -> bool:
     return MIN_ZAGREB_PRICE_EUR <= price_eur <= MAX_ZAGREB_APARTMENT_PRICE_EUR
 
 
-def matches_zagreb_house(listing: Listing) -> bool:
+def matches_zagreb_house(listing: Listing, url_scoped: bool = False) -> bool:
     if listing.price_eur is not None and not _zagreb_price_ok(listing.price_eur):
         return False
     blob = listing_blob(listing)
     index_soft = listing.source == "index"
-    if is_excluded_zagreb_area(blob):
-        return False
-    if not is_zagreb_area(blob) and not index_soft:
+    # Per-area search URLs already restrict the location; listing text often names
+    # only a neighbourhood (e.g. "Zagreb (Blato)") that would fail the area match.
+    if not url_scoped and not is_watched_area(blob) and not index_soft:
         return False
     if not _size_at_least(listing, MIN_ZAGREB_HOUSE_SIZE_M2):
         # Index detail pages often omit clear yard/living m² fields.
         if not (index_soft and listing.living_m2 is None and listing.yard_m2 is None):
             return False
+    built_recently = listing.is_new_build or is_new_build(
+        blob, min_year=MIN_ZAGREB_HOUSE_BUILD_YEAR
+    )
+    if not built_recently and not index_soft:
+        return False
     house_type = listing.house_type
     if house_type == "unknown":
         house_type = classify_house_type(blob)
     if house_type == "detached":
         return True
-    if house_type == "row" and (listing.is_new_build or is_new_build(blob)):
+    if house_type == "row":
         return True
     # Index rarely labels "samostojna" / "u nizu" — keep if price + location already match.
     if index_soft and house_type == "unknown":
@@ -195,20 +189,12 @@ def matches_zagreb_house(listing: Listing) -> bool:
     return False
 
 
-def matches_zagreb_apartment(listing: Listing) -> bool:
+def matches_zagreb_apartment(listing: Listing, url_scoped: bool = False) -> bool:
     if listing.price_eur is not None and not _zagreb_apartment_price_ok(listing.price_eur):
         return False
     blob = listing_blob(listing)
     index_soft = listing.source == "index"
-    if is_excluded_zagreb_area(blob):
-        return False
-    if not is_zagreb_apartment_area(blob) and not index_soft:
-        return False
-    rooms = listing.rooms or parse_rooms(blob)
-    if rooms is None:
-        if not index_soft:
-            return False
-    elif rooms < MIN_ZAGREB_APARTMENT_ROOMS or rooms >= MAX_ZAGREB_APARTMENT_ROOMS:
+    if not url_scoped and not is_watched_area(blob) and not index_soft:
         return False
     living = listing.living_m2
     if living is None:
@@ -216,7 +202,9 @@ def matches_zagreb_apartment(listing: Listing) -> bool:
             return False
     elif living < MIN_ZAGREB_APARTMENT_LIVING_M2:
         return False
-    if listing.is_new_build or is_new_build(blob):
+    if listing.is_new_build or is_new_build(
+        blob, min_year=MIN_ZAGREB_APARTMENT_BUILD_YEAR
+    ):
         return True
     # Index often omits explicit novogradnja wording even for newer builds.
     return index_soft
@@ -247,23 +235,17 @@ def card_price_ok(watch_id: str, price_eur: Optional[float]) -> bool:
     return True
 
 
-def prefilter_card(watch_id: str, card: Card) -> bool:
+def prefilter_card(watch_id: str, card: Card, url_scoped: bool = False) -> bool:
     blob = card_blob(card)
     is_index = card.source == "index"
 
     if watch_id in ("zagreb_houses", "zagreb_apartments"):
         if not card_price_ok(watch_id, card.price_eur):
             return False
-        if watch_id == "zagreb_apartments":
-            rooms = parse_rooms(blob)
-            if rooms is not None and rooms < MIN_ZAGREB_APARTMENT_ROOMS:
-                return False
-        # Index search URLs are already location-scoped; card blobs often lack place names.
-        if is_index:
+        # Search URLs are location-scoped; card blobs often name only a neighbourhood.
+        if url_scoped or is_index:
             return True
-        if watch_id == "zagreb_houses":
-            return is_zagreb_area(blob)
-        return is_zagreb_apartment_area(blob)
+        return is_watched_area(blob)
 
     if watch_id == "coast_houses":
         if card.price_eur is not None and not _coast_price_ok(card.price_eur):

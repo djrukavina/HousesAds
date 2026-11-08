@@ -8,6 +8,5 @@ fun List<Ad>.filterBy(filter: WatchFilter): List<Ad> = when (filter) {
     WatchFilter.FAVORITES -> filter { it.isFavorite }
     WatchFilter.ZAGREB_HOUSES,
     WatchFilter.ZAGREB_APARTMENTS,
-    WatchFilter.COAST_HOUSES,
     -> filter { it.watchId == filter.watchId }
 }

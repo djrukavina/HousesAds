@@ -4,17 +4,20 @@ Personal real-estate monitor for Croatian property listings. A Python scraper ru
 
 ## What it does
 
-The system watches three custom search profiles and only stores ads that pass strict filters:
+The system watches two custom search profiles and only stores ads that pass strict filters:
 
 | Watch | Criteria |
 |-------|----------|
-| **Zagreb houses** | Zagreb area + Samobor, **€10,000–€300,000**, yard or living area ≥ 100 m², detached house **or** row house + new build. Excluded: Sesvete, Velika Gorica, Sveta Klara, Veliko Polje, and eastern districts (Dubrava, Peščenica, etc.). |
-| **Zagreb apartments** | Zagreb city + Zagrebačka županija (Zaprešić, Samobor, Dugo Selo, …; **not** Sesvete, Velika Gorica, Sveta Klara, or Veliko Polje), **€10,000–€340,000**, 3–3.5 rooms, living area ≥ **70 m²**, new build only. Eastern districts excluded. |
-| **Coast houses** | Croatian islands, **€10,000–€50,000**, near the sea. |
+| **Houses** | The configured Zagreb/Zagrebačka areas, **€10,000–€240,000**, yard or living area ≥ **90 m²**, detached house **or** row house, built **2000 or later**. |
+| **Apartments** | The configured Zagreb/Zagrebačka areas, **€10,000–€300,000**, living area ≥ **55 m²**, built **2010 or later**. |
+
+The watched areas are defined once in `scraper/realestate_monitor/constants.py` (`WATCH_AREAS`) and used for both portals. Grad Zagreb: Brezovica, Novi Zagreb - Istok, Novi Zagreb - Zapad, Podsused - Vrapče, Sesvete, Stenjevec, Trešnjevka - Jug, Zagreb - Okolica. Zagrebačka županija: Dugo Selo, Ivanić-Grad, Velika Gorica, Zaprešić, Bistra, Kloštar Ivanić, Rugvica, Stupnik, plus Dugo Selo - Okolica, Ivanić-Grad - Okolica and Velika Gorica - Okolica.
+
+Each watch scrapes one Njuškalo search URL per area plus a single Index search. The search URL defines the area, so location text on Njuškalo ads is not used to reject them — it often names only a neighbourhood (e.g. `Zagreb (Blato)`).
 
 Listing pages that require a browser are fetched with Playwright in CI.
 
-**Index scrape:** search pages are loaded with Playwright. Sparse Index list cards often omit location/price text, so Index cards skip the location/island *card* prefilter and are hydrated from the detail page before the full matcher runs. Matchers are slightly softer for Index (missing rooms/m²/house-type/novogradnja text does not auto-reject). Short island names (e.g. Ist) use word-boundary matching so mainland **Istra** is not treated as an island.
+**Index scrape:** Index ignores location and price in the URL path and in plain query params; it only honours the `searchQuery` JSON. The scraper therefore sends `includeCityIds` (all watched areas), `priceFrom` and `priceTo` inside a twice-encoded `searchQuery`. Sparse Index list cards often omit location/price text, so Index cards skip the location *card* prefilter and are hydrated from the detail page before the full matcher runs. Matchers are slightly softer for Index (missing m²/house-type/build-year text does not auto-reject).
 
 ## Architecture
 
@@ -50,7 +53,7 @@ Deleting an ad in the app hides it locally and publishes the ID to an ntfy topic
 ## Android app
 
 - **Package:** `com.housesads`
-- **Default feed:** `https://raw.githubusercontent.com/CurkovicDavid/HousesAds/main/data/listings.json`
+- **Default feed:** `https://raw.githubusercontent.com/djrukavina/HousesAds/main/data/listings.json`
 - **Stack:** Jetpack Compose, Room, WorkManager background sync, Material 3
 - **Features:** category tabs, favorites, open listing in browser, pull-to-refresh, background sync
 - **Alerts:** handled exclusively by Telegram (no duplicate phone notifications)
@@ -71,7 +74,7 @@ If you previously installed the old **NjuskaloAds** app (`com.njuskalo.ads`), un
 
 ## Scraper
 
-Runs on GitHub Actions hourly (`--once`), writes `data/listings.json`, and sends Telegram alerts. There is no local HTTP API — the Android app reads the published JSON feed from GitHub.
+Runs on GitHub Actions every 2 hours (`--once`), writes `data/listings.json`, and sends Telegram alerts. There is no local HTTP API — the Android app reads the published JSON feed from GitHub.
 
 ### Run once locally (optional)
 
@@ -107,7 +110,7 @@ Add these **repository secrets**:
 ## CI
 
 - **Tests** — runs on every push to `main` (Kotlin unit tests + Python pytest)
-- **Scrape listings** — hourly cron + manual dispatch; commits updated `data/` when listings change
+- **Scrape listings** — every-2-hours cron + manual dispatch; commits updated `data/` when listings change
 
 ## License
 

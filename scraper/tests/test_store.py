@@ -22,7 +22,7 @@ def test_store_hides_and_exports_listing(tmp_path) -> None:
     assert store.is_hidden("njuskalo:1")
     assert len(store.all_listings()) == 1
 
-    store.export_json(path=json_path)
+    store.export_json(path=json_path, hidden_path=hidden_path)
     payload = json.loads(json_path.read_text(encoding="utf-8"))
     assert [item["id"] for item in payload["ads"]] == ["njuskalo:2"]
 

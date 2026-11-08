@@ -6,6 +6,7 @@ from urllib.parse import urljoin, urlparse
 
 from bs4 import BeautifulSoup
 
+from .constants import MIN_ZAGREB_APARTMENT_BUILD_YEAR, MIN_ZAGREB_HOUSE_BUILD_YEAR
 from .filters import (
     classify_house_type,
     is_near_sea,
@@ -96,9 +97,17 @@ def listing_from_njuskalo_detail(card: Card, html: str, watch_id: str, category:
             ("povrsina okucnice", "okucnica", "povrsina parcele", "parcela", "vrt"),
         ),
         living_m2=parse_square_meters(merged, ("stambena povrsina", "stambena povrsina", "povrsina")),
-        is_new_build=is_new_build(merged, year),
+        is_new_build=is_new_build(
+            merged, year, min_year=_build_year_min(watch_id)
+        ),
         near_sea=is_near_sea(merged),
     )
+
+
+def _build_year_min(watch_id: str) -> int:
+    if watch_id == "zagreb_houses":
+        return MIN_ZAGREB_HOUSE_BUILD_YEAR
+    return MIN_ZAGREB_APARTMENT_BUILD_YEAR
 
 
 def parse_index_cards(html: str) -> list[Card]:
@@ -205,7 +214,9 @@ def listing_from_index_detail(card: Card, html: str, watch_id: str, category: st
             merged,
             ("stambena povrsina", "stambeni prostor", "kvadratura", "povrsina stana", "m2", "m²"),
         ),
-        is_new_build=is_new_build(merged, year),
+        is_new_build=is_new_build(
+            merged, year, min_year=_build_year_min(watch_id)
+        ),
         near_sea=is_near_sea(merged),
     )
 

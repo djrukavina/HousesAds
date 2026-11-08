@@ -47,7 +47,7 @@ class FeedSyncPlannerTest {
         title = "Test $id",
         priceEur = 100_000.0,
         location = "Zagreb",
-        category = "Stanovi Zagreb",
+        category = "Stanovi",
         watchId = "zagreb_apartments",
         source = "njuskalo",
         description = "",

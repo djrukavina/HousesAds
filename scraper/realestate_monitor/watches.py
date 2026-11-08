@@ -1,20 +1,21 @@
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from typing import Callable
-from urllib.parse import urlencode
+from urllib.parse import quote, urlencode
 
 from .constants import (
-    MAX_COAST_PRICE_EUR,
     MAX_ZAGREB_APARTMENT_PRICE_EUR,
     MAX_ZAGREB_PRICE_EUR,
-    MIN_COAST_PRICE_EUR,
     MIN_ZAGREB_PRICE_EUR,
+    WATCH_AREA_INDEX_IDS,
+    WATCH_AREA_SLUGS,
 )
-from .filters import matches_coast_house, matches_zagreb_apartment, matches_zagreb_house
+from .filters import matches_zagreb_apartment, matches_zagreb_house
 from .models import Listing
 
-Matcher = Callable[[Listing], bool]
+Matcher = Callable[..., bool]
 
 
 @dataclass(frozen=True)
@@ -31,63 +32,61 @@ def _njuskalo(path: str, **params: object) -> str:
     return f"https://www.njuskalo.hr/{path}?{query}" if query else f"https://www.njuskalo.hr/{path}"
 
 
-def _index(path: str, **params: object) -> str:
-    query = urlencode(params, doseq=True)
-    return f"https://www.index.hr{path}?{query}" if query else f"https://www.index.hr{path}"
+def _index_search(category: str, **params: object) -> str:
+    """Build an Index search URL.
+
+    Index ignores location/price in the path and in plain query params. The only
+    thing it honours is the ``searchQuery`` JSON, which the site itself sends
+    percent-encoded twice.
+    """
+    payload = {"category": category, "module": "nekretnine", **params}
+    encoded = quote(json.dumps(payload, separators=(",", ":"), ensure_ascii=False), safe="")
+    query = urlencode({"searchQuery": encoded})
+    return f"https://www.index.hr/oglasi/nekretnine/{category}/pretraga?{query}"
 
 
 _ZAGREB_PRICE = {"price[max]": MAX_ZAGREB_PRICE_EUR, "price[min]": MIN_ZAGREB_PRICE_EUR}
-_INDEX_ZAGREB_PRICE = {"cijenaDo": MAX_ZAGREB_PRICE_EUR, "cijenaOd": MIN_ZAGREB_PRICE_EUR}
 _ZAGREB_APARTMENT_PRICE = {
     "price[max]": MAX_ZAGREB_APARTMENT_PRICE_EUR,
     "price[min]": MIN_ZAGREB_PRICE_EUR,
 }
-_INDEX_ZAGREB_APARTMENT_PRICE = {
-    "cijenaDo": MAX_ZAGREB_APARTMENT_PRICE_EUR,
-    "cijenaOd": MIN_ZAGREB_PRICE_EUR,
-}
-_COAST_PRICE = {"price[max]": MAX_COAST_PRICE_EUR, "price[min]": MIN_COAST_PRICE_EUR}
-_INDEX_COAST_PRICE = {"cijenaDo": MAX_COAST_PRICE_EUR, "cijenaOd": MIN_COAST_PRICE_EUR}
+
+_NJUSKALO_HOUSE_URLS = tuple(
+    _njuskalo(f"prodaja-kuca/{slug}", **_ZAGREB_PRICE) for slug in WATCH_AREA_SLUGS
+)
+_NJUSKALO_APARTMENT_URLS = tuple(
+    _njuskalo(f"prodaja-stanova/{slug}", **_ZAGREB_APARTMENT_PRICE) for slug in WATCH_AREA_SLUGS
+)
+
+_INDEX_HOUSE_URL = _index_search(
+    "prodaja-kuca",
+    includeCityIds=list(WATCH_AREA_INDEX_IDS),
+    priceFrom=MIN_ZAGREB_PRICE_EUR,
+    priceTo=MAX_ZAGREB_PRICE_EUR,
+)
+_INDEX_APARTMENT_URL = _index_search(
+    "prodaja-stanova",
+    includeCityIds=list(WATCH_AREA_INDEX_IDS),
+    priceFrom=MIN_ZAGREB_PRICE_EUR,
+    priceTo=MAX_ZAGREB_APARTMENT_PRICE_EUR,
+)
 
 
 def build_watches() -> tuple[Watch, ...]:
-    """Only the three user filters. Page 1 is enough — new ads appear first."""
+    """Watch houses and apartments across the configured areas. Page 1 is enough."""
     return (
         Watch(
             id="zagreb_houses",
-            category="Kuće Zagreb",
+            category="Kuće",
             matcher=matches_zagreb_house,
-            urls=(
-                _njuskalo("prodaja-kuca/zagreb", **_ZAGREB_PRICE),
-                _njuskalo("prodaja-kuca/samobor", **_ZAGREB_PRICE),
-                _index("/oglasi/nekretnine/prodaja-kuca/zagreb", **_INDEX_ZAGREB_PRICE),
-            ),
+            urls=_NJUSKALO_HOUSE_URLS + (_INDEX_HOUSE_URL,),
             max_pages=1,
         ),
         Watch(
             id="zagreb_apartments",
-            category="Stanovi Zagreb",
+            category="Stanovi",
             matcher=matches_zagreb_apartment,
-            urls=(
-                _njuskalo("prodaja-stanova/zagreb", **_ZAGREB_APARTMENT_PRICE),
-                _njuskalo("prodaja-stanova/zapresic", **_ZAGREB_APARTMENT_PRICE),
-                _njuskalo("prodaja-stanova/samobor", **_ZAGREB_APARTMENT_PRICE),
-                _njuskalo("prodaja-stanova/dugo-selo", **_ZAGREB_APARTMENT_PRICE),
-                _njuskalo("prodaja-stanova/sveta-nedelja", **_ZAGREB_APARTMENT_PRICE),
-                _index("/oglasi/nekretnine/prodaja-stanova/zagreb", **_INDEX_ZAGREB_APARTMENT_PRICE),
-                _index("/oglasi/nekretnine/prodaja-stanova/zapresic", **_INDEX_ZAGREB_APARTMENT_PRICE),
-                _index("/oglasi/nekretnine/prodaja-stanova/samobor", **_INDEX_ZAGREB_APARTMENT_PRICE),
-            ),
-            max_pages=1,
-        ),
-        Watch(
-            id="coast_houses",
-            category="Kuće otoci",
-            matcher=matches_coast_house,
-            urls=(
-                _njuskalo("prodaja-kuca", **_COAST_PRICE),
-                _index("/oglasi/nekretnine/prodaja-kuca", **_INDEX_COAST_PRICE),
-            ),
+            urls=_NJUSKALO_APARTMENT_URLS + (_INDEX_APARTMENT_URL,),
             max_pages=1,
         ),
     )

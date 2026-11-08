@@ -17,8 +17,7 @@ data class Ad(
 
 enum class WatchFilter(val label: String, val watchId: String?) {
     ALL("Svi", null),
-    ZAGREB_HOUSES("Kuće Zagreb", "zagreb_houses"),
-    ZAGREB_APARTMENTS("Stanovi Zagreb", "zagreb_apartments"),
-    COAST_HOUSES("Otoci", "coast_houses"),
+    ZAGREB_HOUSES("Kuće", "zagreb_houses"),
+    ZAGREB_APARTMENTS("Stanovi", "zagreb_apartments"),
     FAVORITES("Favoriti", null),
 }

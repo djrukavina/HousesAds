@@ -169,7 +169,7 @@ private fun AdCardPreview() {
                 title = "Trosoban stan, novogradnja, 82 m²",
                 priceEur = 289_000.0,
                 location = "Zagreb",
-                category = "Stanovi Zagreb",
+                category = "Stanovi",
                 description = "",
                 imageUrl = null,
                 url = "https://www.njuskalo.hr/nekretnine/oglas-1",

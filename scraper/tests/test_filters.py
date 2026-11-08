@@ -1,7 +1,12 @@
+from realestate_monitor.constants import (
+    MIN_ZAGREB_APARTMENT_BUILD_YEAR,
+    MIN_ZAGREB_HOUSE_BUILD_YEAR,
+)
 from realestate_monitor.filters import (
     card_price_ok,
     is_croatian_island,
-    is_excluded_zagreb_area,
+    is_new_build,
+    is_watched_area,
     matches_coast_house,
     matches_zagreb_apartment,
     matches_zagreb_house,
@@ -21,18 +26,44 @@ def test_parse_rooms_detects_trosoban() -> None:
     assert parse_rooms("Trosoban stan, novogradnja") == 3.0
 
 
+def test_new_build_uses_watch_specific_year() -> None:
+    assert is_new_build("", 2000, min_year=MIN_ZAGREB_HOUSE_BUILD_YEAR)
+    assert not is_new_build("", 1999, min_year=MIN_ZAGREB_HOUSE_BUILD_YEAR)
+    assert is_new_build("", 2010, min_year=MIN_ZAGREB_APARTMENT_BUILD_YEAR)
+    assert not is_new_build("", 2009, min_year=MIN_ZAGREB_APARTMENT_BUILD_YEAR)
+    assert not is_new_build("", None, min_year=MIN_ZAGREB_APARTMENT_BUILD_YEAR)
+    assert is_new_build("novogradnja", 1990, min_year=MIN_ZAGREB_APARTMENT_BUILD_YEAR)
+
+
 def test_matches_zagreb_house_for_detached_listing() -> None:
     assert matches_zagreb_house(
-        listing(location="Samobor", living_m2=110.0, house_type="detached")
+        listing(
+            location="Zaprešić",
+            living_m2=110.0,
+            house_type="detached",
+            is_new_build=True,
+        )
     )
 
 
-def test_rejects_zagreb_house_in_sesvete() -> None:
-    assert not matches_zagreb_house(
+def test_matches_zagreb_house_in_sesvete() -> None:
+    assert matches_zagreb_house(
         listing(
             location="Zagreb, Sesvete, Markovo Polje",
             living_m2=120.0,
             house_type="detached",
+            is_new_build=True,
+        )
+    )
+
+
+def test_rejects_zagreb_house_built_before_2000() -> None:
+    assert not matches_zagreb_house(
+        listing(
+            location="Zaprešić",
+            living_m2=120.0,
+            house_type="detached",
+            is_new_build=False,
         )
     )
 
@@ -48,8 +79,8 @@ def test_rejects_zagreb_house_in_dubrava() -> None:
     )
 
 
-def test_rejects_zagreb_apartment_in_sesvete() -> None:
-    assert not matches_zagreb_apartment(
+def test_matches_zagreb_apartment_in_sesvete() -> None:
+    assert matches_zagreb_apartment(
         listing(
             title="Trosoban stan",
             location="Zagreb, Sesvete, Gajišće",
@@ -76,8 +107,8 @@ def test_rejects_zagreb_apartment_in_pescenica() -> None:
     )
 
 
-def test_rejects_zagreb_apartment_in_velika_gorica() -> None:
-    assert not matches_zagreb_apartment(
+def test_matches_zagreb_apartment_in_velika_gorica() -> None:
+    assert matches_zagreb_apartment(
         listing(
             title="Trosoban stan",
             location="Velika Gorica",
@@ -104,42 +135,60 @@ def test_matches_zagreb_apartment_in_county_town() -> None:
     )
 
 
-def test_matches_zagreb_apartment_at_70m2() -> None:
+def test_matches_zagreb_apartment_at_55m2() -> None:
     assert matches_zagreb_apartment(
         listing(
             title="Trosoban stan",
-            location="Zagreb, Trešnjevka",
-            description="Novogradnja, stambena povrsina 70 m2",
+            location="Zagreb, Trešnjevka - Jug",
+            description="Novogradnja, stambena povrsina 55 m2",
             rooms=3.0,
-            living_m2=70.0,
+            living_m2=55.0,
             is_new_build=True,
             house_type="unknown",
         )
     )
 
 
-def test_rejects_zagreb_apartment_below_70m2() -> None:
+def test_rejects_zagreb_apartment_below_55m2() -> None:
     assert not matches_zagreb_apartment(
         listing(
             title="Trosoban stan",
-            location="Zagreb, Trešnjevka",
-            description="Novogradnja, stambena povrsina 69 m2",
+            location="Zagreb, Trešnjevka - Jug",
+            description="Novogradnja, stambena povrsina 54 m2",
             rooms=3.0,
-            living_m2=69.0,
+            living_m2=54.0,
             is_new_build=True,
             house_type="unknown",
         )
     )
 
 
-def test_is_excluded_zagreb_area_detects_eastern_districts() -> None:
-    assert is_excluded_zagreb_area("Zagreb, Sesvete")
-    assert is_excluded_zagreb_area("Velika Gorica")
-    assert is_excluded_zagreb_area("Zagreb, Sveta Klara")
-    assert is_excluded_zagreb_area("Veliko Polje")
-    assert is_excluded_zagreb_area("Stan: Zagreb, Dubrava")
-    assert not is_excluded_zagreb_area("Zagreb, Trešnjevka")
-    assert not is_excluded_zagreb_area("Sveta Nedelja")
+def test_is_watched_area_accepts_configured_areas() -> None:
+    assert is_watched_area("Zagreb, Novi Zagreb - Istok")
+    assert is_watched_area("Zagreb, Novi Zagreb - Zapad")
+    assert is_watched_area("Zagreb, Podsused - Vrapče")
+    assert is_watched_area("Brestje - Sesvete")
+    assert is_watched_area("Zagreb, Stenjevec")
+    assert is_watched_area("Zagreb, Trešnjevka - Jug")
+    assert is_watched_area("Zagreb - Okolica")
+    assert is_watched_area("Dugo Selo - Okolica")
+    assert is_watched_area("Ivanić-Grad")
+    assert is_watched_area("Velika Gorica - Okolica")
+    assert is_watched_area("Zaprešić")
+    assert is_watched_area("Donja Bistra")
+    assert is_watched_area("Kloštar Ivanić")
+    assert is_watched_area("Rugvica")
+    assert is_watched_area("Stupnik")
+
+
+def test_is_watched_area_rejects_other_locations() -> None:
+    assert not is_watched_area("Zagreb, Maksimir")
+    assert not is_watched_area("Zagreb, Donji Grad")
+    assert not is_watched_area("Zagreb, Trešnjevka - Sjever")
+    assert not is_watched_area("Samobor")
+    assert not is_watched_area("Jastrebarsko")
+    assert not is_watched_area("Sveta Nedelja")
+    assert not is_watched_area("Split")
 
 
 def test_island_ist_does_not_match_istra() -> None:
@@ -148,10 +197,11 @@ def test_island_ist_does_not_match_istra() -> None:
 
 
 def test_card_price_ok_for_each_watch() -> None:
-    assert card_price_ok("zagreb_houses", 250_000.0)
+    assert card_price_ok("zagreb_houses", 240_000.0)
+    assert not card_price_ok("zagreb_houses", 241_000.0)
     assert not card_price_ok("zagreb_houses", 5_000.0)
-    assert card_price_ok("zagreb_apartments", 340_000.0)
-    assert not card_price_ok("zagreb_apartments", 341_000.0)
+    assert card_price_ok("zagreb_apartments", 300_000.0)
+    assert not card_price_ok("zagreb_apartments", 301_000.0)
     assert card_price_ok("coast_houses", 25_000.0)
     assert not card_price_ok("coast_houses", None)
 
@@ -208,8 +258,63 @@ def test_prefilter_still_requires_location_for_njuskalo_zagreb() -> None:
     assert not prefilter_card("zagreb_houses", card)
 
 
+def test_accepts_neighbourhood_location_when_url_scoped() -> None:
+    # Njuškalo often names only the neighbourhood; the per-area URL is authoritative.
+    assert matches_zagreb_apartment(
+        listing(
+            title="Trosoban stan",
+            location="Zagreb (Blato)",
+            description="Novogradnja, stambena povrsina 82 m2",
+            rooms=3.0,
+            living_m2=82.0,
+            is_new_build=True,
+            house_type="unknown",
+        ),
+        url_scoped=True,
+    )
+
+
+def test_prefilter_skips_location_when_url_scoped() -> None:
+    card = Card(
+        source="njuskalo",
+        external_id="5",
+        title="Stan: Zagreb (Blato), 82 m2, novogradnja",
+        url="https://www.njuskalo.hr/prodaja-stanova/novi-zagreb-istok/oglas-5",
+        price_eur=220_000.0,
+        location="",
+        snippet="Zagreb (Blato)",
+    )
+    assert not prefilter_card("zagreb_apartments", card)
+    assert prefilter_card("zagreb_apartments", card, url_scoped=True)
+
+
+def test_matches_zagreb_house_at_240k() -> None:
+    assert matches_zagreb_house(
+        listing(
+            price_eur=240_000.0,
+            living_m2=90.0,
+            house_type="detached",
+            is_new_build=True,
+        )
+    )
+
+
 def test_rejects_zagreb_house_above_budget() -> None:
-    assert not matches_zagreb_house(listing(price_eur=350_000.0))
+    assert not matches_zagreb_house(
+        listing(price_eur=241_000.0, living_m2=90.0, house_type="detached")
+    )
+
+
+def test_matches_zagreb_house_at_90m2() -> None:
+    assert matches_zagreb_house(
+        listing(living_m2=90.0, house_type="detached", is_new_build=True)
+    )
+
+
+def test_rejects_zagreb_house_below_90m2() -> None:
+    assert not matches_zagreb_house(
+        listing(living_m2=89.0, yard_m2=None, house_type="detached")
+    )
 
 
 def test_rejects_zagreb_house_below_min_price() -> None:
@@ -232,12 +337,12 @@ def test_rejects_zagreb_apartment_below_min_price() -> None:
     )
 
 
-def test_matches_zagreb_apartment_at_340k() -> None:
+def test_matches_zagreb_apartment_at_300k() -> None:
     assert matches_zagreb_apartment(
         listing(
             title="Trosoban stan",
-            location="Zagreb, Trešnjevka",
-            price_eur=340_000.0,
+            location="Zagreb, Trešnjevka - Jug",
+            price_eur=300_000.0,
             description="Novogradnja, stambena povrsina 80 m2",
             rooms=3.0,
             living_m2=80.0,
@@ -247,12 +352,12 @@ def test_matches_zagreb_apartment_at_340k() -> None:
     )
 
 
-def test_rejects_zagreb_apartment_above_340k() -> None:
+def test_rejects_zagreb_apartment_above_300k() -> None:
     assert not matches_zagreb_apartment(
         listing(
             title="Trosoban stan",
-            location="Zagreb, Trešnjevka",
-            price_eur=341_000.0,
+            location="Zagreb, Trešnjevka - Jug",
+            price_eur=301_000.0,
             description="Novogradnja, stambena povrsina 80 m2",
             rooms=3.0,
             living_m2=80.0,
@@ -303,17 +408,15 @@ def test_index_apartment_allows_missing_rooms_size_and_new_build() -> None:
     )
 
 
-def test_index_apartment_still_rejects_excluded_area() -> None:
+def test_rejects_njuskalo_apartment_outside_watched_area() -> None:
     assert not matches_zagreb_apartment(
         listing(
-            listing_id="index:2",
-            source="index",
-            title="Stan",
-            location="Sesvete",
-            rooms=None,
-            living_m2=None,
-            is_new_build=False,
-            description="Sesvete",
+            title="Trosoban stan",
+            location="Samobor",
+            description="Novogradnja, stambena povrsina 82 m2",
+            rooms=3.0,
+            living_m2=82.0,
+            is_new_build=True,
             house_type="unknown",
         )
     )

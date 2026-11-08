@@ -69,7 +69,8 @@ class Monitor:
             if not cards:
                 break
             for card in cards:
-                if not prefilter_card(watch.id, card):
+                # Every watch URL is already scoped to one of WATCH_AREAS.
+                if not prefilter_card(watch.id, card, url_scoped=True):
                     continue
                 if self._handle_card(watch, card, first_run):
                     new_matches += 1
@@ -95,7 +96,7 @@ class Monitor:
         self.store.mark_seen(listing.id, now)
         if listing.posted_at_millis <= 0:
             listing.posted_at_millis = now
-        if not watch.matcher(listing):
+        if not watch.matcher(listing, True):
             return False
         listing.watch_id = watch.id
         listing.category = watch.category
