@@ -23,6 +23,7 @@ class Listing:
     living_m2: Optional[float] = None
     is_new_build: bool = False
     near_sea: bool = False
+    build_year: Optional[int] = None
 
     def to_api(self) -> dict[str, object]:
         return {

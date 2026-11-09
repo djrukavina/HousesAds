@@ -75,13 +75,30 @@ def parse_rooms(text: str) -> Optional[float]:
     return None
 
 
+def _parse_number(raw: str) -> Optional[float]:
+    """Parse both ``1424.5`` and Croatian ``1.424,50`` number formats."""
+    raw = raw.strip().replace(" ", "")
+    if not raw:
+        return None
+    if "," in raw:
+        raw = raw.replace(".", "").replace(",", ".")
+    elif re.fullmatch(r"\d{1,3}(?:\.\d{3})+", raw):
+        raw = raw.replace(".", "")
+    try:
+        return float(raw)
+    except ValueError:
+        return None
+
+
 def parse_square_meters(text: str, labels: tuple[str, ...]) -> Optional[float]:
     folded = _fold(text)
     for label in labels:
-        pattern = rf"{label}\s*:?\s*(\d+(?:[.,]\d+)?)"
+        pattern = rf"{label}\s*:?\s*(\d[\d.,]*)"
         match = re.search(pattern, folded)
         if match:
-            return float(match.group(1).replace(",", "."))
+            value = _parse_number(match.group(1))
+            if value is not None:
+                return value
     return None
 
 
@@ -174,6 +191,12 @@ def matches_zagreb_house(listing: Listing, url_scoped: bool = False) -> bool:
     built_recently = listing.is_new_build or is_new_build(
         blob, min_year=MIN_ZAGREB_HOUSE_BUILD_YEAR
     )
+    if (
+        listing.build_year is not None
+        and listing.build_year < MIN_ZAGREB_HOUSE_BUILD_YEAR
+        and not listing.is_new_build
+    ):
+        return False
     if not built_recently and not index_soft:
         return False
     house_type = listing.house_type
@@ -201,6 +224,12 @@ def matches_zagreb_apartment(listing: Listing, url_scoped: bool = False) -> bool
         if not index_soft:
             return False
     elif living < MIN_ZAGREB_APARTMENT_LIVING_M2:
+        return False
+    if (
+        listing.build_year is not None
+        and listing.build_year < MIN_ZAGREB_APARTMENT_BUILD_YEAR
+        and not listing.is_new_build
+    ):
         return False
     if listing.is_new_build or is_new_build(
         blob, min_year=MIN_ZAGREB_APARTMENT_BUILD_YEAR

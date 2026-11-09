@@ -442,6 +442,27 @@ def parse_index_cards(html: str) -> list[Card]:
     return items
 
 
+def _class_text(node, token: str) -> str:
+    if node is None or not hasattr(node, "select_one"):
+        return ""
+    element = node.select_one(f'[class*="{token}"]')
+    if element is None:
+        return ""
+    return " ".join(element.get_text(" ", strip=True).split())
+
+
+def _index_card_image(card_root) -> Optional[str]:
+    if card_root is None:
+        return None
+    for element in card_root.find_all(style=True):
+        match = re.search(r'url\(["\']?([^"\')]+)["\']?\)', element.get("style", ""))
+        if match:
+            return match.group(1)
+    image = card_root.find("img") if hasattr(card_root, "find") else None
+    src = image.get("src") if image is not None else None
+    return src or None
+
+
 def _index_card_from_url(href: str, link, seen: set[str]) -> Card | None:
     external_id = _index_id(href)
     if not external_id or external_id in seen:
@@ -449,84 +470,145 @@ def _index_card_from_url(href: str, link, seen: set[str]) -> Card | None:
     if "/nekretnine/" not in href or "/oglas/" not in href:
         return None
 
+    card_root = _index_card_root(link)
     title = ""
     if link is not None:
-        title = " ".join(link.get_text(" ", strip=True).split())
-        if len(title) < 8:
-            title = " ".join((link.get("title") or link.get("aria-label") or "").split())
-    if len(title) < 8:
+        title = " ".join((link.get("title") or "").split())
+        if not title:
+            title = _class_text(card_root, "AdSummary__title")
+        if not title:
+            title = " ".join(link.get_text(" ", strip=True).split())
+    if not title:
+        title = _class_text(card_root, "AdSummary__title")
+    if not title:
         slug = urlparse(href).path.rsplit("/", 1)[0].rsplit("/", 1)[-1]
         title = slug.replace("-", " ").strip().title()
 
+    blob = " ".join(card_root.get_text(" ", strip=True).split()) if card_root is not None else title
+    price_text = _class_text(card_root, "adPrice__price")
+    location = _class_text(card_root, "adLocation__location")
+    if not location:
+        location = _guess_index_location(blob, title)
+
     seen.add(external_id)
-    card_root = _index_card_root(link)
-    blob = card_root.get_text(" ", strip=True) if card_root is not None else title
-    image = card_root.find("img") if card_root is not None and hasattr(card_root, "find") else None
     return Card(
         source="index",
         external_id=external_id,
         title=title,
         url=href.split("?")[0],
-        price_eur=parse_price(blob),
-        location=_guess_index_location(blob, title),
+        price_eur=parse_price(price_text or blob),
+        location=location,
         snippet=blob[:500],
-        image_url=image.get("src") if image is not None and image.get("src") else None,
+        image_url=_index_card_image(card_root),
     )
 
 
 def _index_card_root(link):
-    """Walk up from the listing link to a richer card container."""
+    """Return the ad card wrapper, never a container holding several cards."""
     if link is None:
         return None
     node = link
-    best = None
-    for _ in range(8):
+    for _ in range(6):
         parent = getattr(node, "parent", None)
         if parent is None or not getattr(parent, "name", None):
             break
-        text = parent.get_text(" ", strip=True)
-        if len(text) > 40:
-            best = parent
-            if parent.name in ("article", "li") or len(text) > 140:
-                return parent
+        classes = " ".join(parent.get("class") or [])
+        if "adCard__card" in classes:
+            return parent
         node = parent
-    return best or link.find_parent(["article", "li", "div"])
+    return getattr(link, "parent", None) or link
+
+
+def _index_product(soup: BeautifulSoup) -> dict:
+    for script in soup.find_all("script", attrs={"type": "application/ld+json"}):
+        raw = script.string or script.get_text()
+        try:
+            data = json.loads(raw)
+        except (TypeError, ValueError):
+            continue
+        candidates = data if isinstance(data, list) else [data]
+        for candidate in candidates:
+            if isinstance(candidate, dict) and candidate.get("@type") == "Product":
+                return candidate
+    return {}
+
+
+def _index_detail_location(soup: BeautifulSoup) -> str:
+    node = soup.select_one('[class*="sellerSection__bottomCard"]')
+    if node is None:
+        return ""
+    text = " ".join(node.get_text(" ", strip=True).split())
+    neighbourhood = node.find("b")
+    if neighbourhood is not None:
+        hood = " ".join(neighbourhood.get_text(" ", strip=True).split())
+        rest = text.replace(hood, "", 1).strip(" ,")
+        if hood and rest:
+            return f"{rest}, {hood}"
+        return hood or rest
+    return text
 
 
 def listing_from_index_detail(card: Card, html: str, watch_id: str, category: str) -> Listing:
     soup = BeautifulSoup(html, "lxml")
-    text = soup.get_text("\n", strip=True)
+    product = _index_product(soup)
+    offers = product.get("offers") if isinstance(product.get("offers"), dict) else {}
+
+    root = soup.select_one('[class*="AdDetailsPage__content"]') or soup
+    text = root.get_text("\n", strip=True)
     merged = f"{card.title}\n{card.snippet}\n{text}"
-    year = _parse_year(merged)
-    location = card.location.strip() if card.location else ""
+    year = _labeled_year(text) or _parse_year(merged)
+
+    title = " ".join(str(product.get("name") or card.title).split())
+    price: Optional[float] = None
+    raw_price = offers.get("price")
+    if isinstance(raw_price, (int, float)):
+        price = float(raw_price)
+    elif raw_price is not None:
+        price = parse_price(str(raw_price))
+    if price is None:
+        price = card.price_eur if card.price_eur is not None else parse_price(text)
+
+    location = _index_detail_location(soup)
+    if not location:
+        location = card.location.strip() if card.location else ""
     if not location or len(location) < 3:
-        location = _guess_index_location(merged, card.title)
-    # Keep enough detail text so location / novogradnja keywords reach the matcher.
-    description = f"{card.snippet}\n{text}".strip()[:2000]
+        location = _guess_index_location(merged, title)
+
+    description = str(product.get("description") or "").strip()
+    if not description:
+        # Keep enough detail text so location / novogradnja keywords reach the matcher.
+        description = f"{card.snippet}\n{text}".strip()[:2000]
+
+    images = product.get("image")
+    image_url = card.image_url
+    if isinstance(images, list) and images and isinstance(images[0], str):
+        image_url = images[0]
+    elif isinstance(images, str):
+        image_url = images
+
     return Listing(
         id=f"index:{card.external_id}",
         source="index",
         watch_id=watch_id,
-        title=card.title,
+        title=title,
         url=card.url,
-        price_eur=card.price_eur if card.price_eur is not None else parse_price(merged),
+        price_eur=price,
         location=location,
         category=category,
         description=description,
-        image_url=card.image_url,
+        image_url=image_url,
         posted_at_millis=_posted_millis(soup),
-        house_type=classify_house_type(merged),
-        rooms=parse_rooms(merged),
+        house_type=classify_house_type(text),
+        rooms=parse_rooms(text),
         yard_m2=parse_square_meters(
-            merged,
-            ("okucnica", "povrsina okucnice", "parcela", "vrt", "zemljiste"),
+            text,
+            ("povrsina okucnice", "okucnica", "povrsina parcele", "parcela"),
         ),
         living_m2=parse_square_meters(
-            merged,
-            ("stambena povrsina", "stambeni prostor", "kvadratura", "povrsina stana", "m2", "m²"),
+            text, ("stambena povrsina", "stambeni prostor", "povrsina stana")
         ),
         is_new_build=is_new_build(
-            merged, year, min_year=_build_year_min(watch_id)
+            text, year, min_year=_build_year_min(watch_id)
         ),
         near_sea=is_near_sea(merged),
     )

@@ -2,6 +2,7 @@ import json
 
 from realestate_monitor.models import Card
 from realestate_monitor.parse import (
+    listing_from_index_detail,
     listing_from_njuskalo_detail,
     parse_index_cards,
     parse_njuskalo_cards,
@@ -67,6 +68,102 @@ def test_parse_index_cards_from_embedded_urls() -> None:
     cards = parse_index_cards(html)
     assert len(cards) == 1
     assert cards[0].external_id == "7497704"
+
+
+def _index_card_html(external_id: str, title: str, price: str, location: str, size: str = "") -> str:
+    return f"""
+    <div class="ant-col ant-col-xs-24">
+      <a href="/oglasi/nekretnine/prodaja-kuca/oglas/kuca-{external_id}/{external_id}"
+         title="{title}">
+        <div class="adCard__card___vbwvv">
+          <span>08.11.2026.</span>
+          <span class="AdSummary__title___y1fZw">{title}</span>
+          <span class="adPrice__price___3o3Dk">{price}</span>
+          <span class="style__value___37YPR">{size}</span>
+          <div class="adLocation__location___3r63d">{location}</div>
+          <div style='background-image: url("https://img.index.hr/{external_id}.jpg");'></div>
+        </div>
+      </a>
+    </div>
+    """
+
+
+def test_parse_index_cards_scopes_each_card_to_its_own_data() -> None:
+    html = (
+        "<html><body><div class='adList__row___2FDSq'>"
+        + _index_card_html(
+            "7041331",
+            "Kuća Ivanić-Grad - Okolica (Lijevi Dubrovčak), 65m2, 4-sobna",
+            "38.000 €",
+            "Ivanić-Grad - Okolica",
+            "65 M2",
+        )
+        + _index_card_html("7674840", "Kuća Bistra", "230.000 €", "Bistra", "150 M2")
+        + "</div></body></html>"
+    )
+    cards = {card.external_id: card for card in parse_index_cards(html)}
+
+    assert cards["7674840"].price_eur == 230_000.0
+    assert cards["7674840"].location == "Bistra"
+    assert cards["7674840"].title == "Kuća Bistra"
+    assert cards["7674840"].image_url == "https://img.index.hr/7674840.jpg"
+    assert cards["7041331"].price_eur == 38_000.0
+
+
+def _index_detail_html() -> str:
+    product = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "Kuća Bistra (Bukovje Bistransko), 150m2, 3-sobna",
+        "description": "Samostojeća kuća s velikom okućnicom.",
+        "image": ["https://img.index.hr/detail.jpg"],
+        "offers": {"@type": "Offer", "price": 230000, "priceCurrency": "EUR"},
+    }
+    return f"""
+    <html><body>
+      <div class="AdDetailsPage__content___3EBZJ">
+        <h1 class="SummarySection__title___2rfVV">Kuća Bistra (Bukovje Bistransko), 150m2, 3-sobna</h1>
+        <span class="SummarySection__price___1dmYQ">230.000 €</span>
+        <section class="DetailSection__detailSection___3V1dL">
+          <div>Karakteristike</div>
+          <div>Godina izgradnje 1972</div>
+          <div>Broj soba 3</div>
+          <div>Stambena površina 150 m2</div>
+          <div>Površina okućnice 550 m2</div>
+          <div>Tip kuće Samostojeća</div>
+        </section>
+      </div>
+      <div class="sellerSection__bottomCard___200Br">
+        <b>Bukovje Bistransko</b> Bistra, Zagrebačka
+      </div>
+      <script type="application/ld+json">{json.dumps(product, ensure_ascii=False)}</script>
+    </body></html>
+    """
+
+
+def test_listing_from_index_detail_reads_structured_data() -> None:
+    card = Card(
+        source="index",
+        external_id="7674840",
+        title="Kuća Bistra (Bukovje Bistransko), 150m2, 3-sobna",
+        url="https://www.index.hr/oglasi/nekretnine/prodaja-kuca/oglas/kuca-bistra/7674840",
+        price_eur=230_000.0,
+        location="Bistra",
+        snippet="",
+    )
+    listing = listing_from_index_detail(
+        card, _index_detail_html(), "zagreb_houses", "Kuće"
+    )
+
+    assert listing.price_eur == 230_000.0
+    assert listing.location == "Bistra, Zagrebačka, Bukovje Bistransko"
+    assert listing.living_m2 == 150.0
+    assert listing.yard_m2 == 550.0
+    assert listing.rooms == 3.0
+    assert listing.house_type == "detached"
+    assert listing.is_new_build is False
+    assert listing.image_url == "https://img.index.hr/detail.jpg"
+    assert listing.description == "Samostojeća kuća s velikom okućnicom."
 
 
 def test_parse_njuskalo_cards_reads_vue_state() -> None:

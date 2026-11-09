@@ -113,6 +113,7 @@ class Monitor:
             card.url,
             force_browser=is_index,
             wait_for_index_cards=False,
+            wait_for_index_detail=is_index,
         )
         if card.source == "njuskalo":
             return listing_from_njuskalo_detail(card, html, watch.id, watch.category)
