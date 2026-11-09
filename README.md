@@ -15,7 +15,7 @@ The watched areas are defined once in `scraper/realestate_monitor/constants.py` 
 
 Each watch scrapes one Njuškalo search URL per area plus a single Index search. The search URL defines the area, so location text on Njuškalo ads is not used to reject them — it often names only a neighbourhood (e.g. `Zagreb (Blato)`).
 
-Listing pages that require a browser are fetched with Playwright in CI.
+**Njuškalo scrape:** desktop and headless requests hit a ShieldSquare CAPTCHA. The scraper therefore requests Njuškalo with an iPhone/Android user agent over plain HTTP; those pages are server-rendered and embed all list and detail data in `window.__INITIAL_STATE__`, which is parsed directly (no browser needed). Playwright is only used for Index. Njuškalo cards are prefiltered conservatively — only when the card text already proves a size/year/type mismatch — so unclear ads are still hydrated from the detail page.
 
 **Index scrape:** Index ignores location and price in the URL path and in plain query params; it only honours the `searchQuery` JSON. The scraper therefore sends `includeCityIds` (all watched areas), `priceFrom` and `priceTo` inside a twice-encoded `searchQuery`. Sparse Index list cards often omit location/price text, so Index cards skip the location *card* prefilter and are hydrated from the detail page before the full matcher runs. Matchers are slightly softer for Index (missing m²/house-type/build-year text does not auto-reject).
 

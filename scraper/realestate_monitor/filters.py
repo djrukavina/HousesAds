@@ -235,12 +235,60 @@ def card_price_ok(watch_id: str, price_eur: Optional[float]) -> bool:
     return True
 
 
+def _card_year(blob: str) -> Optional[int]:
+    match = re.search(r"godina izgradnje\s*:?\s*((?:19|20)\d{2})", blob)
+    return int(match.group(1)) if match else None
+
+
+def _njuskalo_card_viable(watch_id: str, blob: str) -> bool:
+    """Drop Njuškalo cards only when their own text proves they cannot match.
+
+    Detail pages carry the complete data, so anything unclear stays for hydration.
+    """
+    if watch_id == "zagreb_apartments":
+        living = parse_square_meters(blob, ("stambena povrsina", "povrsina stana"))
+        if living is not None and living < MIN_ZAGREB_APARTMENT_LIVING_M2:
+            return False
+        year = _card_year(blob)
+        if (
+            year is not None
+            and year < MIN_ZAGREB_APARTMENT_BUILD_YEAR
+            and not is_new_build(blob, min_year=MIN_ZAGREB_APARTMENT_BUILD_YEAR)
+        ):
+            return False
+        return True
+
+    if watch_id == "zagreb_houses":
+        living = parse_square_meters(blob, ("stambena povrsina", "stambeni prostor"))
+        yard = parse_square_meters(blob, ("povrsina okucnice", "okucnica", "povrsina parcele"))
+        if (
+            living is not None
+            and yard is not None
+            and max(living, yard) < MIN_ZAGREB_HOUSE_SIZE_M2
+        ):
+            return False
+        if classify_house_type(blob) == "duplex":
+            return False
+        year = _card_year(blob)
+        if (
+            year is not None
+            and year < MIN_ZAGREB_HOUSE_BUILD_YEAR
+            and not is_new_build(blob, min_year=MIN_ZAGREB_HOUSE_BUILD_YEAR)
+        ):
+            return False
+        return True
+
+    return True
+
+
 def prefilter_card(watch_id: str, card: Card, url_scoped: bool = False) -> bool:
     blob = card_blob(card)
     is_index = card.source == "index"
 
     if watch_id in ("zagreb_houses", "zagreb_apartments"):
         if not card_price_ok(watch_id, card.price_eur):
+            return False
+        if card.source == "njuskalo" and not _njuskalo_card_viable(watch_id, blob):
             return False
         # Search URLs are location-scoped; card blobs often name only a neighbourhood.
         if url_scoped or is_index:

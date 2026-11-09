@@ -49,7 +49,8 @@ class Monitor:
     def _scrape_watch_url(self, watch: Watch, url: str, first_run: bool) -> int:
         new_matches = 0
         is_index = "index.hr" in url
-        force_browser = "njuskalo.hr" in url or is_index
+        # Njuškalo is fetched over plain HTTP with a mobile UA; Index needs a browser.
+        force_browser = is_index
         wait_for_index_cards = is_index and "/oglas/" not in urlparse(url).path
         page_limit = watch.max_pages or self.settings.max_pages
         for page_number in range(1, page_limit + 1):
@@ -107,9 +108,10 @@ class Monitor:
         return True
 
     def _hydrate(self, watch: Watch, card: Card) -> Listing:
+        is_index = card.source == "index"
         html = self.fetcher.get(
             card.url,
-            force_browser=True,
+            force_browser=is_index,
             wait_for_index_cards=False,
         )
         if card.source == "njuskalo":

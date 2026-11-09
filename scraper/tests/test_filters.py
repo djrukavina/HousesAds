@@ -471,3 +471,108 @@ def test_rejects_coast_house_istra_false_island() -> None:
             near_sea=True,
         )
     )
+
+
+def _njuskalo_card(*, price: float, title: str, snippet: str, location: str = "") -> Card:
+    return Card(
+        source="njuskalo",
+        external_id="9",
+        title=title,
+        url="https://www.njuskalo.hr/prodaja-stanova/tresnjevka-jug/oglas-9",
+        price_eur=price,
+        location=location,
+        snippet=snippet,
+    )
+
+
+def test_prefilter_njuskalo_apartment_rejects_small_flat() -> None:
+    card = _njuskalo_card(
+        price=199_000.0,
+        title="Stan: Zagreb (Prečko), 48.00 m2",
+        snippet="Stambena površina: 48 m² | Godina izgradnje: 1968",
+    )
+    assert not prefilter_card("zagreb_apartments", card, url_scoped=True)
+
+
+def test_prefilter_njuskalo_apartment_rejects_old_build() -> None:
+    card = _njuskalo_card(
+        price=220_000.0,
+        title="Stan: Zagreb (Blato), 70 m2",
+        snippet="Stambena površina: 70 m² | Godina izgradnje: 2005",
+    )
+    assert not prefilter_card("zagreb_apartments", card, url_scoped=True)
+
+
+def test_prefilter_njuskalo_apartment_keeps_novogradnja() -> None:
+    card = _njuskalo_card(
+        price=220_000.0,
+        title="Stan: Zagreb (Blato), 70 m2",
+        snippet="Stambena površina: 70 m² | Godina izgradnje: 2005 | Novogradnja: Novogradnja",
+    )
+    assert prefilter_card("zagreb_apartments", card, url_scoped=True)
+
+
+def test_prefilter_njuskalo_apartment_keeps_card_without_size() -> None:
+    card = _njuskalo_card(
+        price=220_000.0,
+        title="Stan: Zagreb (Blato)",
+        snippet="Lokacija: Zagreb (Blato)",
+    )
+    assert prefilter_card("zagreb_apartments", card, url_scoped=True)
+
+
+def test_prefilter_njuskalo_house_rejects_small_and_old() -> None:
+    card = _njuskalo_card(
+        price=105_000.0,
+        title="ZGB-BREZOVICA: Prodaje se starinska kućica",
+        snippet=(
+            "Tip kuće: Samostojeća | Stambena površina: 49 m² | "
+            "Površina okućnice: 317 m² | Godina izgradnje: 1950"
+        ),
+    )
+    assert not prefilter_card("zagreb_houses", card, url_scoped=True)
+
+
+def test_prefilter_njuskalo_house_rejects_small_living_and_yard() -> None:
+    card = _njuskalo_card(
+        price=120_000.0,
+        title="Kuća Brezovica",
+        snippet=(
+            "Tip kuće: Samostojeća | Stambena površina: 49 m² | "
+            "Površina okućnice: 40 m² | Godina izgradnje: 2015"
+        ),
+    )
+    assert not prefilter_card("zagreb_houses", card, url_scoped=True)
+
+
+def test_prefilter_njuskalo_house_keeps_large_yard() -> None:
+    card = _njuskalo_card(
+        price=120_000.0,
+        title="Kuća Brezovica",
+        snippet=(
+            "Tip kuće: Samostojeća | Stambena površina: 49 m² | "
+            "Površina okućnice: 317 m² | Godina izgradnje: 2015"
+        ),
+    )
+    assert prefilter_card("zagreb_houses", card, url_scoped=True)
+
+
+def test_prefilter_njuskalo_house_rejects_duplex() -> None:
+    card = _njuskalo_card(
+        price=180_000.0,
+        title="Dvojna kuća Brezovica",
+        snippet=(
+            "Tip kuće: Dvojna kuća | Stambena površina: 120 m² | "
+            "Površina okućnice: 150 m² | Godina izgradnje: 2015"
+        ),
+    )
+    assert not prefilter_card("zagreb_houses", card, url_scoped=True)
+
+
+def test_prefilter_njuskalo_house_keeps_card_without_year_or_size() -> None:
+    card = _njuskalo_card(
+        price=180_000.0,
+        title="Kuća Brezovica",
+        snippet="Lokacija: Brezovica",
+    )
+    assert prefilter_card("zagreb_houses", card, url_scoped=True)
