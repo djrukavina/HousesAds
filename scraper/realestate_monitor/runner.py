@@ -91,8 +91,8 @@ class Monitor:
         try:
             listing = self._hydrate(watch, card)
         except Exception:
-            log.exception("Detail parse failed for %s", card.url)
-            self.store.mark_seen(listing_id, now)
+            # Leave the ad unseen so a transient block/failure is retried next cycle.
+            log.exception("Detail parse failed for %s; will retry", card.url)
             return False
         self.store.mark_seen(listing.id, now)
         if listing.posted_at_millis <= 0:

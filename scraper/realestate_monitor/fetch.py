@@ -77,6 +77,10 @@ class PageFetcher:
             if html is not None:
                 return html
             log.info("Njuškalo mobile fetch blocked for %s; falling back to browser", url)
+            html = self._get_playwright(url, wait_for_index_cards=wait_for_index_cards)
+            if "window.__INITIAL_STATE__" not in html:
+                raise RuntimeError(f"Njuškalo blocked for {url}")
+            return html
         elif not force_browser:
             try:
                 response = self._client.get(url)
